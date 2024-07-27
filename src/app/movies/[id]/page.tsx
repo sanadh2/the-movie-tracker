@@ -7,7 +7,6 @@ import { WatchlistButton } from "./components/watchListButton";
 import NotFound from "./not-found";
 import { MovieCard, MoviePoster } from "@/components/movie-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { space } from "postcss/lib/list";
 
 interface MoviePageProps {
   params: {
