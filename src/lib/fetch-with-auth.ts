@@ -17,7 +17,6 @@ const fetchWithAuth = (url: string, options: FetchOptions = {}) => {
     ...options,
     headers,
   };
-
   // Prepend the BASE_URL to the URL
   const fullUrl = `${BASE_URL}${url}`;
 

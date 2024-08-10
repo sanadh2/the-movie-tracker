@@ -91,3 +91,12 @@
 .animate-down {
   animation: down 0.2s ease-out;
 }
+
+.no-scrollbar {
+  overflow: -moz-scrollbars-none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}

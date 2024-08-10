@@ -1,57 +1,80 @@
-import { Search } from "lucide-react";
-import { ToggelTheme } from "./toggle-theme";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import {
   RegisterLink,
   LoginLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
-import Image from "next/image";
-import { Button } from "./ui/button";
 import Link from "next/link";
-import Logout from "./Logout";
+import SearchFilms from "@/features/search-films";
+import { BarChart2, LogInIcon, User2 } from "lucide-react";
+import VisuallyHidden from "./ui/visually-hidden";
+import Image from "next/image";
 
 export default async function Navbar() {
-  const { getUser, isAuthenticated } = getKindeServerSession();
-  const isUserAuthenticated = await isAuthenticated();
+  const { getUser } = getKindeServerSession();
   const user = await getUser();
 
   return (
-    <nav className=" p-3 border-b lg:flex justify-between items-center hidden">
-      <h1 className="font-bold text-2xl">
-        <Link href={"/"}>The Movie Tracker</Link>
-      </h1>
-      <div className="relative">
-        <input
-          className="h-10 w-96 rounded-full pl-10 bg-input "
-          placeholder="Search a movie or series"
-        />
-        <Search className="absolute left-3 size-4 top-1/2 -translate-y-1/2 pointer-events-none" />
-      </div>
-
-      <div className="flex gap-3 items-center">
-        <ToggelTheme />
-        {isUserAuthenticated ? (
+    <div className="">
+      <nav className="p-3 border-b flex gap-10 justify-between items-center">
+        <div className="flex gap-5 items-center">
           <>
-            <Image
-              alt="avatar"
-              src={user?.picture || ""}
-              width={500}
-              height={500}
-              className="size-10 rounded-full object-cover border"
-            />
-            <Logout />
+            <Link
+              href={"/"}
+              className="hidden lg:block font-semibold text-xl p-2"
+            >
+              The Movie Tracker
+            </Link>
+            <Link
+              href={"/"}
+              className="lg:hidden block font-semibold text-xl p-2"
+            >
+              TMT
+            </Link>
           </>
-        ) : (
-          <>
-            <Button asChild variant={"outline"}>
-              <LoginLink postLoginRedirectURL="/">Sign in</LoginLink>
-            </Button>
-            <Button asChild variant={"default"}>
-              <RegisterLink postLoginRedirectURL="/">Sign up</RegisterLink>
-            </Button>
-          </>
-        )}
-      </div>
-    </nav>
+          <p className="hidden lg:block text-sm font-medium text-neutral-500">
+            Discover. Review. Connect.
+          </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <SearchFilms />
+          <div className="">
+            <Link href={"/trending"} className="flex items-center">
+              <span className="font-semibold hidden lg:block">Trending</span>
+              <span className="lg:hidden">
+                <BarChart2 strokeWidth={4} />
+                <VisuallyHidden>Trending</VisuallyHidden>
+              </span>
+            </Link>
+          </div>
+          {user ? (
+            <div className="flex items-center relative size-10 rounded-full overflow-hidden">
+              <Image
+                fill
+                alt="profile pic"
+                src={user.picture || ""}
+                sizes="(40px)"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center divide-x divide-white overflow-hidden">
+              <RegisterLink className="pr-3">
+                <span className="hidden md:block">Register</span>
+                <span className="block md:hidden">
+                  <User2 />
+                  <VisuallyHidden>Register</VisuallyHidden>
+                </span>
+              </RegisterLink>
+              <LoginLink className="pl-3">
+                <span className="hidden md:block">Login</span>
+                <span className="block md:hidden">
+                  <LogInIcon />
+                  <VisuallyHidden>Register</VisuallyHidden>
+                </span>
+              </LoginLink>
+            </div>
+          )}
+        </div>
+      </nav>
+    </div>
   );
 }

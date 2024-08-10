@@ -5,9 +5,6 @@ import { PropsWithChildren } from "react";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
-import Sidebar from "@/components/sidebar";
-import { MobileSearchBarContextProvider } from "@/hooks/useMobileSearchBar";
-import MobileSearchBar from "@/components/mobile-search-bar";
 import { Toaster } from "@/components/ui/toaster";
 import TanstackQueryClientProvider from "@/components/tanstack-query-client-provider";
 
@@ -25,7 +22,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <head />
       <body
         className={cn(
-          "min-h-screen antialiased bg-neutral-100 text-black dark:text-white dark:bg-black",
+          "min-h-screen antialiased container p-0 bg-neutral-100 text-black dark:text-white dark:bg-black",
           inter.className
         )}
       >
@@ -36,15 +33,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
           disableTransitionOnChange
         >
           <TanstackQueryClientProvider>
-            <MobileSearchBarContextProvider>
-              <header className="relative z-10 bg-neutral-100 text-black dark:text-white dark:bg-black">
-                <Navbar />
-                <Sidebar />
-              </header>
-              <MobileSearchBar />
-              <main>{children}</main>
-              <Toaster />
-            </MobileSearchBarContextProvider>
+            <header>
+              <Navbar />
+            </header>
+            <main>{children}</main>
+            <Toaster />
           </TanstackQueryClientProvider>
         </ThemeProvider>
       </body>
