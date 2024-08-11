@@ -14,6 +14,7 @@ import {
 import { SearchIcon } from "lucide-react";
 import VisuallyHidden from "@/components/ui/visually-hidden";
 import SearchList from "./search-list";
+import { useState } from "react";
 
 export default function SearchFilmsInMobile() {
   const { search } = useSearch();
@@ -22,9 +23,10 @@ export default function SearchFilmsInMobile() {
     search,
     debouncedValue,
   ]);
+  const [open, setOpen] = useState(false);
   return (
     <div className="md:hidden">
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger>
           <SearchIcon />
           <VisuallyHidden>Search</VisuallyHidden>
@@ -47,6 +49,7 @@ export default function SearchFilmsInMobile() {
 
             <div className="mt-6">
               <SearchList
+                close={() => setOpen(false)}
                 data={data?.results}
                 error={error}
                 isLoading={isLoading}

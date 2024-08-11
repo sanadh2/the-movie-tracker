@@ -2,12 +2,14 @@ import { SearchResults } from "../../services/search-movies";
 import Image from "next/image";
 import { baseUrlImage } from "../../../config/tmdb";
 import { format, parseISO } from "date-fns";
+import Link from "next/link";
 interface Props {
   isLoading: boolean;
   data?: SearchResults[];
   error: Error | null;
+  close: () => void;
 }
-export default function SearchList({ isLoading, error, data }: Props) {
+export default function SearchList({ isLoading, error, data, close }: Props) {
   if (isLoading) return <div>Loading...</div>;
   else if (error) return <div>{error.message}</div>;
   return (
@@ -16,8 +18,10 @@ export default function SearchList({ isLoading, error, data }: Props) {
         <p>No results found</p>
       ) : (
         data?.map((movie) => (
-          <div
+          <Link
+            href={"/movies/" + movie.id}
             key={movie.id}
+            onClick={close}
             className=" w-full h-20 flex items-center gap-2 px-3"
           >
             <div className="relative w-10 h-16">
@@ -37,7 +41,7 @@ export default function SearchList({ isLoading, error, data }: Props) {
                   format(parseISO(movie.release_date), "yyyy")}
               </p>
             </div>
-          </div>
+          </Link>
         ))
       )}
     </div>

@@ -22,7 +22,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <head />
       <body
         className={cn(
-          "min-h-screen antialiased container p-0 bg-neutral-100 text-black dark:text-white dark:bg-black",
+          "min-h-screen antialiased container relative p-0 bg-neutral-100 text-black dark:text-white dark:bg-black",
           inter.className
         )}
       >
