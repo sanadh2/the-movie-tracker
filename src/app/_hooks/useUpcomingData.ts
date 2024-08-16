@@ -7,6 +7,7 @@ const fetchUpcoming = async (): Promise<MovieNowPlayingResponse> => {
     const response = await axios.get<MovieNowPlayingResponse>("/api/upcoming");
     return response.data;
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };

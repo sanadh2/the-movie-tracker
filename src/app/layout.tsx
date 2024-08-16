@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
 import TanstackQueryClientProvider from "@/components/tanstack-query-client-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,20 +27,22 @@ export default function RootLayout({ children }: PropsWithChildren) {
           inter.className
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TanstackQueryClientProvider>
-            <header>
-              <Navbar />
-            </header>
-            <main>{children}</main>
-            <Toaster />
-          </TanstackQueryClientProvider>
-        </ThemeProvider>
+        <ClerkProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TanstackQueryClientProvider>
+              <header>
+                <Navbar />
+              </header>
+              <main>{children}</main>
+              <Toaster />
+            </TanstackQueryClientProvider>
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

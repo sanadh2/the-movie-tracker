@@ -1,17 +1,18 @@
-import { SearchResults } from "../../services/search-movies";
 import Image from "next/image";
 import { baseUrlImage } from "../../../config/tmdb";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
+import { MovieResultsResponse } from "moviedb-promise";
 interface Props {
   isLoading: boolean;
-  data?: SearchResults[];
+  data?: MovieResultsResponse["results"];
   error: Error | null;
   close: () => void;
 }
 export default function SearchList({ isLoading, error, data, close }: Props) {
   if (isLoading) return <div>Loading...</div>;
-  else if (error) return <div>{error.message}</div>;
+  else if (error)
+    return <div className="text-xs text-red-500">{error.message}</div>;
   return (
     <div className="grid place-items-center divide-y overflow-y-scroll max-h-[90vh] no-scrollbar">
       {data?.length === 0 ? (

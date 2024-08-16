@@ -49,7 +49,7 @@ export default function SearchFilmsInDesktop() {
           <div className="border mt-3 dark:border-white border-t-transparent rounded-b-2xl w-full bg-white dark:bg-black p-2 hidden lg:block">
             <div className="max-h-80 no-scrollbar overflow-y-scroll h-full">
               <div className="grid gap-2">
-                {data && data.results.length > 0 ? (
+                {data && data.results && data.results.length > 0 ? (
                   data.results.map((movie) => (
                     <Link
                       href={`/movies/${movie.id}`}

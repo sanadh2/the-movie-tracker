@@ -6,6 +6,7 @@ const nextConfig = {
       { hostname: "**.githubusercontent.com", protocol: "https" },
       { hostname: "**.tmdb.org", protocol: "https" },
       { hostname: "gravatar.com", protocol: "https" },
+      { hostname: "img.clerk.com", protocol: "https" },
     ],
   },
 };

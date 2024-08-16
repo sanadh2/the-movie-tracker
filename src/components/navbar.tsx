@@ -1,17 +1,15 @@
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import {
-  RegisterLink,
-  LoginLink,
-} from "@kinde-oss/kinde-auth-nextjs/components";
+import { SignInButton, SignUpButton, SignOutButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 import SearchFilms from "@/features/search-films";
 import { BarChart2, LogInIcon, User2 } from "lucide-react";
 import VisuallyHidden from "./ui/visually-hidden";
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 export default async function Navbar() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const user = await currentUser();
+  if (user) console.log(user.imageUrl);
 
   return (
     <nav className="p-3 border-b flex gap-10 justify-between items-center bg-transparent relative z-10">
@@ -46,30 +44,40 @@ export default async function Navbar() {
           </Link>
         </div>
         {user ? (
-          <div className="flex items-center relative size-10 rounded-full overflow-hidden">
-            <Image
-              fill
-              alt="profile pic"
-              src={user.picture || ""}
-              sizes="(40px)"
-            />
-          </div>
+          <>
+            <div className="flex items-center relative size-10 rounded-full overflow-hidden">
+              <Image
+                fill
+                alt="profile pic"
+                src={user.imageUrl || ""}
+                sizes="(40px)"
+              />
+            </div>
+            <SignOutButton />
+          </>
         ) : (
           <div className="flex items-center divide-x divide-white overflow-hidden">
-            <RegisterLink className="pr-3">
-              <span className="hidden md:block">Register</span>
-              <span className="block md:hidden">
-                <User2 />
-                <VisuallyHidden>Register</VisuallyHidden>
-              </span>
-            </RegisterLink>
-            <LoginLink className="pl-3">
-              <span className="hidden md:block">Login</span>
-              <span className="block md:hidden">
-                <LogInIcon />
-                <VisuallyHidden>Register</VisuallyHidden>
-              </span>
-            </LoginLink>
+            <SignUpButton>
+              {/* <>
+                <span className="hidden md:block">Register</span>
+                <span className="block md:hidden">
+                  <User2 />
+                  <VisuallyHidden>Register</VisuallyHidden>
+                </span>
+              </> */}
+              Register
+            </SignUpButton>
+
+            <SignInButton>
+              {/* <>
+                <span className="hidden md:block">Login</span>
+                <span className="block md:hidden">
+                  <LogInIcon />
+                  <VisuallyHidden>Register</VisuallyHidden>
+                </span>
+              </> */}
+              Sign In
+            </SignInButton>
           </div>
         )}
       </div>
