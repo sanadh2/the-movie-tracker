@@ -5,16 +5,14 @@ import MovieList from "./movie-list";
 
 export default function Upcoming() {
   const { isLoading, error, data } = useUpcomingData();
-
+  if (error) {
+    throw error;
+  }
   return (
     <div className="">
       <h2>Upcoming</h2>
       <div className="mt-4 overflow-x-scroll no-scrollbar">
-        {error || isLoading ? (
-          <Loading />
-        ) : (
-          <MovieList movies={data?.results} />
-        )}
+        {isLoading ? <Loading /> : <MovieList movies={data?.results} />}
       </div>
     </div>
   );
