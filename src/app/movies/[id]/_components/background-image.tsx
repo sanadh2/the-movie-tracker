@@ -6,19 +6,18 @@ const BackgroundImage = async ({
   backdrop_path: string | undefined;
 }) => {
   return (
-    <div className="max-h-[600px] overflow-hidden">
-      <div className="absolute top-0 w-full">
-        <div className="relative w-full aspect-video overflow-hidden mx-auto">
+    <div className="max-h-[600px] overflow-hidden select-none">
+      <div className="absolute -z-10 top-0 w-full">
+        <div className="relative w-full min-h-svh overflow-hidden mx-auto blur brightness-[0.2]">
           <Image
-            className=" object-contain -z-10 object-center"
+            className=" object-contain object-center"
             alt="movie backdrop"
             fill
-            priority
+            loading="lazy"
+            blurDataURL={baseUrlImage + "w300" + backdrop_path}
             sizes=""
-            src={baseUrlImage + "original" + backdrop_path}
+            src={baseUrlImage + "w780" + backdrop_path}
           />
-          <div className="asolute bg-gradient-to-r from-black via-transparent to-black h-full" />
-          <div className="absolute bg-gradient-to-t from-black via-transparent to-black h-full " />
         </div>
       </div>
     </div>
