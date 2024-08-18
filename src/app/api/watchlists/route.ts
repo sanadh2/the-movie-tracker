@@ -1,10 +1,9 @@
 import prisma from "@/db/db";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const user = await currentUser();
   if (!user)
     return NextResponse.json({ message: "unauthorised" }, { status: 401 });
   const watchlist = await prisma.watched.findMany({
