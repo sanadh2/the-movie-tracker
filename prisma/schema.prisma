@@ -35,7 +35,7 @@ model Movie {
 model Review {
   id        String   @id @default(uuid())
   rating    Int      @default(0)
-  comment   String?
+  comment   String   @default("")
   tmdbID    Int
   userID    String
   createdAt DateTime @default(now())
