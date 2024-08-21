@@ -20,7 +20,7 @@ export default function Images({ id }: Props) {
         </div>
       ) : (
         <div className=" overflow-scroll no-scrollbar">
-          <div className="flex gap-3 ">
+          <div className="flex gap-3 group">
             {data?.backdrops?.map((img, index) => (
               <MovieImage img={img} key={index} />
             ))}

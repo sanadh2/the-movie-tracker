@@ -6,7 +6,7 @@ import PageLayout from "@/components/PageLayout";
 import { format, parseISO } from "date-fns";
 import SimilarMovies from "./_components/similar-movies";
 import Images from "./_components/Images";
-
+import InteractionPanel from "./_components/interaction-panel";
 export default async function MoviePage({
   params,
 }: {
@@ -64,6 +64,7 @@ export default async function MoviePage({
         <div className="">
           <Images id={params.id} />
         </div>
+        <InteractionPanel />
       </PageLayout>
     </div>
   );
