@@ -6,7 +6,7 @@ import React from "react";
 
 export default function InteractionPanel() {
   return (
-    <div className="p-5 mt-10 flex gap-3">
+    <div className="p-5 flex gap-3">
       <Button variant={"outline"} className="w-full gap-1 active:scale-100">
         <Plus className="size-4" /> Review or log
       </Button>

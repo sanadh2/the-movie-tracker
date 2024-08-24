@@ -7,6 +7,8 @@ import { format, parseISO } from "date-fns";
 import SimilarMovies from "./_components/similar-movies";
 import Images from "./_components/Images";
 import InteractionPanel from "./_components/interaction-panel";
+import Reviews from "./_components/reviewes";
+import Link from "next/link";
 export default async function MoviePage({
   params,
 }: {
@@ -18,7 +20,7 @@ export default async function MoviePage({
   const credits = await moviedb.movieCredits({ id: params.id });
   const director = credits.crew?.find((c) => c.job === "Director");
   return (
-    <div className="h-[300vh]">
+    <div className="">
       <BackgroundImage backdrop_path={movie.backdrop_path || ""} />
       <PageLayout>
         <div className="flex justify-between items-start">
@@ -39,9 +41,14 @@ export default async function MoviePage({
           <div className="px-10 w-1/2">
             <h2 className="text-4xl text-white font-bold text-center">
               {movie.title}
-              <sub className="text-[0.5rem] font-light px-2">
+              <sub className="text-sm font-light px-2">
                 Directed by{" "}
-                <span className="font-medium">{director?.name}</span>
+                <Link
+                  href={"/directors/" + director?.id || ""}
+                  className="font-semibold"
+                >
+                  {director?.name}
+                </Link>
               </sub>
             </h2>
             <div className="mt-10 font-semibold">
@@ -64,7 +71,10 @@ export default async function MoviePage({
         <div className="">
           <Images id={params.id} />
         </div>
+      </PageLayout>
+      <PageLayout className="bg-gradient-to-t from-black to-transparent mt-20">
         <InteractionPanel />
+        <Reviews />
       </PageLayout>
     </div>
   );
