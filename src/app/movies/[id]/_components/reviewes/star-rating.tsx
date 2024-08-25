@@ -11,9 +11,7 @@ const StarRating = ({ rating }: { rating: number }) => {
         .map((star, index) => (
           <span key={index}>{star}</span>
         ))}
-      {halfStar ? (
-        <span className="text-[0.3rem] text-green-500 ">½</span>
-      ) : null}
+      {halfStar ? <span className=" text-green-500 ">½</span> : null}
     </div>
   );
 };

@@ -5,10 +5,13 @@ import NotFound from "@/app/not-found";
 import PageLayout from "@/components/PageLayout";
 import { format, parseISO } from "date-fns";
 import SimilarMovies from "./_components/similar-movies";
-import Images from "./_components/Images";
+import Images from "./_components/Images/images";
 import InteractionPanel from "./_components/interaction-panel";
 import Reviews from "./_components/reviewes";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 export default async function MoviePage({
   params,
 }: {
@@ -74,7 +77,7 @@ export default async function MoviePage({
       </PageLayout>
       <PageLayout className="bg-gradient-to-t from-black to-transparent mt-20">
         <InteractionPanel />
-        <Reviews />
+        <Reviews id={params.id} />
       </PageLayout>
     </div>
   );

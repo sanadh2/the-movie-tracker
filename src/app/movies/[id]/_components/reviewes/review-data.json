@@ -4,69 +4,69 @@
     "reviewerName": "Emily Johnson",
     "rating": 4.5,
     "comment": "A thrilling experience from start to finish! The cinematography was stunning, and the acting was top-notch.",
-    "date": "2024-08-10"
+    "date": "2024-08-24T10:15:30Z"
   },
   {
     "id": 2,
     "reviewerName": "Michael Smith",
     "rating": 3.0,
     "comment": "The plot had potential, but the pacing felt off at times. Some scenes were unnecessarily dragged out.",
-    "date": "2024-08-12"
+    "date": "2024-08-22T19:45:00Z"
   },
   {
     "id": 3,
     "reviewerName": "Jessica Lee",
     "rating": 5.0,
     "comment": "Absolutely loved this movie! It was a perfect blend of action and emotion. Highly recommend!",
-    "date": "2024-08-14"
+    "date": "2024-08-14T09:30:00Z"
   },
   {
     "id": 4,
     "reviewerName": "David Brown",
     "rating": 2.5,
     "comment": "I found the movie to be quite disappointing. The story was predictable, and the characters lacked depth.",
-    "date": "2024-08-15"
+    "date": "2024-08-15T16:00:00Z"
   },
   {
     "id": 5,
     "reviewerName": "Sophia Martinez",
     "rating": 4.0,
     "comment": "A solid film with great performances. The direction was excellent, but the ending could have been stronger.",
-    "date": "2024-08-16"
+    "date": "2024-08-16T07:00:00Z"
   },
   {
     "id": 6,
     "reviewerName": "James Wilson",
     "rating": 3.5,
     "comment": "An entertaining movie, but not without its flaws. The special effects were great, but the dialogue was a bit cheesy.",
-    "date": "2024-08-17"
+    "date": "2024-08-17T19:25:00Z"
   },
   {
     "id": 7,
     "reviewerName": "Olivia Taylor",
     "rating": 4.8,
     "comment": "An emotional rollercoaster that left me in tears. The actors delivered powerful performances that felt real and raw.",
-    "date": "2024-08-18"
+    "date": "2024-08-18T12:00:00Z"
   },
   {
     "id": 8,
     "reviewerName": "Benjamin Anderson",
     "rating": 2.0,
     "comment": "I couldn't connect with the characters at all. The story felt rushed, and the ending was unsatisfying.",
-    "date": "2024-08-19"
+    "date": "2024-08-19T03:15:00Z"
   },
   {
     "id": 9,
     "reviewerName": "Mia Thomas",
     "rating": 4.3,
     "comment": "A visually stunning movie with a great soundtrack. The plot was engaging, but a few scenes felt unnecessary.",
-    "date": "2024-08-20"
+    "date": "2024-08-20T21:45:00Z"
   },
   {
     "id": 10,
     "reviewerName": "Alexander Harris",
     "rating": 3.8,
     "comment": "A good watch overall. The plot was intriguing, but it could have been executed better. Still worth seeing!",
-    "date": "2024-08-21"
+    "date": "2024-08-21T18:30:00Z"
   }
 ]
