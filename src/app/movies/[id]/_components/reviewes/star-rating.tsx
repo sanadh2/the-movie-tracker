@@ -7,11 +7,11 @@ const StarRating = ({ rating }: { rating: number }) => {
   return (
     <div className="flex items-center">
       {Array(fullStars)
-        .fill(<StarIcon className="fill-green-500" strokeWidth={0} />)
+        .fill(<StarIcon className="fill-green-500 size-3" strokeWidth={0} />)
         .map((star, index) => (
           <span key={index}>{star}</span>
         ))}
-      {halfStar ? <span className=" text-green-500 ">½</span> : null}
+      {halfStar ? <span className=" text-green-500">½</span> : null}
     </div>
   );
 };

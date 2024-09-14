@@ -56,7 +56,11 @@ export const MovieTitle = ({
 }) => {
   const { title } = useMovieContext();
   const textSize =
-    size === "sm" ? "text-xs" : size == "md" ? "text-base" : "text-lg";
+    size === "sm"
+      ? "text-xs md:text-sm lg:text-base"
+      : size == "md"
+      ? "text-base md:text-lg"
+      : "text-lg md:text-xl";
   return (
     <h4
       className={cn(
@@ -102,7 +106,7 @@ export const MoviePoster = ({
         title={showTitile ? title : undefined}
       />
       {rating && (
-        <span className="absolute top-2 left-2 flex justify-center items-center backdrop-brightness-50 text-xs  text-white p-1 px-2 gap-1 rounded-md z-[6]">
+        <span className="absolute top-2 left-2 flex justify-center items-center backdrop-brightness-50 text-xs lg:text-base  text-white p-1 px-2 gap-1 rounded-md z-[6]">
           {vote_average.toFixed(2)}
           <Star strokeWidth={0} fill="yellow" className="size-4" />
         </span>

@@ -8,7 +8,7 @@ const BackgroundImage = async ({
   return (
     <div className="max-h-[600px] overflow-hidden select-none">
       <div className="absolute -z-10 top-0 w-full">
-        <div className="relative w-full min-h-svh overflow-hidden mx-auto blur brightness-[0.2]">
+        <div className="relative w-screen min-h-svh overflow-hidden blur brightness-[0.2]">
           <Image
             className=" object-contain object-center"
             alt="movie backdrop"

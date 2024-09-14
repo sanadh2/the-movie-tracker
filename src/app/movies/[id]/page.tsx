@@ -54,8 +54,8 @@ export default async function MoviePage({
                 </Link>
               </sub>
             </h2>
-            <div className="mt-10 font-semibold">
-              <p className="text-left ">
+            <div className="mt-10 font-semibold text-left">
+              <p className="">
                 {movie.release_date &&
                   parseISO(movie.release_date) &&
                   format(parseISO(movie.release_date), "yyyy")}
@@ -67,7 +67,9 @@ export default async function MoviePage({
                 ))}
               </p>
             </div>
-            <p className="mt-10 mx-auto text-white">{movie.overview}</p>
+            <p className="mt-10 text-left text-white hidden lg:block">
+              {movie.overview}
+            </p>
           </div>
           <SimilarMovies id={params.id} />
         </div>
@@ -76,7 +78,7 @@ export default async function MoviePage({
         </div>
       </PageLayout>
       <PageLayout className="bg-gradient-to-t from-black to-transparent mt-20">
-        <InteractionPanel />
+        <InteractionPanel movieID={Number(params.id)} />
         <Reviews id={params.id} />
       </PageLayout>
     </div>

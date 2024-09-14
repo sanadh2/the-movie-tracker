@@ -10,7 +10,7 @@ export async function GET(
   try {
     const user = await currentUser();
     if (!user)
-      return NextResponse.json({ message: "unauthorised" }, { status: 401 });
+      return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
     const id = params.id;
     if (!id)
       return NextResponse.json(
@@ -36,7 +36,7 @@ export async function DELETE(
   try {
     const user = await currentUser();
     if (!user)
-      return NextResponse.json({ message: "unauthorised" }, { status: 401 });
+      return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
     const id = params.id;
     if (!id)
       return NextResponse.json(
@@ -62,7 +62,7 @@ export async function PUT(
   try {
     const user = await currentUser();
     if (!user)
-      return NextResponse.json({ message: "unauthorised" }, { status: 401 });
+      return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
     const id = params.id;
     if (!id)
       return NextResponse.json(

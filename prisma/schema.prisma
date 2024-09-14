@@ -41,6 +41,8 @@ model Review {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   movie     Movie    @relation(fields: [tmdbID], references: [tmdbID])
+  username  String?
+  name      String?
 
   @@unique([tmdbID, userID])
 }

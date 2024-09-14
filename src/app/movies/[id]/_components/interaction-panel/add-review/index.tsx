@@ -10,20 +10,24 @@ import {
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
 import AddReviewForm from "./add-review-form";
+import { useState } from "react";
 
-export default function AddReview() {
+export default function AddReview({ movieID }: { movieID: number }) {
+  const [modal, setModal] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={modal} onOpenChange={setModal}>
       <DialogTrigger asChild>
         <Button variant={"outline"} className="w-full gap-1 active:scale-100">
           <Plus className="size-4" /> Review or log
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="">
         <DialogHeader>
           <DialogTitle>Add Review</DialogTitle>
-          <DialogDescription></DialogDescription>
-          <AddReviewForm />
+          <DialogDescription>Add a review for this movie</DialogDescription>
+          <div className="pt-8">
+            <AddReviewForm close={() => setModal(false)} movieID={movieID} />
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>

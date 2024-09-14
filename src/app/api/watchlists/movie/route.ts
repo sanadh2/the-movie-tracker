@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     if (!user)
       return NextResponse.json(
         {
-          error: "Unauthorised. Please Log in",
+          error: "unauthorised, please sign in",
         },
         { status: 401 }
       );

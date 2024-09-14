@@ -3,7 +3,7 @@ import moviedb from "@/db/moviedb";
 import Link from "next/link";
 
 export default async function SimilarMovies({ id }: { id: string }) {
-  const similarMovies = await moviedb.movieSimilar({ id });
+  const similarMovies = await moviedb.movieRecommendations({ id });
 
   return (
     <div className="w-fit">

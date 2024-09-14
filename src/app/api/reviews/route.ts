@@ -8,7 +8,7 @@ import { addMovieToDB } from "@/app/actions/add-movie-to-db";
 export async function GET() {
   const user = await currentUser();
   if (!user)
-    return NextResponse.json({ message: "unauthorised" }, { status: 401 });
+    return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
   const reviews = await prisma.review.findMany({
     select: {
       movie: true,
@@ -26,8 +26,25 @@ export async function POST(request: NextRequest) {
   try {
     const user = await currentUser();
     if (!user)
-      return NextResponse.json({ message: "unauthorised" }, { status: 401 });
+      return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
     const jsonBody = await request.json();
+    const isReviewExist = await prisma.review.findUnique({
+      where: {
+        tmdbID_userID: {
+          tmdbID: jsonBody.tmdbID,
+          userID: user.id,
+        },
+      },
+    });
+
+    if (isReviewExist) {
+      return NextResponse.json(
+        {
+          message: "Review already exists",
+        },
+        { status: 400 }
+      );
+    }
     const { success, data, error } = postSchema.safeParse(jsonBody);
     if (!success) {
       return NextResponse.json(
@@ -49,31 +66,34 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-    let isMovieAddedToDB =
-      (await prisma.movie.findUnique({
-        where: {
-          tmdbID: id,
-        },
-      })) ||
-      (await addMovieToDB({
-        poster_path: poster_path,
-        title: title,
-        tmdbID: id,
-        vote_average: vote_average || 0,
-      }));
+    let movieInDB = await prisma.movie.findUnique({
+      where: { tmdbID: id },
+    });
+
+    if (!movieInDB) {
+      movieInDB = await addMovieToDB({
+        poster_path,
+        title,
+        tmdbID,
+        vote_average: vote_average ?? 0,
+      });
+    }
 
     const review = await prisma.review.create({
       data: {
+        name: user.fullName,
+        username: user.username,
         comment,
         rating,
-        userID: user?.id || "sanadh",
-        tmdbID: isMovieAddedToDB.tmdbID,
+        userID: user.id,
+        tmdbID: movieInDB.tmdbID,
       },
     });
 
     return NextResponse.json({ review }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ success: false }, { status: 500 });
+    console.log(error);
+    return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }
 
@@ -82,6 +102,6 @@ export async function DELETE() {
     await prisma.review.deleteMany();
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ success: false }, { status: 500 });
+    return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }
