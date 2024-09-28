@@ -1,6 +1,5 @@
 import { isAxiosError } from "axios";
 import { toast } from "@/components/ui/use-toast";
-import { SignInButton } from "@clerk/nextjs";
 import { ToastAction } from "@/components/ui/toast";
 
 export function handleAxiosError(error: unknown): void {
@@ -16,7 +15,7 @@ export function handleAxiosError(error: unknown): void {
           variant: "destructive",
           action: (
             <ToastAction altText="Sign in">
-              <SignInButton>Sign in</SignInButton>
+              {/* <SignInButton>Sign in</SignInButton> */}
             </ToastAction>
           ),
         });

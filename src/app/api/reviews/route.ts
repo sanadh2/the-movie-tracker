@@ -1,14 +1,16 @@
 import prisma from "@/db/db";
-import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse, NextRequest } from "next/server";
 import { postSchema } from "./validation";
 import moviedb from "@/db/moviedb";
 import { addMovieToDB } from "@/app/actions/add-movie-to-db";
 
 export async function GET() {
-  const user = await currentUser();
-  if (!user)
-    return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
+  // const user = await currentUser();
+  // if (!user)
+  //   return NextResponse.json(
+  //     { error: "unauthorised, please sign in" },
+  //     { status: 401 }
+  //   );
   const reviews = await prisma.review.findMany({
     select: {
       movie: true,
@@ -24,9 +26,12 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const user = await currentUser();
-    if (!user)
-      return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
+    // const user = await currentUser();
+    // if (!user)
+    //   return NextResponse.json(
+    //     { error: "unauthorised, please sign in" },
+    //     { status: 401 }
+    //   );
     const jsonBody = await request.json();
     const isReviewExist = await prisma.review.findUnique({
       where: {

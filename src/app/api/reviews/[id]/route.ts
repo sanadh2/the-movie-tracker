@@ -1,5 +1,4 @@
 import prisma from "@/db/db";
-import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse, NextRequest } from "next/server";
 import { updateSchema } from "../validation";
 
@@ -10,7 +9,10 @@ export async function GET(
   try {
     const user = await currentUser();
     if (!user)
-      return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
+      return NextResponse.json(
+        { error: "unauthorised, please sign in" },
+        { status: 401 }
+      );
     const id = params.id;
     if (!id)
       return NextResponse.json(
@@ -34,9 +36,12 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const user = await currentUser();
-    if (!user)
-      return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
+    // const user = await currentUser();
+    // if (!user)
+    //   return NextResponse.json(
+    //     { error: "unauthorised, please sign in" },
+    //     { status: 401 }
+    //   );
     const id = params.id;
     if (!id)
       return NextResponse.json(
@@ -60,9 +65,12 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const user = await currentUser();
-    if (!user)
-      return NextResponse.json({ error: "unauthorised, please sign in" }, { status: 401 });
+    // const user = await currentUser();
+    // if (!user)
+    //   return NextResponse.json(
+    //     { error: "unauthorised, please sign in" },
+    //     { status: 401 }
+    //   );
     const id = params.id;
     if (!id)
       return NextResponse.json(

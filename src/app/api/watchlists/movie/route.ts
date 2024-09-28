@@ -1,19 +1,18 @@
 import prisma from "@/db/db";
-import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { postSchema } from "./schema";
 
 export async function POST(request: NextRequest) {
   try {
-    const user = await currentUser();
+    // const user = await currentUser();
 
-    if (!user)
-      return NextResponse.json(
-        {
-          error: "unauthorised, please sign in",
-        },
-        { status: 401 }
-      );
+    // if (!user)
+    //   return NextResponse.json(
+    //     {
+    //       error: "unauthorised, please sign in",
+    //     },
+    //     { status: 401 }
+    //   );
 
     const jsonBody = await request.json();
     const { success, data, error } = postSchema.safeParse(jsonBody);

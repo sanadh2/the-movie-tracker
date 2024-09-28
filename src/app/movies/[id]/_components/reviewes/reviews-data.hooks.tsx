@@ -1,9 +1,8 @@
-import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Review } from "@prisma/client";
-import { useUser } from "@clerk/nextjs";
 import { handleAxiosError } from "@/lib/error-toast";
+import { useAuth } from "@/app/contexts/auth-context";
 
 const fetchReviewsApi = async (movieID: number) => {
   try {
@@ -40,7 +39,7 @@ export const addReviewApi = async (data: AddReviewData) => {
 
 export function useAddReview(movieID: number) {
   const queryClient = useQueryClient();
-  const { user } = useUser();
+  const { user } = useAuth();
   return useMutation({
     mutationFn: (data: AddReviewData) => addReviewApi(data),
     onMutate: async (data: AddReviewData) => {
@@ -57,9 +56,9 @@ export function useAddReview(movieID: number) {
           id: Date.now().toString(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          name: user.fullName,
+          name: user.name,
           userID: user.id,
-          username: user.username || "",
+          username: user.name || "",
           rating: data.rating,
           comment: data.comment || "",
           tmdbID: data.tmdbID,

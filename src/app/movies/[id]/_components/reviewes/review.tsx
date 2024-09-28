@@ -1,17 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { removeHtmlTags } from "@/lib/removeHtmlTags";
-import { useAuth } from "@clerk/nextjs";
 import { Review as ReviewProp } from "@prisma/client";
 import { ChevronDown, ChevronRight, DeleteIcon } from "lucide-react";
 import { useState } from "react";
 import { useDeleteReview } from "./reviews-data.hooks";
 import StarRating from "./star-rating";
+import { useAuth } from "@/app/contexts/auth-context";
 
 export default function Review({ review }: { review: ReviewProp }) {
   const [showMore, setShowMore] = useState(false);
-  const { userId } = useAuth();
+  const { user } = useAuth();
   const { mutate } = useDeleteReview(review.tmdbID);
+  if (!user) return null;
   return (
     <div className="border-t p-5 font-serif">
       <div className="flex gap-3 items-center justify-between">
@@ -24,7 +25,7 @@ export default function Review({ review }: { review: ReviewProp }) {
           </h6>
           <StarRating rating={review.rating} />
         </div>
-        {userId === review.userID && (
+        {user.id === review.userID && (
           <Button
             onClick={() => mutate(review.id)}
             title="delete review"

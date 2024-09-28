@@ -9,6 +9,7 @@ import Images from "./_components/Images/images";
 import InteractionPanel from "./_components/interaction-panel";
 import Reviews from "./_components/reviewes";
 import Link from "next/link";
+import { Heart } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -26,23 +27,58 @@ export default async function MoviePage({
     <div className="">
       <BackgroundImage backdrop_path={movie.backdrop_path || ""} />
       <PageLayout>
-        <div className="flex justify-between items-start">
-          <MovieCard
-            size="lg"
-            movie={{
-              poster_path: movie.poster_path || "",
-              title: movie.title || "",
-              vote_average: movie.vote_average || 0,
-            }}
-          >
-            <MoviePoster
-              quality="original"
-              rating
-              className="hover:border-transparent"
-            />
-          </MovieCard>
+        <div className="pb-10 lg:hidden block text-center">
+          <h2 className="text-4xl text-white font-bold text-center">
+            {movie.title}
+          </h2>
+          <p className="text-xs md:text-sm font-light px-2">
+            Directed by{" "}
+            <Link
+              href={"/directors/" + director?.id || ""}
+              className="font-semibold"
+            >
+              {director?.name}
+            </Link>
+          </p>
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-between items-start">
+          <div className="flex justify-between items-center gap-3">
+            <MovieCard
+              size="lg"
+              movie={{
+                poster_path: movie.poster_path || "",
+                title: movie.title || "",
+                vote_average: movie.vote_average || 0,
+              }}
+            >
+              <MoviePoster
+                quality="original"
+                className="hover:border-transparent"
+              />
+            </MovieCard>
+            <div className="self-start text-xs">
+              <div className="">
+                <p className="">
+                  {movie.release_date &&
+                    parseISO(movie.release_date) &&
+                    format(parseISO(movie.release_date), "yyyy")}
+                </p>
+                <p>{movie.runtime} minutes</p>{" "}
+                <p className="space-x-2">
+                  {movie.genres?.map((g) => (
+                    <span key={g.id}>{g.name}</span>
+                  ))}
+                </p>
+              </div>
+              <div className="my-4 flex justify-center items-center">
+                <Heart color="red" fill="red" />
+                &nbsp; &nbsp;{movie.vote_average?.toFixed(2)}
+              </div>
+            </div>
+          </div>
           <div className="px-10 w-1/2">
-            <h2 className="text-4xl text-white font-bold text-center">
+            <h2 className="text-4xl text-white font-bold text-center hidden lg:block">
               {movie.title}
               <sub className="text-sm font-light px-2">
                 Directed by{" "}

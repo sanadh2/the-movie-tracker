@@ -1,5 +1,4 @@
 "use client";
-import { SignOutButton } from "@clerk/nextjs/";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +22,7 @@ export default function Logout() {
           <DialogDescription>This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <SignOutButton>Logout</SignOutButton>
+          {/* <SignOutButton>Logout</SignOutButton> */}
         </DialogFooter>
       </DialogContent>
     </Dialog>
