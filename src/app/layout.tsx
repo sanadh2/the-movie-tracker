@@ -7,7 +7,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
 import TanstackQueryClientProvider from "@/components/tanstack-query-client-provider";
-import { AuthProvider } from "./contexts/auth-context";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "@/app/api/uploadthing/core";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,22 +30,23 @@ export default function RootLayout({ children }: PropsWithChildren) {
           inter.className
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TanstackQueryClientProvider>
-            <AuthProvider>
+        <SessionProvider>
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TanstackQueryClientProvider>
               <header>
                 <Navbar />
               </header>
               <main>{children}</main>
               <Toaster />
-            </AuthProvider>
-          </TanstackQueryClientProvider>
-        </ThemeProvider>
+            </TanstackQueryClientProvider>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
