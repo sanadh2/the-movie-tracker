@@ -1,12 +1,11 @@
 import prisma from "@/db/db";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { postSchema } from "./schema";
 
 export async function POST(request: NextRequest) {
   try {
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
+    const user = await currentUser();
 
     if (!user)
       return NextResponse.json(
@@ -80,8 +79,7 @@ export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
     const tmdbID = url.searchParams.get("tmdbID");
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
+    const user = await currentUser();
     if (!user)
       return NextResponse.json(
         {
@@ -117,8 +115,7 @@ export async function GET(request: NextRequest) {
 }
 export async function DELETE(request: NextRequest) {
   try {
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
+    const user = await currentUser();
 
     if (!user)
       return NextResponse.json(
