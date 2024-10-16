@@ -17,7 +17,7 @@ export default async function TrendingPage() {
               vote_average: movie.vote_average || 0,
             }}
           >
-            <MoviePoster />
+            <MoviePoster rating />
             <MovieTitle className="line-clamp-2 text-xs mt-1" />
           </MovieCard>
         ))}
