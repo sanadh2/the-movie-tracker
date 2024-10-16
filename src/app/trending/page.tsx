@@ -6,7 +6,7 @@ export default async function TrendingPage() {
 
   return (
     <PageLayout>
-      <h2 className="text-center text-xl">Trending Movies</h2>
+      <h2 className="text-center text-xl font-mono">Trending Movies</h2>
       <div className="grid gap-8 place-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10">
         {movies?.results?.map((movie) => (
           <MovieCard

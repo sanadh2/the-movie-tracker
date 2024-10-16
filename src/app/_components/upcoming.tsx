@@ -8,7 +8,7 @@ export default function Upcoming() {
 
   return (
     <div className="">
-      <h2>Upcoming</h2>
+      <h2 className="font-mono">Upcoming</h2>
       <div className="mt-4 overflow-x-scroll no-scrollbar">
         {error || isLoading ? (
           <Loading />

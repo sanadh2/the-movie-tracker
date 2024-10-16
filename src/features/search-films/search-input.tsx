@@ -23,7 +23,7 @@ export default function SearchInput({
         onChange={(e) => setSearch(e.target.value)}
         onBlur={handleFocusBlur}
         onFocus={handleFocusBlur}
-        className="h-10 rounded-full w-full max-w-96 pl-10 pr-4 bg-input "
+        className="h-10 rounded-full w-full max-w-96 pl-10 pr-4 bg-input placeholder:text-xs"
         placeholder="Search a movie or series"
       />
       <Search className="absolute left-3 size-4 top-1/2 -translate-y-1/2 pointer-events-none" />
