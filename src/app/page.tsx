@@ -1,4 +1,3 @@
-"use client";
 import PageLayout from "@/components/PageLayout";
 import NowPlaying from "./_components/now-palying";
 import Upcoming from "./_components/upcoming";
