@@ -5,32 +5,42 @@ import {
   text,
   primaryKey,
   integer,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
+import { drizzle } from "drizzle-orm/vercel-postgres";
+import { sql } from "@vercel/postgres";
+// import { drizzle } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { env } from "@/lib/env";
 
-const connectionString = env.DATABASE_URL;
-const pool = postgres(connectionString, { max: 1 });
+// const connectionString = env.DATABASE_URL;
+// const pool = postgres(connectionString, { max: 1 });
 
-export const db = drizzle(pool);
+export const db = drizzle(sql);
 
-export const users = pgTable("user", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: text("name"),
-  email: text("email").unique(),
-  emailVerified: timestamp("emailVerified", {
-    mode: "date",
-    withTimezone: true,
-  }),
-  password: text("password"),
-  image: text("image"),
-  otp: text("otp"),
-  isEmailVerified: boolean("isEmailVerified"),
-});
+export const users = pgTable(
+  "user",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    name: text("name"),
+    email: text("email").unique(),
+    emailVerified: timestamp("emailVerified", {
+      mode: "date",
+      withTimezone: true,
+    }),
+    password: text("password"),
+    image: text("image"),
+    otp: text("otp"),
+    isEmailVerified: boolean("isEmailVerified"),
+  },
+  (users) => {
+    return {
+      uniqueIdx: uniqueIndex("unique_idx").on(users.email),
+    };
+  }
+);
 
 export const accounts = pgTable(
   "account",

@@ -23,6 +23,7 @@
     "@types/nodemailer": "^6.4.16",
     "@uidotdev/usehooks": "^2.4.1",
     "@uploadthing/react": "^7.0.3",
+    "@vercel/postgres": "^0.10.0",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",

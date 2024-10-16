@@ -1,3 +1,4 @@
+import { env } from "@/lib/env";
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
@@ -5,6 +6,6 @@ export default defineConfig({
   schema: "./src/db/user/schema.ts",
   out: "./drizzle",
   dbCredentials: {
-    url: "postgres://postgres:password@localhost:5432/moovie",
+    url: env.POSTGRES_URL,
   },
 });
