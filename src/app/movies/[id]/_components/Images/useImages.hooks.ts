@@ -9,7 +9,7 @@ const fetchNowPlaying = async (
 ): Promise<MovieImagesResponse> => {
   try {
     const response = await axios.get<MovieImagesResponse>(
-      "/api/themoviedb/movie-images",
+      "/api/tmdb/movie-images",
       {
         params: {
           id,

@@ -1,56 +1,30 @@
-import prisma from "@/db/db";
+import { db } from "@/db";
 import { NextResponse, NextRequest } from "next/server";
 import { postSchema } from "./validation";
 import moviedb from "@/db/moviedb";
 import { addMovieToDB } from "@/app/actions/add-movie-to-db";
+import { auth } from "@/auth";
+import { movieTable, reviewTable } from "@/db/schema/movie";
+import { and, eq } from "drizzle-orm";
 
 export async function GET() {
-  // const user = await currentUser();
-  // if (!user)
-  //   return NextResponse.json(
-  //     { error: "unauthorised, please sign in" },
-  //     { status: 401 }
-  //   );
-  const reviews = await prisma.review.findMany({
-    select: {
-      movie: true,
-      comment: true,
-      id: true,
-      userID: true,
-      rating: true,
-      tmdbID: true,
-    },
+  const reviews = (await db.select().from(reviewTable)).sort((a, b) => {
+    console.log(a.createdAt.getTime());
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
   return NextResponse.json({ reviews }, { status: 200 });
 }
 
 export async function POST(request: NextRequest) {
   try {
-    // const user = await currentUser();
-    // if (!user)
-    //   return NextResponse.json(
-    //     { error: "unauthorised, please sign in" },
-    //     { status: 401 }
-    //   );
-    const jsonBody = await request.json();
-    const isReviewExist = await prisma.review.findUnique({
-      where: {
-        tmdbID_userID: {
-          tmdbID: jsonBody.tmdbID,
-          userID: user.id,
-        },
-      },
-    });
-
-    if (isReviewExist) {
+    const session = await auth();
+    if (!session || !session.user || !session.user.id)
       return NextResponse.json(
-        {
-          message: "Review already exists",
-        },
-        { status: 400 }
+        { error: "unauthorised, please sign in" },
+        { status: 401 }
       );
-    }
-    const { success, data, error } = postSchema.safeParse(jsonBody);
+    const body = await request.json();
+    const { success, data, error } = postSchema.safeParse(body);
     if (!success) {
       return NextResponse.json(
         {
@@ -60,6 +34,27 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const isReviewExist = await db
+      .select()
+      .from(reviewTable)
+      .where(
+        and(
+          eq(reviewTable.tmdbID, data.tmdbID),
+          eq(reviewTable.userID, session.user.id)
+        )
+      )
+      .then((res) => res[0]);
+
+    if (isReviewExist) {
+      return NextResponse.json(
+        {
+          message: "Review already exists",
+        },
+        { status: 400 }
+      );
+    }
+
     const { rating, tmdbID, comment } = data;
     const movie = await moviedb.movieInfo({ id: tmdbID });
     const { id, title, poster_path, vote_average } = movie;
@@ -71,28 +66,28 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-    let movieInDB = await prisma.movie.findUnique({
-      where: { tmdbID: id },
-    });
+
+    let movieInDB = await db
+      .select()
+      .from(movieTable)
+      .where(eq(movieTable.tmdbID, id))
+      .then((res) => res[0]);
 
     if (!movieInDB) {
       movieInDB = await addMovieToDB({
-        poster_path,
-        title,
-        tmdbID,
-        vote_average: vote_average ?? 0,
+        posterPath: poster_path,
+        title: title,
+        tmdbID: tmdbID,
+        voteAverage: String(vote_average) ?? "0",
       });
     }
 
-    const review = await prisma.review.create({
-      data: {
-        name: user.fullName,
-        username: user.username,
-        comment,
-        rating,
-        userID: user.id,
-        tmdbID: movieInDB.tmdbID,
-      },
+    const review = await db.insert(reviewTable).values({
+      reviewer: session.user.name || "Anonymous",
+      comment,
+      rating,
+      userID: session.user.id,
+      tmdbID: movieInDB.tmdbID,
     });
 
     return NextResponse.json({ review }, { status: 200 });
@@ -104,7 +99,7 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE() {
   try {
-    await prisma.review.deleteMany();
+    await db.delete(reviewTable).execute();
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ success: false, error }, { status: 500 });

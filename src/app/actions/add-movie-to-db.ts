@@ -1,16 +1,13 @@
 "use server";
-import prisma from "@/db/db";
+import { db } from "@/db";
+import { movieTable } from "@/db/schema/movie";
+import { InferInsertModel } from "drizzle-orm";
 
-interface AddMovieToDB {
-  poster_path: string;
-  title: string;
-  tmdbID: number;
-  vote_average: number;
-}
+type AddMovieToDB = InferInsertModel<typeof movieTable>;
 export const addMovieToDB = async (movie: AddMovieToDB) => {
-  return await prisma.movie.create({
-    data: {
-      ...movie,
-    },
-  });
+  return await db
+    .insert(movieTable)
+    .values(movie)
+    .returning()
+    .then((res) => res[0]);
 };
