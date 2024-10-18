@@ -1,6 +1,8 @@
-import { db, users } from "@/db/user/schema";
+import { users } from "@/db/schema/user";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { db } from "@/db";
+
 export const POST = async (request: Request) => {
   const body = await request.json();
   const { email, otp } = body;

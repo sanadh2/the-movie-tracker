@@ -3,11 +3,11 @@ import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { db, users } from "./db/user/schema";
+import { users } from "./db/schema/user";
 import { and, eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import type { Provider } from "next-auth/providers";
-
+import { db } from "./db";
 class InvalidLoginError extends CredentialsSignin {
   code = "Invalid identifier or password";
 }
@@ -39,6 +39,7 @@ const providers: Provider[] = [
   }),
 ];
 export const authConfig: NextAuthConfig = {
+  debug: true,
   adapter: DrizzleAdapter(db),
   providers,
   callbacks: {

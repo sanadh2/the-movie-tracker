@@ -7,16 +7,7 @@ import {
   integer,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { drizzle } from "drizzle-orm/vercel-postgres";
-import { sql } from "@vercel/postgres";
-// import { drizzle } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
-import { env } from "@/lib/env";
-
-// const connectionString = env.DATABASE_URL;
-// const pool = postgres(connectionString, { max: 1 });
-
-export const db = drizzle(sql);
 
 export const users = pgTable(
   "user",

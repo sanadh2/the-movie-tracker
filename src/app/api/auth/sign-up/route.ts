@@ -1,10 +1,11 @@
-import { db, users } from "@/db/user/schema";
+import { users } from "@/db/schema/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { sendMail } from "@/lib/send-mail";
 import { generateOTP } from "@/lib/generate-otp";
 import { z } from "zod";
+import { db } from "@/db";
 
 export const POST = async (request: NextRequest) => {
   const body = await request.json();

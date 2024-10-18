@@ -5,6 +5,7 @@ import VisuallyHidden from "./ui/visually-hidden";
 import SignInButton from "./sign-in-button";
 import SignOutButton from "./sign-out-button";
 import { signIn, auth } from "@/auth";
+
 export default async function Navbar() {
   const session = await auth();
   const user = session?.user;
