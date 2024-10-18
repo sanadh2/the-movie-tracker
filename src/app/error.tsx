@@ -17,7 +17,7 @@ export default function Error({
 
   return (
     <div className="flex justify-center items-center flex-col h-80">
-      <h2>{error.message || "Something went wrong"}</h2>
+      <h2 className="font-mono">{error.message || "Something went wrong"}</h2>
       <Button
         variant={"destructive"}
         className="flex gap-2 mt-2"

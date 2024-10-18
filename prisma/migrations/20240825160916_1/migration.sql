@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Review" ALTER COLUMN "username" DROP NOT NULL,
+ALTER COLUMN "name" DROP NOT NULL;

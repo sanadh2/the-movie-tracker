@@ -5,7 +5,7 @@ import { MovieNowPlayingResponse } from "moviedb-promise";
 const fetchNowPlaying = async (): Promise<MovieNowPlayingResponse> => {
   try {
     const response = await axios.get<MovieNowPlayingResponse>(
-      "/api/themoviedb/now-playing"
+      "/api/tmdb/now-playing"
     );
     return response.data;
   } catch (error) {

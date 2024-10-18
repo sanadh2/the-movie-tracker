@@ -19,6 +19,7 @@ const MovieList = ({ movies }: Props) => {
             alt={movie.title || "movie poster"}
             className="object-cover z-0"
             loading="lazy"
+            title={movie.title}
             placeholder="blur"
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
             blurDataURL={baseUrlImage + "w92" + movie.poster_path}

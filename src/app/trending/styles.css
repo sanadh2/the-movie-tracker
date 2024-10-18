@@ -1,0 +1,13 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270, 1fr));
+  place-content: center;
+  padding: 10px;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(200, 1fr));
+  }
+}

@@ -7,7 +7,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
 import TanstackQueryClientProvider from "@/components/tanstack-query-client-provider";
-import { ClerkProvider } from "@clerk/nextjs";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "@/app/api/uploadthing/core";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +26,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <head />
       <body
         className={cn(
-          "min-h-screen antialiased container relative p-0 bg-neutral-100 text-black dark:text-white dark:bg-black",
+          "min-h-screen antialiased relative p-0 bg-neutral-100 text-black dark:text-white dark:bg-black",
           inter.className
         )}
       >
-        <ClerkProvider>
+        <SessionProvider>
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -42,7 +46,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
               <Toaster />
             </TanstackQueryClientProvider>
           </ThemeProvider>
-        </ClerkProvider>
+        </SessionProvider>
       </body>
     </html>
   );
