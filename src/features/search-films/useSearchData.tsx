@@ -6,12 +6,9 @@ const fetchSearchData = async (
   query: string
 ): Promise<MovieResultsResponse> => {
   try {
-    const response = await axios.get<MovieResultsResponse>(
-      "/api/themoviedb/search",
-      {
-        params: { query },
-      }
-    );
+    const response = await axios.get<MovieResultsResponse>("/api/tmdb/search", {
+      params: { query },
+    });
     return response.data;
   } catch (error) {
     console.log(error);
