@@ -1,50 +1,58 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { removeHtmlTags } from "@/lib/removeHtmlTags";
-import { Review as ReviewProp } from "@prisma/client";
-import { ChevronDown, ChevronRight, DeleteIcon } from "lucide-react";
+import { TrashIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { useDeleteReview } from "./reviews-data.hooks";
 import StarRating from "./star-rating";
-import { useAuth } from "@/app/contexts/auth-context";
+import { useSession } from "next-auth/react";
+import { reviewTable } from "@/db/schema/movie";
+import { InferSelectModel } from "drizzle-orm";
 
-export default function Review({ review }: { review: ReviewProp }) {
-  const [showMore, setShowMore] = useState(false);
-  const { user } = useAuth();
+type ReviewType = InferSelectModel<typeof reviewTable>;
+type Prop = {
+  review: ReviewType;
+};
+
+export default function Review({ review }: Prop) {
+  const [showMore, setShowMore] = useState(true);
+  const { data: session } = useSession();
   const { mutate } = useDeleteReview(review.tmdbID);
-  if (!user) return null;
+
   return (
-    <div className="border-t p-5 font-serif">
+    <div className="border-t p-5 font-serif border rounded-lg">
       <div className="flex gap-3 items-center justify-between">
-        <div className="flex gap-3 items-center">
-          <button onClick={() => setShowMore(!showMore)} className="">
-            {showMore ? <ChevronDown /> : <ChevronRight />}
-          </button>
+        <div className="flex gap-3 items-center h-10">
           <h6 className="capitalize font-semibold">
-            {removeHtmlTags(review.name ? review.name : undefined)}
+            {removeHtmlTags(review.reviewer)}
           </h6>
-          <StarRating rating={review.rating} />
+          <StarRating rating={review.rating || 0} />
         </div>
-        {user.id === review.userID && (
+        {session?.user?.id === review.userID && (
           <Button
             onClick={() => mutate(review.id)}
             title="delete review"
             size={"icon"}
+            variant={"ghost"}
           >
-            <DeleteIcon />
+            <TrashIcon className="h-4 w-4 text-red-500" />
           </Button>
         )}
       </div>
       <div className="">
         <pre
-          className={`font-serif indent-10 max-w-full whitespace-pre-wrap overflow-auto transition-all ${
-            showMore
-              ? "max-h-max animate-accordion-down"
-              : "max-h-0 animate-accordion-up"
+          className={`font-serif  whitespace-pre-wrap transition-all ${
+            showMore ? "line-clamp-6" : "line-clamp-none"
           }`}
         >
-          {removeHtmlTags(review.comment ? review.comment : undefined)}
+          <p>{removeHtmlTags(review.comment ? review.comment : undefined)}</p>
         </pre>
+        <button
+          onClick={() => setShowMore(!showMore)}
+          className="text-sm font-semibold"
+        >
+          {showMore ? "Show more" : "Show less"}
+        </button>
       </div>
     </div>
   );

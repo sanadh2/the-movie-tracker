@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Review } from "@prisma/client";
 import { handleAxiosError } from "@/lib/error-toast";
-import { useAuth } from "@/app/contexts/auth-context";
-
+import { reviewTable } from "@/db/schema/movie";
+import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { useSession } from "next-auth/react";
+type InsertReviewType = InferInsertModel<typeof reviewTable>;
+type ReviewType = InferSelectModel<typeof reviewTable>;
 const fetchReviewsApi = async (movieID: number) => {
   try {
-    const { data } = await axios.get<{ reviews: Review[] }>(
+    const { data } = await axios.get<{ reviews: ReviewType[] }>(
       "/api/reviews/movies/" + movieID
     );
     return data.reviews;
@@ -22,12 +24,7 @@ export function useReviewsData(movieID: number) {
   });
 }
 
-type AddReviewData = {
-  rating: number;
-  tmdbID: number;
-  comment?: string;
-};
-export const addReviewApi = async (data: AddReviewData) => {
+export const addReviewApi = async (data: InsertReviewType) => {
   try {
     const response = await axios.post("/api/reviews", data);
     return response.data;
@@ -39,31 +36,30 @@ export const addReviewApi = async (data: AddReviewData) => {
 
 export function useAddReview(movieID: number) {
   const queryClient = useQueryClient();
-  const { user } = useAuth();
+  const { data: session } = useSession();
   return useMutation({
-    mutationFn: (data: AddReviewData) => addReviewApi(data),
-    onMutate: async (data: AddReviewData) => {
-      if (!user) return;
+    mutationFn: (data: InsertReviewType) => addReviewApi(data),
+    onMutate: async (data: ReviewType) => {
+      if (!session || !session.user || !session.user.id) return;
       await queryClient.cancelQueries({
         queryKey: ["movie-reviews", movieID],
       });
-      const previousReviews = queryClient.getQueryData<Review[]>([
+      const previousReviews = queryClient.getQueryData<ReviewType[]>([
         "movie-reviews",
         movieID,
       ]);
       if (previousReviews) {
-        const newReview: Review = {
+        const newReview: ReviewType = {
           id: Date.now().toString(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          name: user.name,
-          userID: user.id,
-          username: user.name || "",
+          reviewer: session.user.name || "",
+          userID: session.user.id,
           rating: data.rating,
           comment: data.comment || "",
           tmdbID: data.tmdbID,
         };
-        queryClient.setQueryData<Review[]>(
+        queryClient.setQueryData<ReviewType[]>(
           ["movie-reviews", movieID],
           [...previousReviews, newReview]
         );
@@ -100,12 +96,12 @@ export function useDeleteReview(movieID: number) {
       await queryClient.cancelQueries({
         queryKey: ["movie-reviews", movieID],
       });
-      const previousReviews = queryClient.getQueryData<Review[]>([
+      const previousReviews = queryClient.getQueryData<ReviewType[]>([
         "movie-reviews",
         movieID,
       ]);
       if (previousReviews) {
-        queryClient.setQueryData<Review[]>(
+        queryClient.setQueryData<ReviewType[]>(
           ["movie-reviews", movieID],
           previousReviews.filter((review) => review.id !== reviewID)
         );
