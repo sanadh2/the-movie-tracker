@@ -12,13 +12,13 @@ export default async function TrendingPage() {
   const movies = response.results as MovieResult[];
   return (
     <PageLayout>
-      <h2 className="text-center text-xl">Trending Movies</h2>
+      <h2 className="text-center text-xl font-mono">Trending Movies</h2>
       <div className="flex justify-center w-full">
         <div className="grid-container mt-10 gap-10">
           {movies?.map((movie) => (
-            <div key={movie.id} className="flex justify-center items-center">
+            <div key={movie.id} className="w-full grid place-items-center">
               <MovieCard
-                className="wfull justify-center items-center "
+                className="self-start"
                 movie={{
                   title: movie.title || "",
                   poster_path: movie.poster_path || "",
@@ -26,8 +26,8 @@ export default async function TrendingPage() {
                 }}
               >
                 <Link href={"/movies/" + movie.id}>
-                  <MoviePoster rating />
-                  <MovieTitle className="line-clamp-2 text-xs mt-1" />
+                  <MoviePoster rating className="" />
+                  <MovieTitle className="line-clamp-2 text-xs md:text-sm mt-1" />
                 </Link>
               </MovieCard>
             </div>
