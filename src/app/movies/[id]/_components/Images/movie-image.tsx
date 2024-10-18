@@ -7,7 +7,7 @@ interface Props {
 }
 export default function MovieImage({ img }: Props) {
   return (
-    <div className="text-xs relative min-w-40 max-w-40 border transition-opacity duration-300 ease-in-out hover:border-white group-hover:opacity-60 group-hover:hover:opacity-100 opacity-90">
+    <div className="text-xs relative min-w-40 max-w-40 border border-white transition-opacity duration-300 ease-in-out hover:border-white group-hover:opacity-60 group-hover:hover:opacity-100 opacity-90">
       <Image
         alt="image not loaded"
         src={baseUrlImage + "w780" + img.file_path}

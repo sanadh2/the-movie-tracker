@@ -1,6 +1,6 @@
 "use client";
 import useImages from "./useImages.hooks";
-import MovieImage from "./movie-image";
+import ImageModal from "./modal";
 interface Props {
   id: string | number;
 }
@@ -13,16 +13,27 @@ export default function Images({ id }: Props) {
       {isLoading ? (
         <div className=" overflow-scroll no-scrollbar">
           <div className="flex gap-3 ">
-            {[1, 1, 1, 1, 1, 1].map((_, index) => (
-              <div key={index} className="w-40 aspect-video" />
-            ))}
+            {[1, 1, 1, 1]
+              .map((v, i, a) => a)
+              .flat()
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="min-w-40 aspect-video border border-white"
+                />
+              ))}
           </div>
         </div>
       ) : (
         <div className=" overflow-scroll no-scrollbar">
           <div className="flex gap-3 group">
             {data?.backdrops?.map((img, index) => (
-              <MovieImage img={img} key={index} />
+              <ImageModal
+                key={index}
+                img={img}
+                imgs={data?.backdrops}
+                index={index}
+              />
             ))}
           </div>
         </div>
