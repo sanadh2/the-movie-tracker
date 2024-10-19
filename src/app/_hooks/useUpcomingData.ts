@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import baseApi from "@/services/baseApi";
 import { MovieNowPlayingResponse } from "moviedb-promise";
 
 const fetchUpcoming = async (): Promise<MovieNowPlayingResponse> => {
   try {
-    const response = await axios.get<MovieNowPlayingResponse>(
+    const response = await baseApi.get<MovieNowPlayingResponse>(
       "/api/tmdb/upcoming"
     );
     return response.data;

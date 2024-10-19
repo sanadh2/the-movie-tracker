@@ -1,4 +1,4 @@
-import axios from "axios";
+import baseApi from "@/services/baseApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { handleAxiosError } from "@/lib/error-toast";
 import { reviewTable } from "@/db/schema/movie";
@@ -8,7 +8,7 @@ type InsertReviewType = InferInsertModel<typeof reviewTable>;
 type ReviewType = InferSelectModel<typeof reviewTable>;
 const fetchReviewsApi = async (movieID: number) => {
   try {
-    const { data } = await axios.get<{ reviews: ReviewType[] }>(
+    const { data } = await baseApi.get<{ reviews: ReviewType[] }>(
       "/api/reviews/movies/" + movieID
     );
     return data.reviews;
@@ -26,7 +26,7 @@ export function useReviewsData(movieID: number) {
 
 export const addReviewApi = async (data: InsertReviewType) => {
   try {
-    const response = await axios.post("/api/reviews", data);
+    const response = await baseApi.post("/api/reviews", data);
     return response.data;
   } catch (error) {
     handleAxiosError(error);
@@ -80,7 +80,7 @@ export function useAddReview(movieID: number) {
 
 const deleteReviewApi = async (reviewID: string) => {
   try {
-    const { data } = await axios.delete("/api/reviews/" + reviewID);
+    const { data } = await baseApi.delete("/api/reviews/" + reviewID);
     return data;
   } catch (error) {
     handleAxiosError(error);

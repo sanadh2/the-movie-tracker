@@ -1,14 +1,14 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import baseApi from "@/services/baseApi";
 import { MovieImagesResponse } from "moviedb-promise";
 
 const fetchNowPlaying = async (
   id: string | number
 ): Promise<MovieImagesResponse> => {
   try {
-    const response = await axios.get<MovieImagesResponse>(
+    const response = await baseApi.get<MovieImagesResponse>(
       "/api/tmdb/movie-images",
       {
         params: {

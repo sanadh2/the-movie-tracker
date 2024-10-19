@@ -1,11 +1,11 @@
 import { requestHandler } from "@/lib/requestHandler";
-import axios from "axios";
+import baseApi from "@/services/baseApi";
 import { LoginData } from "../schemas-types";
 
 export const loginApi = requestHandler<LoginData, undefined>((loginData) =>
-  axios.post("/api/authentication/login", loginData)
+  baseApi.post("/api/authentication/login", loginData)
 );
 
 export const signupApi = requestHandler<LoginData, undefined>(() =>
-  axios.post("/api/authentication/signup")
+  baseApi.post("/api/authentication/signup")
 );

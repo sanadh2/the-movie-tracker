@@ -4,7 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "@/components/ui/use-toast";
 import { SignUpData, signUpSchema } from "./zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import baseApi from "@/services/baseApi";
 import { useState } from "react";
 import {
   InputOTP,
@@ -27,7 +28,7 @@ export default function SignUpForm() {
   const [step, setStep] = useState<1 | 2>(1);
   const submitData: SubmitHandler<SignUpData> = async (data) => {
     try {
-      const response = await axios.post("/api/auth/sign-up", data);
+      const response = await baseApi.post("/api/auth/sign-up", data);
       console.log(response);
       toast({
         description: response.data.message || "Something went wrong",
@@ -53,7 +54,7 @@ export default function SignUpForm() {
         });
         return;
       }
-      const response = await axios.post("/api/auth/verify-user", {
+      const response = await baseApi.post("/api/auth/verify-user", {
         email: data.email,
         otp: data.otp,
       });
