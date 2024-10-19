@@ -39,7 +39,7 @@ export function useAddReview(movieID: number) {
   const { data: session } = useSession();
   return useMutation({
     mutationFn: (data: InsertReviewType) => addReviewApi(data),
-    onMutate: async (data: ReviewType) => {
+    onMutate: async (data: InsertReviewType) => {
       if (!session || !session.user || !session.user.id) return;
       await queryClient.cancelQueries({
         queryKey: ["movie-reviews", movieID],
