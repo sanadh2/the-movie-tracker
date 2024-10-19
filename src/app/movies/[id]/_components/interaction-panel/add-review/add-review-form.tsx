@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader, StarHalfIcon, StarIcon } from "lucide-react";
 import { useCallback, useState } from "react";
-import { Review, reviewSchema } from "./defintions";
+import { reviewSchema } from "./defintions";
 import { useAddReview } from "../../reviewes/reviews-data.hooks";
 import { Button } from "@/components/ui/button";
-
-import { Rating } from "@smastrom/react-rating";
-// import "@smastrom/react-rating/style.css";
+import { InferInsertModel } from "drizzle-orm";
+import { reviewTable } from "@/db/schema/movie";
+type ReviewType = InferInsertModel<typeof reviewTable>;
+// import { Rating } from "@smastrom/react-rating";
 
 export default function AddReviewForm({
   movieID,
@@ -24,7 +25,7 @@ export default function AddReviewForm({
     setValue,
     handleSubmit,
     getValues,
-  } = useForm<Review>({
+  } = useForm<ReviewType>({
     defaultValues: {
       tmdbID: movieID,
     },
@@ -63,7 +64,7 @@ export default function AddReviewForm({
     },
     [hoverRating, rating]
   );
-  const onSubmit = async (data: Review) => {
+  const onSubmit = async (data: ReviewType) => {
     addReviewApi(data);
     close();
   };

@@ -21,6 +21,7 @@ export default async function SimilarMovies({ id }: { id: string }) {
           >
             <Link href={"/movies/" + movie.id}>
               <MoviePoster
+                similar
                 showTitile
                 quality="w342"
                 className="border rounded-none lg:rounded-none"

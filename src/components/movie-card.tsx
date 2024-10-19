@@ -78,27 +78,30 @@ interface PosterProps {
   rating?: boolean;
   quality?: PosterSize;
   showTitile?: boolean;
+  similar?: boolean;
 }
 export const MoviePoster = ({
   className,
   rating,
   quality = "w500",
   showTitile,
+  similar,
 }: PosterProps) => {
   const { poster_path, title, vote_average } = useMovieContext();
 
   return (
     <div
       className={cn(
-        "w-full relative z-[5] overflow-hidden border-4 flex justify-center items-center hover:border-green-500 transition-colors ease-in-out duration-300 border-white rounded-sm lg:rounded-md",
-        className
+        "h-40 md:h-60 lg:h-80 w-full relative z-[5] aspect-[9/14] overflow-hidden border-4 flex justify-center items-center hover:border-green-500 transition-colors ease-in-out duration-300 border-white rounded-sm lg:rounded-md",
+        className,
+        similar && "border-green-500 h-28 md:h-28 lg:h-28"
       )}
     >
       <Image
         src={baseUrlImage + quality + poster_path}
         alt={title}
-        width={150}
-        height={233.33}
+        width={450}
+        height={700}
         placeholder="blur"
         loading="lazy"
         blurDataURL={baseUrlImage + "w92" + poster_path}

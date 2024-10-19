@@ -31,7 +31,7 @@ export default async function MoviePage({
           <h2 className="text-4xl text-white font-bold text-center">
             {movie.title}
           </h2>
-          <p className="text-xs md:text-sm font-light px-2">
+          <p className="text-sm font-light px-2">
             Directed by{" "}
             <Link
               href={"/directors/" + director?.id || ""}
@@ -42,7 +42,7 @@ export default async function MoviePage({
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-start">
+        <div className="flex flex-row justify-between items-start">
           <div className="flex justify-between items-center gap-3">
             <MovieCard
               size="lg"
@@ -55,9 +55,10 @@ export default async function MoviePage({
               <MoviePoster
                 quality="original"
                 className="hover:border-transparent"
+                showTitile
               />
             </MovieCard>
-            <div className="self-start text-xs">
+            {/* <div className="self-start text-xs">
               <div className="">
                 <p className="">
                   {movie.release_date &&
@@ -75,7 +76,7 @@ export default async function MoviePage({
                 <Heart color="red" fill="red" />
                 &nbsp; &nbsp;{movie.vote_average?.toFixed(2)}
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="px-10 w-1/2">
             <h2 className="text-4xl text-white font-bold text-center hidden lg:block">
@@ -114,8 +115,10 @@ export default async function MoviePage({
         </div>
       </PageLayout>
       <PageLayout className="bg-gradient-to-t from-black to-transparent mt-20">
-        <InteractionPanel movieID={Number(params.id)} />
-        <Reviews id={params.id} />
+        <div className="flex gap-5 items-start">
+          <InteractionPanel movieID={Number(params.id)} />
+          <Reviews id={params.id} />
+        </div>
       </PageLayout>
     </div>
   );

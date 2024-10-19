@@ -39,7 +39,6 @@ const providers: Provider[] = [
   }),
 ];
 export const authConfig: NextAuthConfig = {
-  debug: true,
   adapter: DrizzleAdapter(db),
   providers,
   callbacks: {

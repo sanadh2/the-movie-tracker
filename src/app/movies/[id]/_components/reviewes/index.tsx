@@ -4,11 +4,11 @@ import { useReviewsData } from "./reviews-data.hooks";
 export default function Reviews({ id }: { id: string | number }) {
   const { data, isLoading, isError, error } = useReviewsData(Number(id));
   return (
-    <div>
+    <div className="ml-20">
       <h3>Popular reviews</h3>
-      <div className="">
+      <div className=" mt-10 gap-2">
         {isError ? (
-          <p className="text-red-500 text-center">{error.message}</p>
+          <p className="text-red-500 text-center ">{error.message}</p>
         ) : isLoading ? (
           <>Loading...</>
         ) : !data ? (
