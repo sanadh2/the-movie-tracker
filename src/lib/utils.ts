@@ -19,3 +19,6 @@ export async function asyncWrapper<T>(
     throw new Error("Something went wrong");
   }
 }
+
+export const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

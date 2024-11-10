@@ -1,7 +1,6 @@
 "use client";
 import { useReviews } from "@/store/useReviews";
 import Review from "./review";
-import { Skeleton } from "@/components/ui/skeleton";
 import Loader from "@/components/loader/";
 
 export default function Reviews({ id }: { id: string | number }) {

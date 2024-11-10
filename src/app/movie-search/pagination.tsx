@@ -20,7 +20,6 @@ export default function Pagination({
   initialData,
   page,
   total_pages,
-  total_results,
 }: {
   initialData: MovieSearchFormData;
   page: number;
@@ -30,7 +29,6 @@ export default function Pagination({
   const { data, isLoading } = useSearchData(initialData);
   const currentPage = data?.movies.page || page;
   const totalPages = data?.movies.total_pages || total_pages;
-  const totalResults = data?.movies.total_results || total_results;
 
   const router = useRouter();
   const pathname = usePathname();
@@ -57,9 +55,7 @@ export default function Pagination({
               className="pl-2.5 gap-1"
               disabled={currentPage == 1}
               onClick={() =>
-                router.push(
-                  pathname + "?" + updatePage((currentPage - 1).toString())
-                )
+                router.push(pathname + "?" + updatePage((1).toString()))
               }
             >
               <ChevronFirst className="h-4 w-4" />

@@ -4,8 +4,6 @@ import { movieTable, watchedMoviesTable } from "@/db/schema/movie";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export async function GET() {
   try {
     const session = await auth();
@@ -39,3 +37,5 @@ export async function GET() {
     );
   }
 }
+
+export const dynamic = "force-dynamic";

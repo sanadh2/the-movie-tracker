@@ -47,7 +47,7 @@ export default function ImageModal({ img, imgs, index }: Props) {
                 return (
                   <CarouselItem
                     key={index}
-                    className=" relative z-[2] max-w-fit"
+                    className="relative z-[2] max-w-fit"
                   >
                     <Image
                       alt="image not loaded"

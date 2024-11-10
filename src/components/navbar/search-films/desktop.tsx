@@ -13,12 +13,9 @@ export default function SearchFilmsInDesktop() {
   const { search, setSearch } = useSearch();
   const debouncedValue = useDebounce(search, 600);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { data, error, isLoading } = useSearchData(
-    {
-      query: debouncedValue,
-    },
-    ["search", debouncedValue]
-  );
+  const { data, error, isLoading } = useSearchData({
+    query: debouncedValue,
+  });
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   if (error) console.log(error.message);
   const handleFocusBlur = async (

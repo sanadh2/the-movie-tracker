@@ -28,15 +28,13 @@ export default function Error({
       </h2>
       <div className="flex gap-2 item-center mt-2">
         <Button
-          variant={"positive"}
+          variant={"shine"}
           className="flex gap-2"
           onClick={() => reset()}
         >
           <span className="">Try again</span> <RotateCcw />
         </Button>
-        <Button variant={"default"} onClick={handleBack}>
-          Go Back
-        </Button>
+        <Button onClick={handleBack}>Go Back</Button>
       </div>
     </div>
   );

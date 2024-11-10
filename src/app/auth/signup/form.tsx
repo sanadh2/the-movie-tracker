@@ -18,7 +18,7 @@ export default function SignUpForm() {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setError,
     watch,
     setValue,
@@ -29,7 +29,6 @@ export default function SignUpForm() {
   const submitData: SubmitHandler<SignUpData> = async (data) => {
     try {
       const response = await baseApi.post("/api/auth/sign-up", data);
-      console.log(response);
       toast({
         description: response.data.message || "Something went wrong",
       });
@@ -125,7 +124,9 @@ export default function SignUpForm() {
       {errors.root && (
         <p className="text-red-500 text-xs">{errors.root.message}</p>
       )}
-      <button className="bg-blue-500 border p-2 rounded-md">Sign Up</button>
+      <button className="bg-blue-500 border p-2 rounded-md">
+        {isSubmitting ? "signing up..." : "Sign Up"}
+      </button>
       <Link
         href={"/auth/signin"}
         className="border p-2 rounded-md bg-green-500 text-center"
@@ -169,7 +170,7 @@ export default function SignUpForm() {
       {errors.otp && (
         <p className="text-red-500 text-xs">{errors.otp.message}</p>
       )}
-      <button className="bg-blue-500 border p-2 rounded-md">Sign Up</button>
+      <button className="bg-blue-500 border p-2 rounded-md">verify</button>
       <Link
         href={"/auth/signin"}
         className="border p-2 rounded-md bg-green-500 text-center"

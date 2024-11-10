@@ -3,7 +3,6 @@ import Image from "next/image";
 import { createContext, PropsWithChildren, useContext } from "react";
 import { baseUrlImage, PosterSize } from "../../config/tmdb";
 import { cn } from "@/lib/utils";
-import { Star } from "lucide-react";
 
 interface ContextType {
   title: string;

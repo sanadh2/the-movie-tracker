@@ -66,7 +66,11 @@ export default function SigninForm() {
       {errors.root && (
         <p className="text-red-500 text-sm">{errors.root.message}</p>
       )}
-      <button type="submit" className="border p-2 rounded-md bg-green-500">
+      <button
+        disabled={isSubmitting}
+        type="submit"
+        className="border p-2 rounded-md bg-green-500"
+      >
         {isSubmitting ? "Signing in..." : "Sign In"}
       </button>
       <Link

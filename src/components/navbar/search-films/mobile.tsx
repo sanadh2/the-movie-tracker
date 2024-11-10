@@ -19,12 +19,9 @@ import { useState } from "react";
 export default function SearchFilmsInMobile() {
   const { search } = useSearch();
   const debouncedValue = useDebounce(search, 600);
-  const { data, error, isLoading } = useSearchData(
-    {
-      query: debouncedValue,
-    },
-    [search, debouncedValue]
-  );
+  const { data, error, isLoading } = useSearchData({
+    query: debouncedValue,
+  });
   const { setSearch } = useSearch();
   const [open, setOpen] = useState(false);
   return (

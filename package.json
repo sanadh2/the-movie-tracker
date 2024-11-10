@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev --turbo",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build": "next build"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.0",
@@ -49,6 +50,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
+    "sharp": "^0.33.5",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^7.1.0",
