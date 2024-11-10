@@ -3,7 +3,11 @@ import { env } from "@/lib/env";
 import Redis from "ioredis";
 import { Person, MoviesNowPlayingType, MovieType } from "./types";
 
-const redis = new Redis({ host: "localhost" });
+const redis = new Redis({
+  host: env.UPSTASH_REDIS_REST_HOST,
+  port: Number(env.UPSTASH_REDIS_REST_PORT),
+  password: env.UPSTASH_REDIS_REST_PASSWORD,
+});
 const API_KEY = env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -35,6 +39,9 @@ export const fetchMovieById = cache(
   async (id: number | string): Promise<MovieType> => {
     const cacheKey = `tmdb-movies-${id}`;
     const cachedData = await redis.get(cacheKey);
+    cachedData
+      ? console.log("cachedData exists")
+      : console.log("cachedData doesn't exist");
     if (cachedData) return JSON.parse(cachedData) as MovieType;
 
     const endpoint = `/movie/${id}?append_to_response=credits,videos,images`;
