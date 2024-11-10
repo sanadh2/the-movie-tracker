@@ -1,18 +1,17 @@
 import { MovieCard, MoviePoster, MovieTitle } from "@/components/movie-card";
 import PageLayout from "@/components/PageLayout";
-import moviedb from "@/db/moviedb";
 import Image from "next/image";
 import Link from "next/link";
 import { baseUrlImage } from "../../../../config/tmdb";
+import { fetchPersonInfo } from "@/db/services/tmdb";
 
 export default async function DirectorPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const directorDetails = await moviedb.personInfo({ id: params.id });
-  const movies = await moviedb.personMovieCredits({ id: params.id });
-  const directedMovies = movies.crew?.filter(
+  const directorDetails = await fetchPersonInfo(params.id);
+  const directedMovies = directorDetails.combined_credits.crew.filter(
     (movie) => movie.job === "Director"
   );
   return (
@@ -24,12 +23,12 @@ export default async function DirectorPage({
         {directorDetails.profile_path && (
           <Image
             alt=""
-            loading="lazy"
+            loading="eager"
             blurDataURL={baseUrlImage + "w185" + directorDetails.profile_path}
             src={baseUrlImage + "w300" + directorDetails.profile_path}
             width={200}
             height={300}
-            className="object-cover"
+            className="object-cover border"
           />
         )}
         <div className="">
@@ -47,11 +46,10 @@ export default async function DirectorPage({
             movie={{
               title: movie.title || "",
               poster_path: movie.poster_path || "",
-              vote_average: movie.vote_average || 0,
             }}
           >
             <Link href={"/movies/" + movie.id}>
-              <MoviePoster rating />
+              <MoviePoster />
               <MovieTitle className="line-clamp-2 text-xs mt-1" />
             </Link>
           </MovieCard>

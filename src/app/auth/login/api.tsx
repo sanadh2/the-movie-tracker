@@ -1,4 +1,4 @@
-import { requestHandler } from "@/lib/requestHandler";
+import { requestHandler } from "@/lib/request-handler";
 import baseApi from "@/services/baseApi";
 import { LoginData } from "../schemas-types";
 

@@ -101,7 +101,10 @@ export async function PUT(
       })
       .where(eq(reviewTable.id, id));
 
-    return NextResponse.json({ review }, { status: 200 });
+    return NextResponse.json(
+      { review, message: "Review updated" },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ success: false }, { status: 500 });
   }

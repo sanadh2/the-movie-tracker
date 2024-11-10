@@ -9,21 +9,23 @@ const tmdbSchema = z.string().regex(/^\d+$/).or(z.number());
 
 const postSchema = z.object({
   poster: z.string(),
-  rating: z.number(),
   title: z.string(),
   tmdbID: tmdbSchema,
 });
+
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
-    if (!session || !session.user || !session.user.id)
+    if (!session || !session.user || !session.user.id) {
       return NextResponse.json(
-        { error: "unauthorised, please sign in" },
+        { message: "unauthorised, please sign in" },
         { status: 401 }
       );
+    }
 
     const body = await request.json();
     const { success, data, error } = postSchema.safeParse(body);
+
     if (!success) {
       return NextResponse.json(
         {
@@ -33,53 +35,47 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const { poster, rating, title, tmdbID } = data;
 
-    const movie = await db
-      .insert(movieTable)
-      .values({
-        title: title,
-        posterPath: poster,
-        voteAverage: rating.toString(),
-        tmdbID: Number(tmdbID),
-      })
-      .onConflictDoUpdate({
-        target: movieTable.tmdbID,
-        set: {
+    const { poster, title, tmdbID } = data;
+    const userID = session.user.id;
+
+    const movieAndWatchlistResult = await db.transaction(async (trx) => {
+      const movie = await trx
+        .insert(movieTable)
+        .values({
           title: title,
           posterPath: poster,
-          voteAverage: rating.toString(),
-        },
-      })
-      .returning()
-      .then((res) => res[0]);
+          tmdbID: Number(tmdbID),
+        })
+        .onConflictDoNothing({
+          target: movieTable.tmdbID,
+        })
+        .returning()
+        .then((res) => res[0]);
 
-    const watched = await db
-      .select()
-      .from(watchedMoviesTable)
-      .where(
-        and(
-          eq(watchedMoviesTable.tmdbID, movie.tmdbID),
-          eq(watchedMoviesTable.userID, session.user.id)
-        )
-      )
-      .then((res) => res[0]);
+      const tmdbIDForWatchlist = movie ? movie.tmdbID : Number(tmdbID);
 
-    if (!watched) {
-      await db.insert(watchedMoviesTable).values({
-        tmdbID: movie.tmdbID,
-        userID: session.user.id,
-      });
-    }
+      await trx
+        .insert(watchedMoviesTable)
+        .values({
+          tmdbID: tmdbIDForWatchlist,
+          userID: userID,
+        })
+        .onConflictDoNothing({
+          target: [watchedMoviesTable.tmdbID, watchedMoviesTable.userID],
+        });
+
+      return movie || { tmdbID: tmdbIDForWatchlist };
+    });
 
     return NextResponse.json(
-      { message: "Added to watchlist" },
+      { message: "Added to watchlist", movie: movieAndWatchlistResult },
       { status: 200 }
     );
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }
@@ -90,7 +86,7 @@ export async function GET(request: NextRequest) {
     const session = await auth();
     if (!session || !session.user || !session.user.id)
       return NextResponse.json(
-        { error: "unauthorised, please sign in" },
+        { message: "unauthorised, please sign in" },
         { status: 401 }
       );
 
@@ -100,7 +96,7 @@ export async function GET(request: NextRequest) {
     if (!success)
       return NextResponse.json(
         {
-          message: "Missing required fields: movieID",
+          message: "Missing fields",
           error: error,
         },
         { status: 400 }
@@ -115,7 +111,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }
@@ -125,7 +121,7 @@ export async function DELETE(request: NextRequest) {
     const session = await auth();
     if (!session || !session.user || !session.user.id)
       return NextResponse.json(
-        { error: "unauthorised, please sign in" },
+        { message: "unauthorised, please sign in" },
         { status: 401 }
       );
 
@@ -155,7 +151,7 @@ export async function DELETE(request: NextRequest) {
     if (!record) {
       return NextResponse.json(
         {
-          error: "Record does not exist.",
+          message: "Record does not exist.",
         },
         { status: 404 }
       );
@@ -171,7 +167,7 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     console.error("Error during watchlist deletion:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }

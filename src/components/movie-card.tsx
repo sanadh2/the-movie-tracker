@@ -8,7 +8,6 @@ import { Star } from "lucide-react";
 interface ContextType {
   title: string;
   poster_path: string;
-  vote_average: number;
 }
 
 const MovieCardContext = createContext<ContextType | undefined>(undefined);
@@ -75,19 +74,17 @@ export const MovieTitle = ({
 };
 interface PosterProps {
   className?: string;
-  rating?: boolean;
   quality?: PosterSize;
   showTitile?: boolean;
   similar?: boolean;
 }
 export const MoviePoster = ({
   className,
-  rating,
   quality = "w500",
   showTitile,
   similar,
 }: PosterProps) => {
-  const { poster_path, title, vote_average } = useMovieContext();
+  const { poster_path, title } = useMovieContext();
 
   return (
     <div
@@ -103,17 +100,11 @@ export const MoviePoster = ({
         width={450}
         height={700}
         placeholder="blur"
-        loading="lazy"
+        priority
         blurDataURL={baseUrlImage + "w92" + poster_path}
         className="size-full z-[1] object-cover object-center"
         title={showTitile ? title : undefined}
       />
-      {rating && (
-        <span className="absolute top-2 left-2 flex justify-center items-center backdrop-brightness-50 text-xs lg:text-base  text-white p-1 px-2 gap-1 rounded-md z-[6]">
-          {vote_average.toFixed(2)}
-          <Star strokeWidth={0} fill="yellow" className="size-4" />
-        </span>
-      )}
     </div>
   );
 };

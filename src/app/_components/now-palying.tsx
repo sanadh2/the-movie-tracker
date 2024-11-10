@@ -12,7 +12,13 @@ export default function NowPlaying() {
     <div className="">
       <h2 className="font-mono">Now Playing</h2>
       <div className="mt-4 overflow-x-scroll no-scrollbar">
-        {isLoading ? <Loading /> : <MovieList movies={data?.results} />}
+        {isLoading ? (
+          <Loading />
+        ) : error ? (
+          <Loading />
+        ) : (
+          <MovieList movies={data?.movies.results || []} />
+        )}
       </div>
     </div>
   );

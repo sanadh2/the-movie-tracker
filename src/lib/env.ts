@@ -2,7 +2,9 @@ import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
-  client: {},
+  client: {
+    NEXT_PUBLIC_API_BASE_URL: z.string().url(),
+  },
   server: {
     TMDB_ACCESS_TOKEN_AUTH: z.string(),
     TMDB_API_URI: z.string().url(),
@@ -16,5 +18,6 @@ export const env = createEnv({
     TMDB_API_KEY: process.env.TMDB_API_KEY,
     DATABASE_URL: process.env.DATABASE_URL,
     POSTGRES_URL: process.env.POSTGRES_URL,
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
   },
 });

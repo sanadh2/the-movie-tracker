@@ -16,7 +16,6 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 export default function SignOutButton({ user }: { user: User }) {
   const [modal, setModal] = useState(false);
-  console.log(user.id);
   return (
     <Dialog open={modal} onOpenChange={setModal}>
       <DialogTrigger className="">
@@ -24,6 +23,8 @@ export default function SignOutButton({ user }: { user: User }) {
           alt="avatar"
           height={40}
           width={40}
+          title={user?.name || ""}
+          priority
           src={user?.image || "/default-avatar.png"}
           onError={(e) => {
             e.currentTarget.src = "/default-avatar.png";

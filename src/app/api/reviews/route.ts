@@ -1,11 +1,11 @@
 import { db } from "@/db";
 import { NextResponse, NextRequest } from "next/server";
 import { postSchema } from "./validation";
-import moviedb from "@/db/moviedb";
 import { addMovieToDB } from "@/app/actions/add-movie-to-db";
 import { auth } from "@/auth";
 import { movieTable, reviewTable } from "@/db/schema/movie";
 import { and, eq } from "drizzle-orm";
+import { fetchMovieById } from "@/db/services/tmdb";
 
 export async function GET() {
   const reviews = (await db.select().from(reviewTable)).sort((a, b) => {
@@ -56,8 +56,8 @@ export async function POST(request: NextRequest) {
     }
 
     const { rating, tmdbID, comment } = data;
-    const movie = await moviedb.movieInfo({ id: tmdbID });
-    const { id, title, poster_path, vote_average } = movie;
+    const movie = await fetchMovieById(tmdbID);
+    const { id, title, poster_path } = movie;
     if (!movie || !id || !title || !poster_path) {
       return NextResponse.json(
         {
@@ -78,7 +78,6 @@ export async function POST(request: NextRequest) {
         posterPath: poster_path,
         title: title,
         tmdbID: tmdbID,
-        voteAverage: String(vote_average) ?? "0",
       });
     }
 

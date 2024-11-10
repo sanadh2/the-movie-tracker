@@ -8,7 +8,9 @@ export default function NotFound() {
       <p>Could not find requested resource</p>
       <div className="flex justify-center items-center gap-3">
         <Button asChild>
-          <Link href="/">Return Home</Link>
+          <Link href="/" prefetch>
+            Return Home
+          </Link>
         </Button>
       </div>
     </div>

@@ -5,9 +5,8 @@ import {
   uuid,
   integer,
   uniqueIndex,
-  numeric,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { sql } from "drizzle-orm";
 
 // Movie table definition
@@ -16,7 +15,6 @@ export const movieTable = pgTable("movies", {
   tmdbID: integer("tmdb_id").notNull().unique(),
   title: text("title").notNull(),
   posterPath: text("poster_path").notNull(),
-  voteAverage: numeric("vote_average", { precision: 3, scale: 1 }).notNull(),
   createdAt: timestamp("created_at").default(sql`now()`),
   updatedAt: timestamp("updated_at")
     .default(sql`now()`)
@@ -117,3 +115,15 @@ export const watchedRelations = relations(watchedMoviesTable, ({ one }) => ({
     references: [movieTable.tmdbID],
   }),
 }));
+
+export type InsertReview = InferInsertModel<typeof reviewTable>;
+export type Review = InferSelectModel<typeof reviewTable>;
+
+export type InsertFavoriteMovie = InferInsertModel<typeof favoriteMoviesTable>;
+export type FavoriteMovie = InferSelectModel<typeof favoriteMoviesTable>;
+
+export type InsertMovie = InferInsertModel<typeof movieTable>;
+export type Movie = InferSelectModel<typeof movieTable>;
+
+export type InsertWatchedMovie = InferInsertModel<typeof watchedMoviesTable>;
+export type WatchedMovie = InferSelectModel<typeof watchedMoviesTable>;

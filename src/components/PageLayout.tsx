@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren {
 
 export default function PageLayout({ className, children }: Props) {
   return (
-    <div className={cn("p-3 md:p-5 lg:p-7 xl:p-10 2xl:p-14 ", className)}>
+    <div className={cn("p-3 md:p-5 lg:p-7 xl:p-10 2xl:p-14", className)}>
       {children}
     </div>
   );
