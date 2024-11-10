@@ -1,23 +1,25 @@
+import { MoviesNowPlayingType } from "@/db/services/tmdb/types";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { MovieNowPlayingResponse } from "moviedb-promise";
 
-const fetchNowPlaying = async (): Promise<MovieNowPlayingResponse> => {
-  try {
-    const response = await axios.get<MovieNowPlayingResponse>(
-      "/api/themoviedb/now-playing"
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
+interface ResponseType {
+  movies: MoviesNowPlayingType;
+  message: string;
+}
+async function fetchMovies() {
+  const response = await fetch("/api/tmdb/now-playing");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch movies");
   }
-};
+
+  const data: ResponseType = await response.json();
+  return data;
+}
 
 export const useNowPlayingData = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["now-playing"],
-    queryFn: fetchNowPlaying,
+    queryFn: fetchMovies,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });

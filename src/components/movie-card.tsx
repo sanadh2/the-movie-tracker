@@ -1,15 +1,12 @@
 "use client";
-import { Card, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { createContext, PropsWithChildren, useContext } from "react";
-import { baseUrlImage } from "../../config/tmdb";
+import { baseUrlImage, PosterSize } from "../../config/tmdb";
 import { cn } from "@/lib/utils";
-import { Star } from "lucide-react";
 
 interface ContextType {
   title: string;
   poster_path: string;
-  vote_average: number;
 }
 
 const MovieCardContext = createContext<ContextType | undefined>(undefined);
@@ -25,13 +22,25 @@ const useMovieContext = () => {
 interface Props extends PropsWithChildren {
   movie: ContextType;
   className?: string;
+  size?: "md" | "lg" | "sm";
 }
-export function MovieCard(props: Props) {
+export function MovieCard({ movie, children, className, size = "md" }: Props) {
   return (
-    <MovieCardContext.Provider value={props.movie}>
-      <Card className="w-32 md:w-40 lg:w-48 border-hidden bg-inherit shadow-none">
-        {props.children}
-      </Card>
+    <MovieCardContext.Provider value={movie}>
+      <div
+        className={cn(
+          `border-none bg-inherit shadow-none overflow-hidden w-full ${
+            size === "sm"
+              ? "max-w-12 md:max-w-16 lg:max-w-20"
+              : size === "md"
+              ? "max-w-32 md:max-w-40 lg:max-w-48"
+              : "max-w-40 md:max-w-48 lg:max-w-56 "
+          }`,
+          className
+        )}
+      >
+        {children}
+      </div>
     </MovieCardContext.Provider>
   );
 }
@@ -45,9 +54,13 @@ export const MovieTitle = ({
 }) => {
   const { title } = useMovieContext();
   const textSize =
-    size === "sm" ? "text-xs" : size == "md" ? "text-base" : "text-lg";
+    size === "sm"
+      ? "text-xs md:text-sm lg:text-base"
+      : size == "md"
+      ? "text-base md:text-lg"
+      : "text-lg md:text-xl";
   return (
-    <CardTitle
+    <h4
       className={cn(
         " flex justify-center text-left px-2 font-medium line-clamp-1",
         textSize,
@@ -55,34 +68,42 @@ export const MovieTitle = ({
       )}
     >
       {title}
-    </CardTitle>
+    </h4>
   );
 };
-
-export const MoviePoster = ({ className }: { className?: string }) => {
-  const { poster_path, title, vote_average } = useMovieContext();
+interface PosterProps {
+  className?: string;
+  quality?: PosterSize;
+  showTitile?: boolean;
+  similar?: boolean;
+}
+export const MoviePoster = ({
+  className,
+  quality = "w500",
+  showTitile,
+  similar,
+}: PosterProps) => {
+  const { poster_path, title } = useMovieContext();
 
   return (
     <div
       className={cn(
-        "w-full overflow-hidden relative z-[5] border-2 flex justify-center items-center  dark:border-white rounded-md sm:rounded-lg",
-        className
+        "h-40 md:h-60 lg:h-80 w-full relative z-[5] aspect-[9/14] overflow-hidden border-4 flex justify-center items-center hover:border-green-500 transition-colors ease-in-out duration-300 border-white rounded-sm lg:rounded-md",
+        className,
+        similar && "border-green-500 h-28 md:h-28 lg:h-28"
       )}
     >
       <Image
-        src={baseUrlImage + "w500" + poster_path}
+        src={baseUrlImage + quality + poster_path}
         alt={title}
-        width={225}
-        height={350}
+        width={450}
+        height={700}
         placeholder="blur"
-        loading="lazy"
+        priority
         blurDataURL={baseUrlImage + "w92" + poster_path}
-        className="size-full z-[1] object-contain object-center"
+        className="size-full z-[1] object-cover object-center"
+        title={showTitile ? title : undefined}
       />
-      <span className="absolute top-2 left-2 flex justify-center items-center backdrop-brightness-50 text-xs  text-white p-1 px-2 gap-1 rounded-md z-[6]">
-        {vote_average.toFixed(2)}
-        <Star strokeWidth={0} fill="yellow" className="size-4" />
-      </span>
     </div>
   );
 };

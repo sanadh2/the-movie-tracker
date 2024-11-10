@@ -1,27 +1,34 @@
 import { MovieCard, MoviePoster, MovieTitle } from "@/components/movie-card";
 import PageLayout from "@/components/PageLayout";
-import moviedb from "@/db/moviedb";
+import Link from "next/link";
+import "./styles.css";
+import { fetchTrendingMovies } from "@/db/services/tmdb";
 export default async function TrendingPage() {
-  const movies = await moviedb.moviePopular({ page: 1 });
-
+  const response = await fetchTrendingMovies();
   return (
     <PageLayout>
-      <h2 className="text-center text-xl">Trending Movies</h2>
-      <div className="grid gap-8 place-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10">
-        {movies?.results?.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movie={{
-              title: movie.title || "",
-              poster_path: movie.poster_path || "",
-              vote_average: movie.vote_average || 0,
-            }}
-          >
-            <MoviePoster />
-            <MovieTitle className="line-clamp-2 text-xs mt-1" />
-          </MovieCard>
-        ))}
+      <h2 className="text-center text-xl font-mono">Trending Movies</h2>
+      <div className="flex justify-center w-full">
+        <div className="grid-container mt-10 gap-10">
+          {response.results?.map((movie) => (
+            <div key={movie.id} className="w-full grid place-items-center">
+              <MovieCard
+                className="self-start"
+                movie={{
+                  title: movie.title || "",
+                  poster_path: movie.poster_path || "",
+                }}
+              >
+                <Link href={"/movies/" + movie.id}>
+                  <MoviePoster className="" />
+                  <MovieTitle className="line-clamp-2 text-xs md:text-sm mt-1" />
+                </Link>
+              </MovieCard>
+            </div>
+          ))}
+        </div>
       </div>
+  
     </PageLayout>
   );
 }

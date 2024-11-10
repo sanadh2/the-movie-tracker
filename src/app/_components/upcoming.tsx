@@ -8,11 +8,16 @@ export default function Upcoming() {
   if (error) {
     throw error;
   }
+  console.log(data);
   return (
     <div className="">
-      <h2>Upcoming</h2>
+      <h2 className="font-mono">Upcoming</h2>
       <div className="mt-4 overflow-x-scroll no-scrollbar">
-        {isLoading ? <Loading /> : <MovieList movies={data?.results} />}
+        {isLoading || !data ? (
+          <Loading />
+        ) : (
+          <MovieList movies={data?.movies?.results} />
+        )}
       </div>
     </div>
   );

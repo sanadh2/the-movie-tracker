@@ -100,3 +100,29 @@
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* For Chrome, Safari, and Opera */
 }
+p {
+  max-width: 70ch;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  text-rendering: optimizeSpeed;
+  /* outline: solid 1px lime; */
+  /* background: hsl(0, 100%, 50%, 0.1); */
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270, 1fr));
+  place-content: center;
+  padding: 10px;
+  width: 100%;
+}
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(200, 1fr));
+  }
+}
