@@ -22,7 +22,7 @@ export default async function SimilarMovies({ id }: { id: string | number }) {
               poster_path: movie.poster_path || "",
             }}
           >
-            <Link href={"http://localhost:3000/movies/" + movie.id}>
+            <Link href={"/movies/" + movie.id}>
               <MoviePoster
                 similar
                 showTitile
