@@ -47,7 +47,12 @@ export default function InteractionPanel({
           }
           className="w-full active:scale-100 size-auto"
         >
-          {isLoading || isRefetching ? (
+          {isLoading ? (
+            <span className="flex gap-2 items-center">
+              loading...
+              <Loader className="animate-spin duration-1000" />
+            </span>
+          ) : isRefetching ? (
             <span className="flex gap-2 items-center">
               {isWatchListed()
                 ? "removing from watchlist"

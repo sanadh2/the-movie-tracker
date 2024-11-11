@@ -1,3 +1,4 @@
+import { InferSelectModel } from "drizzle-orm";
 import {
   boolean,
   timestamp,
@@ -99,3 +100,5 @@ export const authenticators = pgTable(
     }),
   })
 );
+
+export type User = InferSelectModel<typeof users>;

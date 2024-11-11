@@ -6,7 +6,7 @@ interface Props {
 export default function ImageList({ images }: Props) {
   return (
     <div className="mt-10">
-      <h4 className="mb-5">Images</h4>(
+      <h4 className="mb-5">Images</h4>
       <div className=" overflow-scroll no-scrollbar">
         <div className="flex gap-3 group">
           {images.backdrops.map((img, index) => (
@@ -19,7 +19,6 @@ export default function ImageList({ images }: Props) {
           ))}
         </div>
       </div>
-      )
     </div>
   );
 }
