@@ -57,7 +57,6 @@ export default function SignUpForm() {
         email: data.email,
         otp: data.otp,
       });
-      console.log(response);
       toast({
         description: response.data.message || "Something went wrong",
       });

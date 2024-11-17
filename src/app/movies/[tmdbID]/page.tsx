@@ -35,7 +35,7 @@ export default async function MoviePage({
   );
   return (
     <div className="min-h-screen">
-      <BackgroundImage backdrop_path={movie.backdrop_path || ""} />
+      <BackgroundImage backdrop_path={backdrop_path} />
       <PageLayout>
         <div className="flex flex-row justify-between items-start">
           <div className="flex justify-between items-center gap-3">

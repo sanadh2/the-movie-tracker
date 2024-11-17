@@ -19,7 +19,6 @@ export default function SigninForm() {
       password: data.password,
       redirectTo: "/",
     });
-    console.log(user);
   };
   return (
     <form

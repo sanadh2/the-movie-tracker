@@ -9,7 +9,6 @@ import { fetchMovieById } from "@/db/services/tmdb";
 
 export async function GET() {
   const reviews = (await db.select().from(reviewTable)).sort((a, b) => {
-    console.log(a.createdAt.getTime());
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
   return NextResponse.json({ reviews }, { status: 200 });
@@ -91,7 +90,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ review }, { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }

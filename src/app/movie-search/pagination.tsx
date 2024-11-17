@@ -1,6 +1,5 @@
 "use client";
 import useSearchData from "@/store/useSearch";
-import Loader from "@/components/loader/index";
 import { MovieSearchFormData } from "./form";
 import { Button as MainButton } from "@/components/ui/button";
 import {
@@ -47,7 +46,7 @@ export default function Pagination({
   return (
     <div className="mt-5 w-full">
       {isLoading ? (
-        <Loader />
+        <>Loading...</>
       ) : (
         <div className="border p-3 rounded">
           <div className=" flex justify-center gap-1">
