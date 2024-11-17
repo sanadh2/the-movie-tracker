@@ -34,7 +34,7 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json({ success: false }, { status: 500 });
   }
 }
@@ -59,7 +59,7 @@ export async function DELETE(
     await db.delete(reviewTable).where(eq(reviewTable.id, id));
     return NextResponse.json({ message: "Review deleted" }, { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json({ success: false }, { status: 500 });
   }
 }

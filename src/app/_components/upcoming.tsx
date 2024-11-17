@@ -8,7 +8,6 @@ export default function Upcoming() {
   if (error) {
     throw error;
   }
-  console.log(data);
   return (
     <div className="">
       <h2 className="font-mono">Upcoming</h2>

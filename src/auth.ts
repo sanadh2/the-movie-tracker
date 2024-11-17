@@ -3,8 +3,7 @@ import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { users } from "./db/schema/user";
-import { and, eq } from "drizzle-orm";
+import { getUserByEmail } from "./db/services/users";
 import bcrypt from "bcryptjs";
 import type { Provider } from "next-auth/providers";
 import { db } from "./db";
@@ -25,7 +24,7 @@ const providers: Provider[] = [
           email: string;
           password: string;
         };
-        const user = await getUser(email);
+        const user = await getUserByEmail(email);
         if (!user || !user.password) throw new InvalidLoginError();
         const isPasswordSame = await isSamePassword(password, user.password);
         if (!isPasswordSame) throw new InvalidLoginError();
@@ -62,17 +61,6 @@ export const authConfig: NextAuthConfig = {
   session: {
     strategy: "jwt",
   },
-};
-
-const getUser = async (email: string) => {
-  return await db
-    .select()
-    .from(users)
-    .where(
-      and(eq(users.email, email.toLowerCase()), eq(users.isEmailVerified, true))
-    )
-    .limit(1)
-    .then((users) => users[0]);
 };
 
 const isSamePassword = async (password: string, hashedPassword: string) => {

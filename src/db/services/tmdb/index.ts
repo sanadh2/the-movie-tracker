@@ -1,13 +1,8 @@
 import { cache } from "react";
 import { env } from "@/lib/env";
-import Redis from "ioredis";
 import { Person, MoviesNowPlayingType, MovieType } from "./types";
+import { redis } from "@/db/redis";
 
-const redis = new Redis({
-  host: env.UPSTASH_REDIS_REST_HOST,
-  port: Number(env.UPSTASH_REDIS_REST_PORT),
-  password: env.UPSTASH_REDIS_REST_PASSWORD,
-});
 const API_KEY = env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
