@@ -39,11 +39,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
             disableTransitionOnChange
           >
             <TanstackQueryClientProvider>
-              <header>
-                <Navbar />
-              </header>
-              <main>{children}</main>
-              <Toaster />
+                <header>
+                  <Navbar />
+                </header>
+                <main>{children}</main>
+                <Toaster />
             </TanstackQueryClientProvider>
           </ThemeProvider>
         </SessionProvider>
