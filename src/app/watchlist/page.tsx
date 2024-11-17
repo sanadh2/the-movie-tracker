@@ -24,7 +24,6 @@ export default async function WatchListPage() {
     .from(watchedMoviesTable)
     .leftJoin(movieTable, eq(watchedMoviesTable.tmdbID, movieTable.tmdbID))
     .where(eq(watchedMoviesTable.userID, session.user.id));
-
   return (
     <PageLayout>
       <h2 className="text-center text-xl font-mono">My Watchlist</h2>
@@ -39,7 +38,7 @@ export default async function WatchListPage() {
                   poster_path: movie.posterPath || "",
                 }}
               >
-                <Link href={"/movies/" + movie.id}>
+                <Link href={"/movies/" + movie.tmdbID}>
                   <MoviePoster className="" />
                   <MovieTitle className="line-clamp-2 text-xs md:text-sm mt-1" />
                 </Link>
