@@ -1,17 +1,20 @@
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { movieTable, watchedMoviesTable } from "@/db/schema/movie";
+import logger from "@/lib/winston";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     const session = await auth();
-    if (!session || !session.user || !session.user.id)
+    if (!session || !session.user || !session.user.id) {
+      logger.warn("unauthorised, please sign in");
       return NextResponse.json(
         { message: "unauthorised, please sign in" },
         { status: 401 }
       );
+    }
     const watchlist = await db
       .select({
         id: watchedMoviesTable.id,

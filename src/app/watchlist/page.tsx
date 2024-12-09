@@ -30,7 +30,7 @@ export default async function WatchListPage() {
       <div className="flex justify-center w-full">
         <div className="grid-container mt-10 gap-10">
           {watchlist.map((movie) => (
-            <div key={movie.id} className="w-full grid place-items-center">
+            <div key={movie.id} className="grid place-items-center">
               <MovieCard
                 className="self-start"
                 movie={{
