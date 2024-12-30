@@ -9,17 +9,16 @@ interface Props {
 }
 const MovieList = ({ movies }: Props) => {
   return (
-    <div className="flex w-full gap-3 ">
+    <div className="flex w-full gap-3">
       {movies?.map((movie) => (
         <Link
           prefetch
           href={env.NEXT_PUBLIC_API_BASE_URL + "/movies/" + movie.id}
-          className="relative z-0 border border-secondary min-w-20 md:min-w-32 aspect-[9/14]"
+          className="relative border border-secondary min-w-20 md:min-w-32 aspect-[9/14]"
           key={movie.id}
         >
           <Image
             alt={movie.title || "movie poster"}
-            className="object-cover z-0"
             loading="lazy"
             title={movie.title}
             placeholder="blur"

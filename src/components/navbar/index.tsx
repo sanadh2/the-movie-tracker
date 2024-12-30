@@ -9,7 +9,7 @@ export default async function Navbar() {
   const session = await auth();
   const user = session?.user;
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-full">
       <nav className="p-3 border-b border-secondary flex gap-10 justify-between items-center bg-transparent relative z-2">
         <div className="flex gap-5 items-center">
           <>
