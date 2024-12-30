@@ -11,19 +11,27 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, X } from "lucide-react";
 import VisuallyHidden from "@/components/ui/visually-hidden";
 import SearchList from "./search-list";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useSearchStore from "./useSearchQuery";
 
 export default function SearchFilmsInMobile() {
-  const { search } = useSearch();
+  const { search, setSearch } = useSearch();
   const debouncedValue = useDebounce(search, 600);
   const { data, error, isLoading } = useSearchData({
     query: debouncedValue,
   });
-  const { setSearch } = useSearch();
+  const { addQuery, deleteQuery, searchQueries } =
+    useSearchStore(debouncedValue);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (search.trim() !== "" && search === debouncedValue) {
+      addQuery();
+    }
+  }, [debouncedValue, search, addQuery]);
   return (
     <div className="md:hidden">
       <Sheet open={open} onOpenChange={setOpen}>
@@ -31,7 +39,7 @@ export default function SearchFilmsInMobile() {
           <SearchIcon />
           <VisuallyHidden>Search</VisuallyHidden>
         </SheetTrigger>
-        <SheetContent className="w-full">
+        <SheetContent className="w-[90%]">
           <VisuallyHidden>
             <SheetHeader>
               <SheetTitle>Search</SheetTitle>
@@ -42,12 +50,13 @@ export default function SearchFilmsInMobile() {
           </VisuallyHidden>
           <div className=" px-1 pt-5">
             <SearchInput
+              closeDialog={() => setOpen(false)}
               isLoading={isLoading}
               search={search}
               setSearch={useSearch().setSearch}
             />
 
-            <div className="mt-6">
+            {/* <div className="mt-6">
               <SearchList
                 close={() => {
                   setOpen(false);
@@ -57,6 +66,44 @@ export default function SearchFilmsInMobile() {
                 error={error}
                 isLoading={isLoading}
               />
+            </div> */}
+            <div className="h-80 px-4 overflow-y-scroll no-scrollbar">
+              {search.trim() == "" ? (
+                <div className="">
+                  <div className="flex flex-col justify-center gap-2 p-2">
+                    {searchQueries.map((search) => (
+                      <div
+                        key={search}
+                        className="flex items-center justify-between gap-2"
+                      >
+                        <button
+                          key={search}
+                          onClick={() => setSearch(search)}
+                          className="w-full text-start hover:bg-primary-foreground p-2 rounded"
+                        >
+                          {search}
+                        </button>
+                        <button
+                          className="size-3"
+                          onClick={() => deleteQuery(search)}
+                        >
+                          <X className="size-3 stroke-muted-foreground" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-10 text-center italic text-yellow-500">
+                    please enter a sentence or a word to start search
+                  </div>
+                </div>
+              ) : (
+                <SearchList
+                  data={data?.movies.results}
+                  close={() => setOpen(false)}
+                  error={error}
+                  isLoading={isLoading}
+                />
+              )}
             </div>
           </div>
         </SheetContent>

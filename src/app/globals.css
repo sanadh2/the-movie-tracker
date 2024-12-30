@@ -114,6 +114,7 @@ p {
   /* outline: solid 1px lime; */
   /* background: hsl(0, 100%, 50%, 0.1); */
 }
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(270, 1fr));

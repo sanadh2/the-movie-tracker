@@ -18,21 +18,7 @@ export default function SignOutButton({ user }: { user: User }) {
   const [modal, setModal] = useState(false);
   return (
     <Dialog open={modal} onOpenChange={setModal}>
-      <DialogTrigger className="">
-        <Image
-          alt="avatar"
-          height={40}
-          width={40}
-          title={user?.name || ""}
-          priority
-          src={user?.image || "/default-avatar.png"}
-          onError={(e) => {
-            e.currentTarget.src = "/default-avatar.png";
-            e.currentTarget.onerror = null;
-          }}
-          className="w-8 h-8 rounded-full object-cover"
-        />
-      </DialogTrigger>
+      <DialogTrigger className="">SignOut</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
