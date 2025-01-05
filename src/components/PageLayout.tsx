@@ -9,7 +9,7 @@ export default function PageLayout({ className, children }: Props) {
   return (
     <div
       className={cn(
-        "p-3 md:p-5 lg:p-7 xl:p-10 2xl:p-14 container mx-auto",
+        "p-1 md:p-3 lg:p-5 xl:p-7 2xl:p-14 container mx-auto",
         className
       )}
     >
