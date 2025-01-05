@@ -63,7 +63,7 @@ export default async function MoviePage({
   return (
     <PageLayout className="container mx-auto text-xs md:text-sm relative">
       <BackgroundImage backdrop_path={backdrop_path} />
-      <div className="flex gap-4 md:gap-10 ">
+      <div className="flex gap-1 md:gap-4 lg:gap-6 ">
         <MovieCard
           className="w-fit sticky top-0"
           movie={{
