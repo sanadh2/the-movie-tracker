@@ -23,14 +23,15 @@ interface Props {
   img: MovieImageType;
   imgs: MovieImageType[];
   index: number;
+  size: "mobile" | "desktop";
 }
-export default function ImageModal({ img, imgs, index }: Props) {
+export default function ImageModal({ img, imgs, index, size }: Props) {
   return (
     <Dialog>
       <DialogTrigger>
         <MovieImage img={img} />
       </DialogTrigger>
-      <DialogContent className="lg:max-w-screen-md max-h-[80%] xl:max-w-sc outline-nonereen-lg 2xl:max-w-screen-xl bg-transparent border-0 overflow-hidden">
+      <DialogContent className="lg:max-w-screen-md max-h-[80%] xl:max-w-screen-lg outline-none  2xl:max-w-screen-xl bg-transparent border-0 overflow-hidden">
         <DialogHeader>
           <DialogTitle></DialogTitle>
           <DialogDescription></DialogDescription>
@@ -52,8 +53,8 @@ export default function ImageModal({ img, imgs, index }: Props) {
                     <Image
                       alt="image not loaded"
                       src={baseUrlImage + "original" + img.file_path}
-                      width={1080}
-                      height={720}
+                      width={size == "desktop" ? 1080 : 720}
+                      height={size == "desktop" ? 720 : 1080}
                       loading="lazy"
                       quality={70}
                       priority={false}

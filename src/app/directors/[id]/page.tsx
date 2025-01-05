@@ -15,7 +15,7 @@ export default async function DirectorPage({
     (movie) => movie.job === "Director"
   );
   return (
-    <PageLayout>
+    <PageLayout className="container mx-auto ">
       <h2 className="text-center text-3xl font-black">
         {directorDetails.name}
       </h2>

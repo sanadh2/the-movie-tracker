@@ -7,8 +7,8 @@ const BackgroundImage = async ({
 }) => {
   if (!backdrop_path) return null;
   return (
-    <div className="select-none">
-      <div className="absolute -z-10 top-0 -left-10 right-0 w-full">
+    <div className="select-none overflow-hidden">
+      <div className="absolute w-full top-0 left-0 -z-10">
         <div className="relative w-svw h-svh max-h-svh max-w-[100svw] blur opacity-20 overflow-hidden">
           <Image
             className="object-cover object-center max-h-svh max-w-[100svw]"

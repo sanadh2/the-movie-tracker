@@ -48,7 +48,7 @@ export interface CastType {
   adult: boolean;
   gender: number;
   id: number;
-  known_for_department: DepartmentEnum;
+  known_for_department: DepartmentType;
   name: string;
   original_name: string;
   popularity: number;
@@ -57,24 +57,23 @@ export interface CastType {
   character?: string;
   credit_id: string;
   order?: number;
-  department?: DepartmentEnum;
+  department?: DepartmentType;
   job?: string;
 }
 
-export enum DepartmentEnum {
-  Acting = "Acting",
-  Art = "Art",
-  Camera = "Camera",
-  CostumeMakeUp = "Costume & Make-Up",
-  Crew = "Crew",
-  Directing = "Directing",
-  Editing = "Editing",
-  Lighting = "Lighting",
-  Production = "Production",
-  Sound = "Sound",
-  VisualEffects = "Visual Effects",
-  Writing = "Writing",
-}
+export type DepartmentType =
+  | "Acting"
+  | "Art"
+  | "Camera"
+  | "Costume & Make-Up"
+  | "Crew"
+  | "Directing"
+  | "Editing"
+  | "Lighting"
+  | "Production"
+  | "Sound"
+  | "Visual Effects"
+  | "Writing";
 
 export interface GenreType {
   id: number;
@@ -120,37 +119,24 @@ export interface VideosType {
 }
 
 export interface VideoResultType {
-  iso_639_1: ISO639_1Enum;
-  iso_3166_1: ISO3166_1Enum;
+  iso_639_1: string;
+  iso_3166_1: string;
   name: string;
   key: string;
   published_at: string;
-  site: SiteEnum;
+  site: string;
   size: number;
-  type: VideoTypeEnum;
+  type: VideoType;
   official: boolean;
   id: string;
 }
 
-export enum ISO3166_1Enum {
-  Us = "US",
-}
-
-export enum ISO639_1Enum {
-  En = "en",
-}
-
-export enum SiteEnum {
-  YouTube = "YouTube",
-}
-
-export enum VideoTypeEnum {
-  BehindTheScenes = "Behind the Scenes",
-  Clip = "Clip",
-  Featurette = "Featurette",
-  Teaser = "Teaser",
-  Trailer = "Trailer",
-}
+export type VideoType =
+  | "Behind the Scenes"
+  | "Clip"
+  | "Featurette"
+  | "Teaser"
+  | "Trailer";
 
 // Recommendations
 export interface RecommendationsType {
@@ -171,7 +157,7 @@ export interface RecommendationResultType {
   original_title: string;
   overview: string;
   poster_path: Nullable<string>;
-  media_type: MediaTypeEnum;
+  media_type: string;
   adult: boolean;
   original_language: string;
   genre_ids: number[];
@@ -180,10 +166,6 @@ export interface RecommendationResultType {
   video: boolean;
   vote_average: number;
   vote_count: number;
-}
-
-export enum MediaTypeEnum {
-  Movie = "movie",
 }
 
 export interface MoviesNowPlayingType {
@@ -243,7 +225,7 @@ export interface Cast {
   backdrop_path: Nullable<string>;
   genre_ids: number[];
   id: number;
-  original_language: CastOriginalLanguage;
+  original_language: string;
   original_title?: string;
   overview: string;
   popularity: number;
@@ -256,8 +238,8 @@ export interface Cast {
   character: string;
   credit_id: string;
   order?: number;
-  media_type: MediaType;
-  origin_country?: OriginCountry[];
+  media_type: string;
+  origin_country?: string[];
   original_name?: string;
   first_air_date?: Nullable<string>;
   name?: string;
@@ -268,7 +250,7 @@ export interface Crew {
   backdrop_path: Nullable<string>;
   genre_ids: number[];
   id: number;
-  original_language: CrewOriginalLanguage;
+  original_language: string;
   original_title: string;
   overview: string;
   popularity: number;
@@ -279,43 +261,11 @@ export interface Crew {
   vote_average: number;
   vote_count: number;
   credit_id: string;
-  department: Department;
+  department: DepartmentType;
   job: string;
-  media_type: MediaType;
-}
-export enum Department {
-  Art = "Art",
-  Camera = "Camera",
-  Crew = "Crew",
-  Directing = "Directing",
-  Editing = "Editing",
-  Production = "Production",
-  Sound = "Sound",
-  Writing = "Writing",
+  media_type: string;
 }
 
-export enum CrewOriginalLanguage {
-  En = "en",
-  Hi = "hi",
-  Ta = "ta",
-}
-
-export enum MediaType {
-  Movie = "movie",
-  Tv = "tv",
-}
-
-export enum OriginCountry {
-  CN = "CN",
-  Kr = "KR",
-  Us = "US",
-}
-
-export enum CastOriginalLanguage {
-  En = "en",
-  Ko = "ko",
-  Zh = "zh",
-}
 export interface DirectorImages {
   profiles: DirectorImage[];
 }

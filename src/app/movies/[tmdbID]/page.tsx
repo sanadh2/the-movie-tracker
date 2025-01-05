@@ -1,7 +1,7 @@
 import BackgroundImage from "./_components/background-image";
 import { MovieCard, MoviePoster } from "@/components/movie-card";
 import PageLayout from "@/components/PageLayout";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import SimilarMovies from "./_components/similar-movies";
 import InteractionPanel from "./_components/interaction-panel";
 import Reviews from "./_components/reviewes";
@@ -10,11 +10,35 @@ import { z } from "zod";
 import { Metadata } from "next";
 import { fetchMovieById } from "@/db/services/tmdb";
 import { notFound } from "next/navigation";
-import ImageList from "./_components/Images/imageList";
+import { Button } from "@/components/ui/button";
+import TabbedContent from "./tabbed-content";
+import Youtube from "./_components/youtube";
+import { MovieType, VideoResultType } from "@/db/services/tmdb/types";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 const movieIDschema = z.string().min(1).regex(/^\d+$/);
+
+const findLatestTrailer = (movie: MovieType) => {
+  return (
+    movie.videos.results
+      .filter((video) => video.type?.toLowerCase() === "trailer")
+      .reduce<VideoResultType | null>((latest, current) => {
+        if (!latest) return current;
+        const latestDate = new Date(latest.published_at || 0);
+        const currentDate = new Date(current.published_at || 0);
+        return latestDate > currentDate ? latest : current;
+      }, null) ||
+    movie.videos.results
+      .filter((video) => video.type?.toLowerCase() === "teaser")
+      .reduce<VideoResultType | null>((latest, current) => {
+        if (!latest) return current;
+        const latestDate = new Date(latest.published_at || 0);
+        const currentDate = new Date(current.published_at || 0);
+        return latestDate > currentDate ? latest : current;
+      }, null)
+  );
+};
 
 export default async function MoviePage({
   params,
@@ -27,85 +51,95 @@ export default async function MoviePage({
   }
   const tmdbID = Number(data);
   const movie = await fetchMovieById(tmdbID);
-  const { backdrop_path, poster_path, title, genres } = movie;
-  if (!movie || !backdrop_path || !poster_path || !title || !genres)
+  if (!movie || !movie.backdrop_path || !movie.poster_path || !movie.title)
     return notFound();
+
+  const { backdrop_path, poster_path, title } = movie;
   const director = movie.credits.crew.find(
     (person) => person.job === "Director"
   );
+
+  const latestTrailer = findLatestTrailer(movie)!;
   return (
-    <div className="min-h-screen">
+    <PageLayout className="container mx-auto text-xs md:text-sm relative">
       <BackgroundImage backdrop_path={backdrop_path} />
-      <PageLayout>
-        <div className="flex flex-row justify-between items-start">
-          <div className="flex justify-between items-center gap-3">
-            <MovieCard
-              size="lg"
-              movie={{
-                poster_path: movie.poster_path || "",
-                title: movie.title || "",
-              }}
-            >
-              <MoviePoster
-                quality="w342"
-                className="hover:border-transparent"
-                showTitile
-              />
-            </MovieCard>
-          </div>
-          <div className="px-10 w-1/2">
-            <h2 className="text-4xl text-white font-bold text-center hidden lg:block">
+      <div className="flex gap-4 md:gap-10 ">
+        <MovieCard
+          className="w-fit sticky top-0"
+          movie={{
+            poster_path: poster_path,
+            title: title,
+          }}
+        >
+          <MoviePoster />
+        </MovieCard>
+        <div className="w-full container overflow-x-scroll no-scrollbar">
+          <div className="flex flex-wrap lg:flex-nowrap items-center gap-1 md:gap-2 lg:gap-3 lg:whitespace-nowrap h-fit">
+            <h3 className="block text-base  md:text-lg lg:text-3xl font-black mr-4">
               {movie.title}
-              <sub className="text-sm font-light px-2">
-                Directed by{" "}
-                <Link
-                  href={"/directors/" + director?.id || ""}
-                  className="font-semibold"
-                >
-                  {director?.name}
+            </h3>
+            <Button
+              variant={"linkHover1"}
+              asChild
+              className="font-light text-sm md:text-base"
+            >
+              <Link href={""}>
+                {format(new Date(movie.release_date), "yyyy")}
+              </Link>
+            </Button>
+            <span className="">
+              Directed By{" "}
+              <Button
+                variant={"linkHover1"}
+                asChild
+                className="font-light text-sm md:text-base"
+              >
+                <Link href={"/directors/" + director?.id} className="">
+                  {director?.original_name}
                 </Link>
-              </sub>
-            </h2>
-            <div className="mt-10 font-semibold text-left">
-              <p className="">
-                {movie.release_date &&
-                  parseISO(movie.release_date) &&
-                  format(parseISO(movie.release_date), "yyyy")}
-              </p>
-              <p>{movie.runtime} minutes</p>{" "}
-              <p className="space-x-2">
-                {movie.genres?.map((g) => (
-                  <span key={g.id}>{g.name}</span>
-                ))}
-              </p>
-            </div>
-            <p className="mt-10 text-left text-white hidden lg:block">
-              {movie.overview}
-            </p>
+              </Button>
+            </span>
           </div>
-          <SimilarMovies id={tmdbID} />
+          <div className="mt-4   space-y-3">
+            {movie.tagline && (
+              <h6 className="uppercase font-normal">{movie.tagline}</h6>
+            )}
+            <p className="">{movie.overview}</p>
+            <div className="pt-4 hidden md:block">
+              <TabbedContent movie={movie} />
+            </div>
+          </div>
         </div>
-        <div className="">
-          <ImageList images={movie.images} />
-        </div>
-      </PageLayout>
-      <div className="bg-gradient-to-t from-black to-transparent min-h-80 ">
-        <div className="flex items-start justify-around min-h-96">
-          <InteractionPanel
-            tmdbID={Number(tmdbID)}
-            movie={{
-              tmdbID: tmdbID,
-              genres: genres.filter(
-                (genre) => genre.id !== undefined && genre.name !== undefined
-              ) as { id: number; name: string }[],
-              posterUrl: poster_path,
-              title,
-            }}
-          />
-          <Reviews id={tmdbID} />
+        <div className="hidden xl:block">
+          <Youtube videoKey={latestTrailer.key!} />
         </div>
       </div>
-    </div>
+      <div className="sm:flex gap-3 xl:block justify-between">
+        <div className="mt-8 w-full">
+          <InteractionPanel
+            movie={{
+              genres: movie.genres,
+              posterUrl: movie.poster_path,
+              title: movie.title,
+              tmdbID: movie.id,
+            }}
+            tmdbID={tmdbID}
+          />
+        </div>
+        <div className="w-full mt-8 xl:hidden flex justify-center items-center ">
+          <Youtube videoKey={latestTrailer.key!} />
+        </div>
+      </div>
+      <div className="mt-8 md:hidden block w-full">
+        <TabbedContent movie={movie} />
+      </div>
+      <div className="flex justify-center border rounded-md mt-8">
+        <Reviews id={tmdbID} />
+      </div>
+      <div className="mt-4">
+        <SimilarMovies id={tmdbID} />
+      </div>
+    </PageLayout>
   );
 }
 

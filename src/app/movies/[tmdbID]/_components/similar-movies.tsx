@@ -1,7 +1,6 @@
-import { MovieCard, MoviePoster } from "@/components/movie-card";
 import { fetchRecommendedMovies, fetchSimilarMovies } from "@/db/services/tmdb";
 import { MoviesNowPlayingType } from "@/db/services/tmdb/types";
-import Link from "next/link";
+import MovieList from "@/app/_components/movie-list";
 
 export default async function SimilarMovies({ id }: { id: string | number }) {
   const similarResponse = await fetchRecommendedMovies(id);
@@ -10,29 +9,9 @@ export default async function SimilarMovies({ id }: { id: string | number }) {
     similarMovies = similarResponse;
   else similarMovies = await fetchSimilarMovies(id);
   return (
-    <div className="w-fit">
-      <h4 className="text-lg font-bold mb-3">Similar Movies</h4>
-      <div className="grid grid-cols-2 gap-2">
-        {similarMovies?.results?.splice(0, 4).map((movie) => (
-          <MovieCard
-            key={movie.id}
-            size="sm"
-            movie={{
-              title: movie.title || "",
-              poster_path: movie.poster_path || "",
-            }}
-          >
-            <Link href={"/movies/" + movie.id}>
-              <MoviePoster
-                similar
-                showTitile
-                quality="w154"
-                className="border rounded-none lg:rounded-none"
-              />
-            </Link>
-          </MovieCard>
-        ))}
-      </div>
+    <div className="">
+      <h4 className="text-base lg:text-lg font-mono py-2">Similar Movies</h4>
+      <MovieList movies={JSON.parse(JSON.stringify(similarMovies.results))} />
     </div>
   );
 }

@@ -92,7 +92,7 @@ export default function MovieSearchForm({
     <div className="">
       <div className="p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="">
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex justify-center items-center gap-4 flex-wrap">
             <input
               {...register("query")}
               placeholder="Search"
@@ -132,10 +132,10 @@ export default function MovieSearchForm({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="false" className="h-10">
-                  No
+                  No Adult Content
                 </SelectItem>
                 <SelectItem value="true" className="h-10">
-                  Yes
+                  With Adult Content
                 </SelectItem>
               </SelectContent>
             </Select>

@@ -127,3 +127,8 @@ p {
     grid-template-columns: repeat(auto-fit, minmax(200, 1fr));
   }
 }
+
+.main-shadow {
+  box-shadow: 0 0 0 100px rgba(0, 22, 0, 0.176);
+  background-color: green;
+}
