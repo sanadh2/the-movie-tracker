@@ -45,14 +45,17 @@ export default function Movies({
     initialData
   );
   const finalData = data || { movies: initialData, message: "search results" };
-
+  finalData.movies.results = finalData.movies.results.filter((movie) => {
+    const { backdrop_path, poster_path, title, genre_ids } = movie;
+    return backdrop_path && poster_path && title && genre_ids;
+  });
   return (
-    <div className="grid-container mt-10 gap-10">
+    <div className="grid place-items-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-5 gap-10 mt-10">
       {isLoading ? (
         <Loader />
       ) : (
         finalData?.movies?.results?.map((movie) => (
-          <div key={movie.id} className="w-full grid place-items-center">
+          <div key={movie.id} className="grid place-items-center">
             <MovieCard
               className="self-start"
               movie={{

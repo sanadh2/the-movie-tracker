@@ -11,7 +11,7 @@ export default function NowPlaying() {
   return (
     <div className="">
       <h2 className="font-mono">Now Playing</h2>
-      <div className="mt-4 overflow-x-scroll no-scrollbar">
+      <div className="mt-4 ">
         {isLoading ? (
           <Loading />
         ) : error ? (

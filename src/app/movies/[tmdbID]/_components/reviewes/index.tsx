@@ -6,7 +6,7 @@ export default function Reviews({ id }: { id: string | number }) {
   const { reviews, isLoading, error } = useReviews(Number(id));
 
   return (
-    <div className="w-[65%] border rounded-md p-5">
+    <div className="w-[65%] p-5">
       <h3 className="font-mono text-xl text-center">Popular reviews</h3>
       <div className=" mt-10 gap-2 grid place-items-center">
         {isLoading ? (

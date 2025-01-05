@@ -8,9 +8,10 @@ export default function ImageList({ images }: Props) {
     <div className="mt-10">
       <h4 className="mb-5">Images</h4>
       <div className=" overflow-scroll no-scrollbar">
-        <div className="flex gap-3 group">
+        <div className="gap-3 hidden md:flex">
           {images.backdrops.map((img, index) => (
             <ImageModal
+              size="desktop"
               key={index}
               img={img}
               imgs={images.backdrops}

@@ -28,6 +28,10 @@ export async function GET() {
       .innerJoin(movieTable, eq(movieTable.tmdbID, watchedMoviesTable.tmdbID))
       .where(eq(watchedMoviesTable.userID, session.user.id));
 
+    logger.info(
+      "Watchlist fetched successfully with length: " + watchlist.length
+    );
+
     return NextResponse.json(
       { watchlist, message: "Watchlist found" },
       { status: 200 }

@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
-import { createContext, PropsWithChildren, useContext } from "react";
+import Image, { ImageLoader, ImageLoaderProps } from "next/image";
+import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { baseUrlImage, PosterSize } from "../../config/tmdb";
 import { cn } from "@/lib/utils";
 
@@ -27,48 +27,24 @@ interface Props extends PropsWithChildren {
 export function MovieCard({ movie, children, className, size = "md" }: Props) {
   return (
     <MovieCardContext.Provider value={movie}>
-      <div
-        className={cn(
-          `border-none bg-inherit shadow-none overflow-hidden w-full ${
-            size === "sm"
-              ? "max-w-12 md:max-w-16 lg:max-w-20"
-              : size === "md"
-              ? "max-w-32 md:max-w-40 lg:max-w-48"
-              : "max-w-40 md:max-w-48 lg:max-w-56 "
-          }`,
-          className
-        )}
-      >
-        {children}
-      </div>
+      <div className={cn(`w-fit aspect-[11/12]`, className)}>{children}</div>
     </MovieCardContext.Provider>
   );
 }
 
-export const MovieTitle = ({
-  className,
-  size = "md",
-}: {
-  className?: string;
-  size?: "md" | "lg" | "sm";
-}) => {
+export const MovieTitle = ({ className }: { className?: string }) => {
   const { title } = useMovieContext();
-  const textSize =
-    size === "sm"
-      ? "text-xs md:text-sm lg:text-base"
-      : size == "md"
-      ? "text-base md:text-lg"
-      : "text-lg md:text-xl";
   return (
-    <h4
-      className={cn(
-        " flex justify-center text-left px-2 font-medium line-clamp-1",
-        textSize,
-        className
-      )}
-    >
-      {title}
-    </h4>
+    <div className=" flex justify-center">
+      <h5
+        className={cn(
+          " px-2 font-medium line-clamp-1 text-xs md:text-sm",
+          className
+        )}
+      >
+        {title}
+      </h5>
+    </div>
   );
 };
 interface PosterProps {
@@ -84,26 +60,37 @@ export const MoviePoster = ({
   similar,
 }: PosterProps) => {
   const { poster_path, title } = useMovieContext();
-
+  const [src, setSrc] = useState(`${baseUrlImage}${quality}${poster_path}`);
+  const imageLoader: ImageLoader = ({ src, width, quality }) => {
+    return `${src}?w=${width}&q=${quality || 75}`;
+  };
   return (
-    <div
-      className={cn(
-        "h-40 md:h-60 lg:h-80 w-full relative z-[5] aspect-[9/14] overflow-hidden border-4 flex justify-center items-center hover:border-green-500 transition-colors ease-in-out duration-300 border-white rounded-sm lg:rounded-md",
-        className,
-        similar && "border-green-500 h-28 md:h-28 lg:h-28"
-      )}
-    >
-      <Image
-        src={baseUrlImage + quality + poster_path}
-        alt={title}
-        width={450}
-        height={700}
-        placeholder="blur"
-        priority
-        blurDataURL={baseUrlImage + "w92" + poster_path}
-        className="size-full z-[1] object-cover object-center"
-        title={showTitile ? title : undefined}
-      />
+    <div className="w-full px-4 flex justify-center items-center">
+      <div
+        className={cn(
+          "h-60 aspect-[9/14] md:h-80 border relative",
+          className,
+          similar && "border-green-500 h-28 md:h-28 lg:h-28"
+        )}
+      >
+        <Image
+          src={src}
+          alt={title}
+          width={450}
+          height={700}
+          placeholder="blur"
+          priority
+          loader={imageLoader}
+          onError={(e) => {
+            console.log("Image not found, using fallback.");
+            e.preventDefault();
+            setSrc("https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg");
+          }}
+          blurDataURL={`${baseUrlImage}w92${poster_path}`}
+          className="size-full z-[1] object-cover object-center transition-colors ease-in-out duration-300"
+          title={showTitile ? title : undefined}
+        />
+      </div>
     </div>
   );
 };

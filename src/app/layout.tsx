@@ -12,7 +12,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { SessionProvider } from "next-auth/react";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], fallback: ["sans"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -39,11 +39,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
             disableTransitionOnChange
           >
             <TanstackQueryClientProvider>
-                <header>
-                  <Navbar />
-                </header>
-                <main>{children}</main>
-                <Toaster />
+              <header>
+                <Navbar />
+              </header>
+              <main>{children}</main>
+              <Toaster />
             </TanstackQueryClientProvider>
           </ThemeProvider>
         </SessionProvider>

@@ -9,7 +9,7 @@ interface Props {
 }
 const MovieList = ({ movies }: Props) => {
   return (
-    <div className="flex w-full gap-3">
+    <div className="flex w-full gap-3 overflow-x-scroll no-scrollbar">
       {movies?.map((movie) => (
         <Link
           prefetch

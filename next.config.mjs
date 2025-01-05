@@ -7,6 +7,7 @@ const nextConfig = {
       { hostname: "**.tmdb.org", protocol: "https" },
       { hostname: "gravatar.com", protocol: "https" },
       { hostname: "img.clerk.com", protocol: "https" },
+      { hostname: "m.media-amazon.com", protocol: "https" },
     ],
   },
 };
