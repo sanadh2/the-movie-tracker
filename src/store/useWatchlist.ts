@@ -24,7 +24,6 @@ export const useWatchlist = () => {
   const userID = session?.user?.id;
 
   const fetchWatchlist = async (): Promise<WatchlistApiResponse> => {
-    console.log("Connecting to:", "/api/watchlist");
     const response = await fetch(`/api/watchlist`);
     return await response.json();
   };

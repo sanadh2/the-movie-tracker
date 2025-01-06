@@ -15,7 +15,7 @@ export async function asyncWrapper<T>(
     const data = await asyncFunc();
     return { data };
   } catch (e) {
-    console.log(e);
+    console.error(e);
     throw new Error("Something went wrong");
   }
 }

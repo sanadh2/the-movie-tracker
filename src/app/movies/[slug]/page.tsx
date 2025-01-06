@@ -63,7 +63,6 @@ export default async function MoviePage({
   );
 
   const latestTrailer = findLatestTrailer(movie)!;
-  console.log("key is", latestTrailer.key);
   return (
     <PageLayout className="container mx-auto text-xs md:text-sm relative">
       <BackgroundImage backdrop_path={backdrop_path} />

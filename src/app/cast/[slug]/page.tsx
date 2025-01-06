@@ -17,7 +17,6 @@ export default async function CastPage({
   const actedMovies = person.combined_credits.cast.filter(
     (movie) => movie.poster_path != null || movie.poster_path != undefined
   );
-  console.log("actedMovies", actedMovies.length);
   return (
     <PageLayout className="container mx-auto ">
       <h2 className="text-center text-3xl font-black">{person.name}</h2>

@@ -6,7 +6,6 @@ interface ResponseType {
   message: string;
 }
 async function fetchMovies() {
-  console.log("Connecting to:", "/api/tmdb/upcoming");
   const response = await fetch("/api/tmdb/upcoming");
 
   if (!response.ok) {
