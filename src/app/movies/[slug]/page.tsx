@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import TabbedContent from "./tabbed-content";
 import Youtube from "./_components/youtube";
 import { MovieType, VideoResultType } from "@/db/services/tmdb/types";
+import { generateSlug } from "@/lib/slug";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -43,9 +44,11 @@ const findLatestTrailer = (movie: MovieType) => {
 export default async function MoviePage({
   params,
 }: {
-  params: { tmdbID: string };
+  params: { slug: string };
 }) {
-  const { success, data } = movieIDschema.safeParse(params.tmdbID);
+  const id = params.slug.split("-").pop();
+  if (!id) return notFound();
+  const { success, data } = movieIDschema.safeParse(id);
   if (!success) {
     throw new Error("Invalid movie id");
   }
@@ -73,9 +76,9 @@ export default async function MoviePage({
         >
           <MoviePoster />
         </MovieCard>
-        <div className="w-full container overflow-x-scroll no-scrollbar">
-          <div className="flex flex-wrap lg:flex-nowrap items-center gap-1 md:gap-2 lg:gap-3 lg:whitespace-nowrap h-fit">
-            <h3 className="block text-base  md:text-lg lg:text-3xl font-black mr-4">
+        <div className="w-full overflow-x-scroll no-scrollbar">
+          <div className="flex flex-wrap items-center gap-1 md:gap-2 lg:gap-3 h-fit">
+            <h3 className="block text-base md:text-lg lg:text-3xl font-black mr-4">
               {movie.title}
             </h3>
             <Button
@@ -87,18 +90,25 @@ export default async function MoviePage({
                 {format(new Date(movie.release_date), "yyyy")}
               </Link>
             </Button>
-            <span className="">
-              Directed By{" "}
-              <Button
-                variant={"linkHover1"}
-                asChild
-                className="font-light text-sm md:text-base"
-              >
-                <Link href={"/directors/" + director?.id} className="">
-                  {director?.original_name}
-                </Link>
-              </Button>
-            </span>
+            {director && (
+              <span className="">
+                Directed By{" "}
+                <Button
+                  variant={"linkHover1"}
+                  asChild
+                  className="font-light text-sm md:text-base"
+                >
+                  <Link
+                    href={
+                      "/directors/" + generateSlug(director.name, director.id)
+                    }
+                    className=""
+                  >
+                    {director?.original_name}
+                  </Link>
+                </Button>
+              </span>
+            )}
           </div>
           <div className="mt-4   space-y-3">
             {movie.tagline && (

@@ -22,9 +22,8 @@ const useMovieContext = () => {
 interface Props extends PropsWithChildren {
   movie: ContextType;
   className?: string;
-  size?: "md" | "lg" | "sm";
 }
-export function MovieCard({ movie, children, className, size = "md" }: Props) {
+export function MovieCard({ movie, children, className }: Props) {
   return (
     <MovieCardContext.Provider value={movie}>
       <div className={cn(`w-fit aspect-[11/12]`, className)}>{children}</div>

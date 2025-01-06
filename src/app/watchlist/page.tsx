@@ -6,6 +6,7 @@ import LogIntoContinue from "@/components/log-into-continue";
 import { db } from "@/db";
 import { movieTable, watchedMoviesTable } from "@/db/schema/movie";
 import { eq } from "drizzle-orm";
+import { generateSlug } from "@/lib/slug";
 
 export default async function WatchListPage() {
   const session = await auth();
@@ -38,7 +39,9 @@ export default async function WatchListPage() {
                   poster_path: movie.posterPath || "",
                 }}
               >
-                <Link href={"/movies/" + movie.tmdbID}>
+                <Link
+                  href={"/movies/" + generateSlug(movie.title!, movie.tmdbID!)}
+                >
                   <MoviePoster className="" />
                   <MovieTitle className="line-clamp-2 text-xs md:text-sm mt-1" />
                 </Link>

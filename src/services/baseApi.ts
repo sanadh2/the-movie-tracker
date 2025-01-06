@@ -16,6 +16,7 @@ baseApi.interceptors.response.use(
     return response;
   },
   (error) => {
+    console.log("error happened");
     if (error.response) {
       console.error("Response Error:", error.response.data);
     } else if (error.request) {

@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { movieTable, watchedMoviesTable } from "@/db/schema/movie";
-import logger from "@/lib/winston";
 import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -18,7 +17,6 @@ export async function POST(request: NextRequest) {
   try {
     const session = await auth();
     if (!session || !session.user || !session.user.id) {
-      logger.warn("unauthorised, please sign in");
       return NextResponse.json(
         { message: "unauthorised, please sign in" },
         { status: 401 }
@@ -29,7 +27,6 @@ export async function POST(request: NextRequest) {
     const { success, data, error } = postSchema.safeParse(body);
 
     if (!success) {
-      logger.error("Missing fields", error);
       return NextResponse.json(
         {
           message: "Missing fields",
@@ -57,8 +54,6 @@ export async function POST(request: NextRequest) {
         .then((res) => res[0]);
 
       const tmdbIDForWatchlist = movie ? movie.tmdbID : Number(tmdbID);
-
-      logger.info("Added to watchlist: " + tmdbIDForWatchlist);
 
       await trx
         .insert(watchedMoviesTable)

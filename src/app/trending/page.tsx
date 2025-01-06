@@ -3,6 +3,7 @@ import PageLayout from "@/components/PageLayout";
 import Link from "next/link";
 import "./styles.css";
 import { fetchTrendingMovies } from "@/db/services/tmdb";
+import { generateSlug } from "@/lib/slug";
 export default async function TrendingPage() {
   const response = await fetchTrendingMovies();
   return (
@@ -19,7 +20,11 @@ export default async function TrendingPage() {
                   poster_path: movie.poster_path || "",
                 }}
               >
-                <Link href={"/movies/" + movie.id}>
+                <Link
+                  href={
+                    "/movies/" + generateSlug(movie.original_title, movie.id)
+                  }
+                >
                   <MoviePoster className="" />
                   <MovieTitle className="line-clamp-2 text-xs md:text-sm mt-1" />
                 </Link>
@@ -28,7 +33,6 @@ export default async function TrendingPage() {
           ))}
         </div>
       </div>
-  
     </PageLayout>
   );
 }

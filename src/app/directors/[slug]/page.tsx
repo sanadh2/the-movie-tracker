@@ -4,13 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { baseUrlImage } from "../../../../config/tmdb";
 import { fetchPersonInfo } from "@/db/services/tmdb";
+import { generateSlug } from "@/lib/slug";
+import { notFound } from "next/navigation";
 
 export default async function DirectorPage({
   params,
 }: {
-  params: { id: string };
+  params: { slug: string };
 }) {
-  const directorDetails = await fetchPersonInfo(params.id);
+  const id = params.slug.split("-").pop();
+  console.log("id is :", id);
+  if (!id) return notFound();
+  const directorDetails = await fetchPersonInfo(id);
   const directedMovies = directorDetails.combined_credits.crew.filter(
     (movie) => movie.job === "Director"
   );
@@ -48,7 +53,9 @@ export default async function DirectorPage({
               poster_path: movie.poster_path || "",
             }}
           >
-            <Link href={"/movies/" + movie.id}>
+            <Link
+              href={"/movies/" + generateSlug(movie.original_title, movie.id)}
+            >
               <MoviePoster />
               <MovieTitle className="line-clamp-2 text-xs mt-1" />
             </Link>

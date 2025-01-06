@@ -32,7 +32,7 @@ async function fetchMovies({
   });
 
   url.search = params.toString();
-
+  console.log("Connecting to:", url.toString());
   const response = await fetch(url.toString());
 
   if (!response.ok) {
