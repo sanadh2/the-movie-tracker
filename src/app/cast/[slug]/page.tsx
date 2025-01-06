@@ -2,11 +2,22 @@ import { fetchPersonInfo } from "@/db/services/tmdb";
 import Image from "next/image";
 import { baseUrlImage } from "../../../../config/tmdb";
 import PageLayout from "@/components/PageLayout";
+import { MovieCard, MoviePoster, MovieTitle } from "@/components/movie-card";
+import Link from "next/link";
+import { generateSlug } from "@/lib/slug";
 
-export default async function CastPage({ params }: { params: { id: string } }) {
-  const actorId = params.id.split("-").pop();
+export default async function CastPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const actorId = params.slug.split("-").pop();
   if (!actorId) return null;
   const person = await fetchPersonInfo(actorId);
+  const actedMovies = person.combined_credits.cast.filter(
+    (movie) => movie.poster_path != null || movie.poster_path != undefined
+  );
+  console.log("actedMovies", actedMovies.length);
   return (
     <PageLayout className="container mx-auto ">
       <h2 className="text-center text-3xl font-black">{person.name}</h2>
@@ -30,9 +41,8 @@ export default async function CastPage({ params }: { params: { id: string } }) {
           </pre>
         </div>
       </div>
-
-      {/* <div className="grid gap-8 place-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10">
-        {directedMovies?.map((movie) => (
+      <div className="grid gap-8 place-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-10">
+        {actedMovies?.map((movie) => (
           <MovieCard
             key={movie.id}
             movie={{
@@ -40,13 +50,19 @@ export default async function CastPage({ params }: { params: { id: string } }) {
               poster_path: movie.poster_path || "",
             }}
           >
-            <Link href={"/movies/" + movie.id}>
+            <Link
+              href={
+                movie.title && movie.original_title
+                  ? "/movies/" + generateSlug(movie.title, movie.id)
+                  : ""
+              }
+            >
               <MoviePoster />
               <MovieTitle className="line-clamp-2 text-xs mt-1" />
             </Link>
           </MovieCard>
         ))}
-      </div> */}
+      </div>
     </PageLayout>
   );
 }

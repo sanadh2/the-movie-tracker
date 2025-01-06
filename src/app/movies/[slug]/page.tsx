@@ -63,6 +63,7 @@ export default async function MoviePage({
   );
 
   const latestTrailer = findLatestTrailer(movie)!;
+  console.log("key is", latestTrailer.key);
   return (
     <PageLayout className="container mx-auto text-xs md:text-sm relative">
       <BackgroundImage backdrop_path={backdrop_path} />
@@ -100,7 +101,8 @@ export default async function MoviePage({
                 >
                   <Link
                     href={
-                      "/directors/" + generateSlug(director.name, director.id)
+                      "/directors/" +
+                      generateSlug(director.original_name, director.id)
                     }
                     className=""
                   >
@@ -120,9 +122,11 @@ export default async function MoviePage({
             </div>
           </div>
         </div>
-        <div className="hidden xl:block">
-          <Youtube videoKey={latestTrailer.key!} />
-        </div>
+        {latestTrailer && latestTrailer.key && (
+          <div className="hidden xl:block">
+            <Youtube videoKey={latestTrailer.key} />
+          </div>
+        )}
       </div>
       <div className="sm:flex gap-3 xl:block justify-between">
         <div className="mt-8 w-full">
