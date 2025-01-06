@@ -14,7 +14,6 @@ export const useReviews = (tmdbID: string | number) => {
   const userID = session?.user?.id;
 
   const fetchReview = async (): Promise<ReviewResponse> => {
-    console.log("Connecting to:", "/api/reviews/movies/" + tmdbID);
     const response = await fetch("/api/reviews/movies/" + tmdbID);
     return await response.json();
   };

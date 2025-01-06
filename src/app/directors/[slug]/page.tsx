@@ -13,7 +13,6 @@ export default async function DirectorPage({
   params: { slug: string };
 }) {
   const id = params.slug.split("-").pop();
-  console.log("id is :", id);
   if (!id) return notFound();
   const directorDetails = await fetchPersonInfo(id);
   const directedMovies = directorDetails.combined_credits.crew.filter(
@@ -54,7 +53,11 @@ export default async function DirectorPage({
             }}
           >
             <Link
-              href={"/movies/" + generateSlug(movie.original_title, movie.id)}
+              href={
+                movie.title && movie.original_title
+                  ? "/movies/" + generateSlug(movie.title, movie.id)
+                  : ""
+              }
             >
               <MoviePoster />
               <MovieTitle className="line-clamp-2 text-xs mt-1" />

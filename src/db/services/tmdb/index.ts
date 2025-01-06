@@ -8,7 +8,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 
 const fetchWithErrorHandling = async <T>(endpoint: string): Promise<T> => {
   const url = `${BASE_URL}${endpoint}&api_key=${API_KEY}`;
-  console.log("Connecting to:", url);
+
   const response = await fetch(url);
   if (!response.ok) {
     console.error(`Error--> ${response.status}: ${response.statusText}`);
@@ -35,9 +35,6 @@ export const fetchMovieById = cache(
   async (id: number | string): Promise<MovieType> => {
     const cacheKey = `tmdb-movies-${id}`;
     const cachedData = await redis.get(cacheKey);
-    cachedData
-      ? console.log("cachedData exists")
-      : console.log("cachedData doesn't exist");
     if (cachedData) return JSON.parse(cachedData) as MovieType;
 
     const endpoint = `/movie/${id}?append_to_response=credits,videos,images`;
@@ -103,9 +100,7 @@ export const fetchSearchingMovies = cache(
     includeAdult?: boolean;
   }): Promise<MoviesNowPlayingType> => {
     const cacheKey = `tmdb-movies-search-${query}-${page}-${year}-${includeAdult}`;
-    console.log(cacheKey);
     const cachedData = await redis.get(cacheKey);
-    console.log(cachedData?.length, "cachedData");
     if (cachedData) return JSON.parse(cachedData) as MoviesNowPlayingType;
 
     const url = new URL(`${BASE_URL}/search/movie`);
