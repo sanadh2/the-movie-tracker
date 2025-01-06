@@ -1,14 +1,23 @@
 "use client";
+
 import { useCallback, useEffect, useState } from "react";
 
 function useSearchStore(query: string) {
-  const [searchQueries, setSearchQueries] = useState<string[]>(() => {
-    const storedQueries = localStorage.getItem("searchQueries");
-    return storedQueries ? JSON.parse(storedQueries) : [];
-  });
+  const [searchQueries, setSearchQueries] = useState<string[]>([]);
 
   useEffect(() => {
-    localStorage.setItem("searchQueries", JSON.stringify(searchQueries));
+    if (typeof window !== "undefined") {
+      const storedQueries = localStorage.getItem("searchQueries");
+      if (storedQueries) {
+        setSearchQueries(JSON.parse(storedQueries));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("searchQueries", JSON.stringify(searchQueries));
+    }
   }, [searchQueries]);
 
   const addQuery = useCallback(() => {
@@ -27,7 +36,9 @@ function useSearchStore(query: string) {
     );
   }, []);
 
-  const clearQueries = () => setSearchQueries([]);
+  const clearQueries = useCallback(() => {
+    setSearchQueries([]);
+  }, []);
 
   return {
     searchQueries,

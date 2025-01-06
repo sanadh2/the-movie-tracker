@@ -8,6 +8,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 
 const fetchWithErrorHandling = async <T>(endpoint: string): Promise<T> => {
   const url = `${BASE_URL}${endpoint}&api_key=${API_KEY}`;
+  console.log("Connecting to:", url);
   const response = await fetch(url);
   if (!response.ok) {
     console.error(`Error--> ${response.status}: ${response.statusText}`);

@@ -3,6 +3,8 @@ import { ButtonHTMLAttributes, useState } from "react";
 import { cn } from "@/lib/utils";
 import CountryLanguage from "@ladjs/country-language";
 import { MovieType } from "@/db/services/tmdb/types";
+import Link from "next/link";
+import { generateSlug } from "@/lib/slug";
 
 type CastsType = MovieType["credits"]["cast"];
 type Studio = MovieType["production_companies"];
@@ -25,11 +27,25 @@ const TabValueButton = ({
 };
 
 const CastOrGenre = ({ casts }: { casts: CastsType | Genres }) => {
+  const [sliced, setSliced] = useState(true);
+  const [updatedCasts, setUpdatedCasts] = useState(casts.slice(0, 20));
   return (
     <div className="flex gap-2 flex-wrap">
-      {casts.map((cast) => (
-        <TabValueButton key={cast.id}> {cast.name}</TabValueButton>
+      {updatedCasts.map((cast) => (
+        <Link href={"/cast/" + generateSlug(cast.name, cast.id)} key={cast.id}>
+          <TabValueButton> {cast.name}</TabValueButton>
+        </Link>
       ))}
+      {sliced && (
+        <TabValueButton
+          onClick={() => {
+            setUpdatedCasts(casts);
+            setSliced(false);
+          }}
+        >
+          Show More...
+        </TabValueButton>
+      )}
     </div>
   );
 };

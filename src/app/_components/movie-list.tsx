@@ -3,6 +3,7 @@ import { baseUrlImage } from "../../../config/tmdb";
 import Link from "next/link";
 import { MovieResultType } from "@/db/services/tmdb/types";
 import { env } from "@/lib/env";
+import { generateSlug } from "@/lib/slug";
 
 interface Props {
   movies?: MovieResultType[];
@@ -13,7 +14,11 @@ const MovieList = ({ movies }: Props) => {
       {movies?.map((movie) => (
         <Link
           prefetch
-          href={env.NEXT_PUBLIC_API_BASE_URL + "/movies/" + movie.id}
+          href={
+            env.NEXT_PUBLIC_API_BASE_URL +
+            "/movies/" +
+            generateSlug(movie.original_title, movie.id)
+          }
           className="relative border border-secondary min-w-20 md:min-w-32 aspect-[9/14]"
           key={movie.id}
         >

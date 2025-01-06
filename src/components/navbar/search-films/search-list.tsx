@@ -3,6 +3,7 @@ import { baseUrlImage } from "../../../../config/tmdb";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import { MovieResultType } from "@/db/services/tmdb/types";
+import { generateSlug } from "@/lib/slug";
 interface Props {
   isLoading: boolean;
   data?: MovieResultType[];
@@ -20,7 +21,7 @@ export default function SearchList({ isLoading, error, data, close }: Props) {
       ) : (
         data?.map((movie) => (
           <Link
-            href={"/movies/" + movie.id}
+            href={"/movies/" + generateSlug(movie.original_title, movie.id)}
             key={movie.id}
             onClick={close}
             className=" w-full h-20 flex items-center gap-2 px-3"

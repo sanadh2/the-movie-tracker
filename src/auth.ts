@@ -38,6 +38,7 @@ const providers: Provider[] = [
   }),
 ];
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
   adapter: DrizzleAdapter(db),
   providers,
   callbacks: {

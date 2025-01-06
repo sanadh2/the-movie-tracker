@@ -20,6 +20,7 @@ export async function GET(
         { status: 400 }
       );
     const { tmdbID } = data;
+    console.log(" /api/reviews/movies/762509 success");
     const reviews = await db
       .select()
       .from(reviewTable)
@@ -30,7 +31,9 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
+    console.log(" /api/reviews/movies/762509 error");
     console.error(error);
+    console.log(" /api/reviews/movies/762509 error happened");
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }
