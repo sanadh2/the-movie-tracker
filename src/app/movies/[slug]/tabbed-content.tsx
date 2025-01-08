@@ -2,24 +2,32 @@
 import { ButtonHTMLAttributes, useState } from "react";
 import { cn } from "@/lib/utils";
 import CountryLanguage from "@ladjs/country-language";
-import { MovieType } from "@/db/services/tmdb/types";
+import { CastType, GenreType, MovieType } from "@/db/services/tmdb/types";
 import Link from "next/link";
 import { generateSlug } from "@/lib/slug";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-type CastsType = MovieType["credits"]["cast"];
+type CastsType = CastType[];
 type Studio = MovieType["production_companies"];
 type Countries = MovieType["production_countries"];
 type CrewsType = MovieType["credits"]["crew"];
-type Genres = MovieType["genres"];
+type Genres = GenreType[];
 const TabValueButton = ({
   className,
+  asChild,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement>) => {
+}: ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean }) => {
+  const Component = asChild ? "span" : "button";
   return (
-    <button
+    <Component
       {...props}
       className={cn(
-        "px-1 py-0.5 border text-xs whitespace-nowrap bg-neutral-700 rounded-sm",
+        "px-1 py-0.5 border block text-xs whitespace-nowrap bg-neutral-700 rounded-sm",
         className
       )}
     />
@@ -29,14 +37,37 @@ const TabValueButton = ({
 const CastOrGenre = ({ casts }: { casts: CastsType | Genres }) => {
   const [sliced, setSliced] = useState(true);
   const [updatedCasts, setUpdatedCasts] = useState(casts.slice(0, 20));
+
+  const renderItem = (item: CastType | GenreType) => {
+    if ("name" in item && "id" in item && !("character" in item)) {
+      return <TabValueButton key={item.id}>{item.name}</TabValueButton>;
+    }
+
+    if ("character" in item) {
+      return (
+        <TooltipProvider key={item.id}>
+          <Tooltip>
+            <TooltipTrigger>
+              <TabValueButton asChild>{item.name}</TabValueButton>
+            </TooltipTrigger>
+            <TooltipContent className="bg-transparent backdrop-blur">
+              <p>{item.character}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
+
+    return <TabValueButton key={item.id}>{item.name}</TabValueButton>;
+  };
   return (
     <div className="flex gap-2 flex-wrap">
       {updatedCasts.map((cast) => (
         <Link href={"/cast/" + generateSlug(cast.name, cast.id)} key={cast.id}>
-          <TabValueButton> {cast.name}</TabValueButton>
+          {renderItem(cast)}
         </Link>
       ))}
-      {sliced && (
+      {sliced && updatedCasts.length < casts.length && (
         <TabValueButton
           onClick={() => {
             setUpdatedCasts(casts);
@@ -184,7 +215,7 @@ export default function TabbedContent({ movie }: { movie: MovieType }) {
       </ul>
       <div className="mt-4 text-xs overflow-hidden">
         {selectedTab === "cast" ? (
-          <CastOrGenre casts={movie.credits.cast} />
+          <CastOrGenre key={"cast"} casts={movie.credits.cast} />
         ) : selectedTab === "crew" ? (
           <Crews crews={movie.credits.crew} />
         ) : selectedTab === "details" ? (
@@ -195,7 +226,7 @@ export default function TabbedContent({ movie }: { movie: MovieType }) {
             spokenLanguages={movie.spoken_languages}
           />
         ) : selectedTab === "genres" ? (
-          <CastOrGenre casts={movie.genres} />
+          <CastOrGenre key={"genres"} casts={movie.genres} />
         ) : (
           <></>
         )}
