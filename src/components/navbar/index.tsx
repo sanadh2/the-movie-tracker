@@ -5,6 +5,7 @@ import VisuallyHidden from "@/components/ui/visually-hidden";
 import SignInButton from "@/components/sign-in-button";
 import { signIn, auth } from "@/auth";
 import { Sidebar } from "../siderbar";
+import { SuperLink } from "../super-link";
 export default async function Navbar() {
   const session = await auth();
   const user = session?.user;
@@ -13,13 +14,12 @@ export default async function Navbar() {
       <nav className="p-3 border-b border-secondary flex gap-10 justify-between items-center bg-transparent relative z-2">
         <div className="flex gap-5 items-center">
           <>
-            <Link
+            <SuperLink
               href={"/"}
-              prefetch
               className="hidden font-mono tracking-tighter lg:block font-semibold text-xl p-2"
             >
               The Movie Tracker
-            </Link>
+            </SuperLink>
             <Link
               href={"/"}
               className="lg:hidden block font-semibold text-xl p-2"

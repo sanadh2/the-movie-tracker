@@ -1,5 +1,5 @@
+import { SuperLink } from "@/components/super-link";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -8,9 +8,7 @@ export default function NotFound() {
       <p>Could not find requested resource</p>
       <div className="flex justify-center items-center gap-3">
         <Button asChild>
-          <Link href="/" prefetch>
-            Return Home
-          </Link>
+          <SuperLink href="/">Return Home</SuperLink>
         </Button>
       </div>
     </div>

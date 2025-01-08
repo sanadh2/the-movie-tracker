@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { baseUrlImage } from "../../../config/tmdb";
-import Link from "next/link";
 import { MovieResultType } from "@/db/services/tmdb/types";
 import { env } from "@/lib/env";
 import { generateSlug } from "@/lib/slug";
+import { SuperLink } from "@/components/super-link";
 
 interface Props {
   movies?: MovieResultType[];
@@ -12,8 +12,7 @@ const MovieList = ({ movies }: Props) => {
   return (
     <div className="flex w-full gap-3 overflow-x-scroll no-scrollbar">
       {movies?.map((movie) => (
-        <Link
-          prefetch
+        <SuperLink
           href={
             env.NEXT_PUBLIC_API_BASE_URL +
             "/movies/" +
@@ -35,7 +34,7 @@ const MovieList = ({ movies }: Props) => {
             }
             fill
           />
-        </Link>
+        </SuperLink>
       ))}
     </div>
   );
