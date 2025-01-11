@@ -9,16 +9,18 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import Image from "next/image";
-import { User } from "next-auth";
 import { signOut } from "next-auth/react";
 import { Button } from "./ui/button";
 import { useState } from "react";
-export default function SignOutButton({ user }: { user: User }) {
+import { PowerIcon } from "lucide-react";
+export default function SignOutButton() {
   const [modal, setModal] = useState(false);
   return (
     <Dialog open={modal} onOpenChange={setModal}>
-      <DialogTrigger className="">SignOut</DialogTrigger>
+      <DialogTrigger className="flex gap-2 items-center p-2 hover:bg-muted rounded-md w-full">
+        <PowerIcon className="size-5" />
+        <p className="">SignOut</p>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
