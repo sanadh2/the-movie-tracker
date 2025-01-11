@@ -107,8 +107,8 @@ export function Sidebar({ user }: { user: User }) {
               </Link>
             </div>
           ))}
+          <SignOutButton />
         </div>
-        <SignOutButton user={user} />
       </SheetContent>
     </Sheet>
   );

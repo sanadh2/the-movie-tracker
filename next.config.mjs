@@ -9,6 +9,7 @@ const nextConfig = {
       { hostname: "img.clerk.com", protocol: "https" },
       { hostname: "m.media-amazon.com", protocol: "https" },
     ],
+    unoptimized: true,
   },
 };
 
