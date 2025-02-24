@@ -15,7 +15,7 @@ const MovieList = ({ movies }: Props) => {
         <SuperLink
           href={
             env.NEXT_PUBLIC_API_BASE_URL +
-            "/movies/" +
+            "movies/" +
             generateSlug(movie.original_title, movie.id)
           }
           className="relative border border-secondary min-w-20 md:min-w-32 aspect-[9/14]"
