@@ -21,7 +21,7 @@ export default function SearchList({ isLoading, error, data, close }: Props) {
       ) : (
         data?.map((movie) => (
           <Link
-            href={"/movies/" + generateSlug(movie.original_title, movie.id)}
+            href={"/movies/" + generateSlug(movie.title, movie.id)}
             key={movie.id}
             onClick={close}
             className=" w-full h-20 flex items-center gap-2 px-3"

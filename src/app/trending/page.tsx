@@ -20,11 +20,7 @@ export default async function TrendingPage() {
                   poster_path: movie.poster_path || "",
                 }}
               >
-                <Link
-                  href={
-                    "/movies/" + generateSlug(movie.original_title, movie.id)
-                  }
-                >
+                <Link href={"/movies/" + generateSlug(movie.title, movie.id)}>
                   <MoviePoster className="" />
                   <MovieTitle className="line-clamp-2 text-xs md:text-sm mt-1" />
                 </Link>

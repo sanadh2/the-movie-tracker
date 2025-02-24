@@ -54,7 +54,7 @@ export default async function DirectorPage({
           >
             <Link
               href={
-                movie.title && movie.original_title
+                movie.title
                   ? "/movies/" + generateSlug(movie.title, movie.id)
                   : ""
               }
