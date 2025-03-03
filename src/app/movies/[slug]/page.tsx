@@ -159,9 +159,10 @@ export default async function MoviePage({
 export async function generateMetadata({
   params,
 }: {
-  params: { tmdbID: string };
+  params: { slug: string };
 }): Promise<Metadata> {
-  const { success, data } = movieIDschema.safeParse(params.tmdbID);
+  const id = params.slug.split("-").pop();
+  const { success, data } = movieIDschema.safeParse(id);
   if (!success) {
     return {
       title: "Movie",

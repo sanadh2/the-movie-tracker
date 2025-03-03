@@ -11,7 +11,7 @@ export default function Youtube({ videoKey }: { videoKey: string }) {
         onLoad={() => setLoaded(true)}
         src={"https://www.youtube.com/embed/" + videoKey}
         title="YouTube video player"
-        allow=" autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allow=" autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
         className="rounded-md size-full"
