@@ -29,7 +29,7 @@ export default async function WatchListPage() {
     <PageLayout>
       <h2 className="text-center text-xl font-mono">My Watchlist</h2>
       <div className="flex justify-center w-full">
-        <div className="grid-container mt-10 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 ">
           {watchlist.map((movie) => (
             <div key={movie.id} className="grid place-items-center">
               <MovieCard
