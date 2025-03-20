@@ -13,7 +13,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 
 const fetchWithErrorHandling = async <T>(endpoint: string): Promise<T> => {
   const url = `${BASE_URL}${endpoint}&api_key=${API_KEY}`;
-
+  console.log(url);
   const response = await fetch(url, {
     next: {
       revalidate: 7200,
@@ -192,7 +192,7 @@ export const fetchMovieByGenreId = cache(
       | "vote_count.desc",
     page: number | string
   ) => {
-    const cacheKey = `tmdb-genre-${genreId}`;
+    const cacheKey = `tmdb-genre-${genreId}-${sortBy}-${page}`;
     const cachedData = await redis.get(cacheKey);
     if (cachedData)
       return JSON.parse(cachedData) as MoviesNowPlayingWithoutDates;
@@ -206,3 +206,26 @@ export const fetchMovieByGenreId = cache(
     return data;
   }
 );
+const genresById = {
+  28: "Action",
+  12: "Adventure",
+  16: "Animation",
+  35: "Comedy",
+  80: "Crime",
+  99: "Documentary",
+  18: "Drama",
+  10751: "Family",
+  14: "Fantasy",
+  36: "History",
+  27: "Horror",
+  10402: "Music",
+  9648: "Mystery",
+  10749: "Romance",
+  878: "Science Fiction",
+  10770: "TV Movie",
+  53: "Thriller",
+  10752: "War",
+  37: "Western",
+};
+
+export const getGenreById = (id: number): string | undefined => genresById[id];

@@ -1,7 +1,12 @@
 import { MovieCard, MovieTitle, MoviePoster } from "@/components/movie-card";
 import PageLayout from "@/components/PageLayout";
-import { fetchMovieByGenreId } from "@/db/services/tmdb";
+import { Button } from "@/components/ui/button";
+import { fetchMovieByGenreId, getGenreById } from "@/db/services/tmdb";
+import Link from "next/link";
 import { z } from "zod";
+import Pagination from "./pagination";
+import { SuperLink } from "@/components/super-link";
+import { generateSlug } from "@/lib/slug";
 
 const searchParamsSchema = z.object({
   genreId: z.string().min(1).regex(/^\d+$/),
@@ -26,6 +31,8 @@ const searchParamsSchema = z.object({
   page: z.string().min(1).regex(/^\d+$/).default("1"),
 });
 
+export type SearchParams = z.infer<typeof searchParamsSchema>;
+
 export default async function GenrePage({
   searchParams,
 }: {
@@ -44,15 +51,25 @@ export default async function GenrePage({
   );
 
   return (
-    <PageLayout className="">
+    <PageLayout className="space-y-16">
+      <h2 className="text-3xl text-center font-bold">
+        {getGenreById(Number(data.genreId))}
+      </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {searchData.results.map((movie) => (
           <MovieCard movie={movie} key={movie.id} className="gap-2">
-            <MoviePoster />
-            <MovieTitle />
+            <SuperLink href={"movies/" + generateSlug(movie.title, movie.id)}>
+              <MoviePoster />
+              <MovieTitle />
+            </SuperLink>
           </MovieCard>
         ))}
       </div>
+      <Pagination
+        currentPage={searchData.page}
+        searchParams={data}
+        totalPages={searchData.total_pages}
+      />
     </PageLayout>
   );
 }
