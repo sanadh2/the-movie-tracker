@@ -206,7 +206,7 @@ export const fetchMovieByGenreId = cache(
     return data;
   }
 );
-const genresById = {
+const genresById: Record<number, string> = {
   28: "Action",
   12: "Adventure",
   16: "Animation",
@@ -226,6 +226,6 @@ const genresById = {
   53: "Thriller",
   10752: "War",
   37: "Western",
-};
+} as const;
 
 export const getGenreById = (id: number): string | undefined => genresById[id];
