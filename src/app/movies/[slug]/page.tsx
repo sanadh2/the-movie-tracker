@@ -139,9 +139,11 @@ export default async function MoviePage({
             tmdbID={tmdbID}
           />
         </div>
-        <div className="w-full mt-8 xl:hidden flex justify-center items-center ">
-          <Youtube videoKey={latestTrailer.key!} />
-        </div>
+        {latestTrailer && latestTrailer.key && (
+          <div className="w-full mt-8 xl:hidden flex justify-center items-center ">
+            <Youtube videoKey={latestTrailer.key!} />
+          </div>
+        )}
       </div>
       <div className="mt-8 md:hidden block w-full">
         <TabbedContent movie={movie} />
