@@ -1,6 +1,11 @@
 import { cache } from "react";
 import { env } from "@/lib/env";
-import { Person, MoviesNowPlayingType, MovieType } from "./types";
+import {
+  Person,
+  MoviesNowPlayingType,
+  MovieType,
+  MoviesNowPlayingWithoutDates,
+} from "./types";
 import { redis } from "@/db/redis";
 
 const API_KEY = env.TMDB_API_KEY;
@@ -161,6 +166,41 @@ export const fetchPersonInfo = cache(
 
     const endpoint = `/person/${id}?append_to_response=combined_credits,images`;
     const data = await fetchWithErrorHandling<Person>(endpoint);
+    await redis.set(cacheKey, JSON.stringify(data), "EX", 86400);
+
+    return data;
+  }
+);
+
+export const fetchMovieByGenreId = cache(
+  async (
+    genreId: number | string,
+    sortBy:
+      | "original_title.asc"
+      | "original_title.desc"
+      | "popularity.asc"
+      | "popularity.desc"
+      | "revenue.asc"
+      | "revenue.desc"
+      | "primary_release_date.asc"
+      | "primary_release_date.desc"
+      | "title.asc"
+      | "title.desc"
+      | "vote_average.asc"
+      | "vote_average.desc"
+      | "vote_count.asc"
+      | "vote_count.desc",
+    page: number | string
+  ) => {
+    const cacheKey = `tmdb-genre-${genreId}`;
+    const cachedData = await redis.get(cacheKey);
+    if (cachedData)
+      return JSON.parse(cachedData) as MoviesNowPlayingWithoutDates;
+
+    const endpoint = `/discover/movie?&with_genres=${genreId}&sort_by=${sortBy}&page=${page}&language=en-US`;
+    const data = await fetchWithErrorHandling<MoviesNowPlayingWithoutDates>(
+      endpoint
+    );
     await redis.set(cacheKey, JSON.stringify(data), "EX", 86400);
 
     return data;

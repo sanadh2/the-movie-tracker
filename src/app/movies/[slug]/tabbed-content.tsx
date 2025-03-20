@@ -34,43 +34,54 @@ const TabValueButton = ({
   );
 };
 
-const CastOrGenre = ({ casts }: { casts: CastsType | Genres }) => {
+const Casts = ({ casts }: { casts: CastsType }) => {
   const [sliced, setSliced] = useState(true);
   const [updatedCasts, setUpdatedCasts] = useState(casts.slice(0, 20));
-
-  const renderItem = (item: CastType | GenreType) => {
-    if ("name" in item && "id" in item && !("character" in item)) {
-      return <TabValueButton key={item.id}>{item.name}</TabValueButton>;
-    }
-
-    if ("character" in item) {
-      return (
-        <TooltipProvider key={item.id}>
-          <Tooltip>
-            <TooltipTrigger>
-              <TabValueButton asChild>{item.name}</TabValueButton>
-            </TooltipTrigger>
-            <TooltipContent className="bg-transparent backdrop-blur">
-              <p>{item.character}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      );
-    }
-
-    return <TabValueButton key={item.id}>{item.name}</TabValueButton>;
-  };
   return (
     <div className="flex gap-2 flex-wrap">
       {updatedCasts.map((cast) => (
         <Link href={"/cast/" + generateSlug(cast.name, cast.id)} key={cast.id}>
-          {renderItem(cast)}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <TabValueButton asChild>{cast.name}</TabValueButton>
+              </TooltipTrigger>
+              <TooltipContent className="bg-transparent backdrop-blur">
+                <p>{cast.character}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Link>
       ))}
       {sliced && updatedCasts.length < casts.length && (
         <TabValueButton
           onClick={() => {
             setUpdatedCasts(casts);
+            setSliced(false);
+          }}
+        >
+          Show More...
+        </TabValueButton>
+      )}
+    </div>
+  );
+};
+
+const Genre = ({ genres }: { genres: Genres }) => {
+  const [sliced, setSliced] = useState(true);
+  const [updatedCasts, setUpdatedCasts] = useState(genres.slice(0, 20));
+
+  return (
+    <div className="flex gap-2 flex-wrap">
+      {updatedCasts.map((genre) => (
+        <Link href={"/genre?genreId=" + genre.id} key={genre.id}>
+          <TabValueButton key={genre.id}>{genre.name}</TabValueButton>
+        </Link>
+      ))}
+      {sliced && updatedCasts.length < genres.length && (
+        <TabValueButton
+          onClick={() => {
+            setUpdatedCasts(genres);
             setSliced(false);
           }}
         >
@@ -215,7 +226,7 @@ export default function TabbedContent({ movie }: { movie: MovieType }) {
       </ul>
       <div className="mt-4 text-xs overflow-hidden">
         {selectedTab === "cast" ? (
-          <CastOrGenre key={"cast"} casts={movie.credits.cast} />
+          <Casts key={"cast"} casts={movie.credits.cast} />
         ) : selectedTab === "crew" ? (
           <Crews crews={movie.credits.crew} />
         ) : selectedTab === "details" ? (
@@ -226,7 +237,7 @@ export default function TabbedContent({ movie }: { movie: MovieType }) {
             spokenLanguages={movie.spoken_languages}
           />
         ) : selectedTab === "genres" ? (
-          <CastOrGenre key={"genres"} casts={movie.genres} />
+          <Genre key={"genres"} genres={movie.genres} />
         ) : (
           <></>
         )}

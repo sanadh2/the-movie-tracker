@@ -176,6 +176,8 @@ export interface MoviesNowPlayingType {
   total_results: number;
 }
 
+export type MoviesNowPlayingWithoutDates = Omit<MoviesNowPlayingType, "dates">;
+
 export interface DatesType {
   maximum: string;
   minimum: string;
