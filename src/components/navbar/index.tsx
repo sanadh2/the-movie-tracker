@@ -27,21 +27,21 @@ export default async function Navbar() {
               TMT
             </Link>
           </>
-          <p className="hidden lg:block text-sm font-medium text-neutral-500">
+          <p className="hidden lg:block text-sm font-medium text-neutral-400">
             Discover. Review. Connect.
           </p>
         </div>
         <div className="flex items-center gap-4">
           <SearchFilms />
           <div className="flex gap-2 items-center">
-            <Link href={"/trending"} className="flex items-center">
+            <SuperLink href={"/trending"} className="flex items-center">
               <span className="font-semibold hidden lg:block">Trending</span>
               <span className="lg:hidden">
                 <BarChart2 strokeWidth={4} />
                 <VisuallyHidden>Trending</VisuallyHidden>
               </span>
-            </Link>
-            <Link href={"/movie-search"} className="flex items-center">
+            </SuperLink>
+            <SuperLink href={"/movie-search"} className="flex items-center">
               <span className="font-semibold hidden lg:block">
                 Browse-Movies
               </span>
@@ -49,7 +49,7 @@ export default async function Navbar() {
                 <BarChart2 strokeWidth={4} />
                 <VisuallyHidden>Search Movies</VisuallyHidden>
               </span>
-            </Link>
+            </SuperLink>
           </div>
           {user ? (
             <div className="flex items-center gap-2">
