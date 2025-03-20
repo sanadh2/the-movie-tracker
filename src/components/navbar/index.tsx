@@ -1,4 +1,3 @@
-import Link from "next/link";
 import SearchFilms from "./search-films";
 import { BarChart2 } from "lucide-react";
 import VisuallyHidden from "@/components/ui/visually-hidden";
@@ -20,12 +19,12 @@ export default async function Navbar() {
             >
               The Movie Tracker
             </SuperLink>
-            <Link
+            <SuperLink
               href={"/"}
               className="lg:hidden block font-semibold text-xl p-2"
             >
               TMT
-            </Link>
+            </SuperLink>
           </>
           <p className="hidden lg:block text-sm font-medium text-neutral-400">
             Discover. Review. Connect.
