@@ -15,7 +15,7 @@ export default function SearchList({ isLoading, error, data, close }: Props) {
   else if (error)
     return <div className="text-xs text-red-500">{error.message}</div>;
   return (
-    <div className="grid place-items-center divide-y overflow-y-scroll max-h-[90vh] no-scrollbar">
+    <div className="grid place-items-center divide-y overflow-y-scroll max-h-[90vh] no-scrollbar grow h-full">
       {data?.length === 0 ? (
         <p>No results found</p>
       ) : (

@@ -48,7 +48,7 @@ export default function SearchFilmsInMobile() {
               </SheetDescription>
             </SheetHeader>
           </VisuallyHidden>
-          <div className=" px-1 pt-5">
+          <div className=" px-1 pt-5 h-full">
             <SearchInput
               closeDialog={() => setOpen(false)}
               isLoading={isLoading}
@@ -56,18 +56,7 @@ export default function SearchFilmsInMobile() {
               setSearch={useSearch().setSearch}
             />
 
-            {/* <div className="mt-6">
-              <SearchList
-                close={() => {
-                  setOpen(false);
-                  setSearch("");
-                }}
-                data={data?.movies.results}
-                error={error}
-                isLoading={isLoading}
-              />
-            </div> */}
-            <div className="h-80 px-4 overflow-y-scroll no-scrollbar">
+            <div className=" h-full px-4 overflow-y-scroll no-scrollbar">
               {search.trim() == "" ? (
                 <div className="">
                   <div className="flex flex-col justify-center gap-2 p-2">
