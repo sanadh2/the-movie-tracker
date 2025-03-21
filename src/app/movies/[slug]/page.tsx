@@ -54,8 +54,7 @@ export default async function MoviePage({
   }
   const tmdbID = Number(data);
   const movie = await fetchMovieById(tmdbID);
-  if (!movie || !movie.backdrop_path || !movie.poster_path || !movie.title)
-    return notFound();
+  if (!movie) return notFound();
 
   const { backdrop_path, poster_path, title } = movie;
   const director = movie.credits.crew.find(
