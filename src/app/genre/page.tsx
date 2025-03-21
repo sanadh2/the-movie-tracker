@@ -1,8 +1,6 @@
 import { MovieCard, MovieTitle, MoviePoster } from "@/components/movie-card";
 import PageLayout from "@/components/PageLayout";
-import { Button } from "@/components/ui/button";
 import { fetchMovieByGenreId, getGenreById } from "@/db/services/tmdb";
-import Link from "next/link";
 import { z } from "zod";
 import Pagination from "./pagination";
 import { SuperLink } from "@/components/super-link";

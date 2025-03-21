@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { env } from "./env";
 
 type Options = {
   otp: string | number;
@@ -10,11 +11,11 @@ type Options = {
 export const sendMail = async (options: Options) => {
   const { reason = "activateAccount" } = options;
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST!,
-    port: parseInt(process.env.SMTP_PORT!, 10),
+    host: env.SMTP_HOST,
+    port: parseInt(env.SMTP_PORT, 10),
     auth: {
-      user: process.env.SMTP_MAIL!,
-      pass: process.env.SMTP_PASSWORD!,
+      user: env.SMTP_MAIL,
+      pass: env.SMTP_PASSWORD,
     },
   });
   const resetPassword = `<div style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4;">

@@ -14,7 +14,7 @@ export default function SigninForm() {
     resolver: zodResolver(loginSchema),
   });
   const onSubmit: SubmitHandler<LoginData> = async (data) => {
-    const user = await signIn("credentials", {
+    await signIn("credentials", {
       email: data.email,
       password: data.password,
       redirectTo: "/",

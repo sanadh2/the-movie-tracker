@@ -13,7 +13,6 @@ const BASE_URL = "https://api.themoviedb.org/3";
 
 const fetchWithErrorHandling = async <T>(endpoint: string): Promise<T> => {
   const url = `${BASE_URL}${endpoint}&api_key=${API_KEY}`;
-  console.log(url);
   const response = await fetch(url, {
     next: {
       revalidate: 7200,

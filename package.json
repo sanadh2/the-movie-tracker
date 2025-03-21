@@ -7,7 +7,8 @@
     "dev": "next dev --turbo",
     "start": "next start",
     "lint": "next lint",
-    "build": "next build"
+    "build": "next build",
+    "prod": "next build && next start"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.0",
