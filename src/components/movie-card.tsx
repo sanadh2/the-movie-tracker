@@ -1,12 +1,12 @@
 "use client";
-import Image, { ImageLoader, ImageLoaderProps } from "next/image";
+import Image, { ImageLoader } from "next/image";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { baseUrlImage, PosterSize } from "../../config/tmdb";
 import { cn } from "@/lib/utils";
 
 interface ContextType {
   title: string;
-  poster_path: string;
+  poster_path: string | undefined | null;
 }
 
 const MovieCardContext = createContext<ContextType | undefined>(undefined);
@@ -46,12 +46,15 @@ export const MovieTitle = ({ className }: { className?: string }) => {
     </div>
   );
 };
+
 interface PosterProps {
   className?: string;
   quality?: PosterSize;
   showTitile?: boolean;
   similar?: boolean;
 }
+const fallbackImage = "https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg";
+
 export const MoviePoster = ({
   className,
   quality = "w500",
@@ -59,7 +62,11 @@ export const MoviePoster = ({
   similar,
 }: PosterProps) => {
   const { poster_path, title } = useMovieContext();
-  const [src, setSrc] = useState(`${baseUrlImage}${quality}${poster_path}`);
+  const imageUrl = poster_path
+    ? `${baseUrlImage}${quality}${poster_path}`
+    : fallbackImage;
+
+  const [src, setSrc] = useState(imageUrl);
   const imageLoader: ImageLoader = ({ src, width, quality }) => {
     return `${src}?w=${width}&q=${quality || 75}`;
   };
@@ -83,9 +90,11 @@ export const MoviePoster = ({
           onError={(e) => {
             console.log("Image not found, using fallback.");
             e.preventDefault();
-            setSrc("https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg");
+            setSrc(fallbackImage);
           }}
-          blurDataURL={`${baseUrlImage}w92${poster_path}`}
+          blurDataURL={
+            poster_path ? `${baseUrlImage}w92${poster_path}` : fallbackImage
+          }
           className="size-full z-[1] object-cover object-center transition-colors ease-in-out duration-300"
           title={showTitile ? title : undefined}
         />
