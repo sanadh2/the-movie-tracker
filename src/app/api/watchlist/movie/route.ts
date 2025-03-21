@@ -8,7 +8,7 @@ import { z } from "zod";
 const tmdbSchema = z.string().regex(/^\d+$/).or(z.number());
 
 const postSchema = z.object({
-  poster: z.string(),
+  poster: z.string().nullish(),
   title: z.string(),
   tmdbID: tmdbSchema,
 });

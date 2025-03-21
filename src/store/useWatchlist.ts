@@ -29,7 +29,7 @@ export const useWatchlist = () => {
   };
 
   const addToWatchlist = async (movie: {
-    poster: string;
+    poster: string | undefined | null;
     title: string;
     tmdbID: number | string;
   }) => {

@@ -6,6 +6,6 @@ export default defineConfig({
   schema: ["./src/db/schema/user.ts", "./src/db/schema/movie.ts"],
   out: "./drizzle",
   dbCredentials: {
-    url: env.POSTGRES_URL,
+    url: env.DATABASE_URL,
   },
 });

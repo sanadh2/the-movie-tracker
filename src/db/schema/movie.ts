@@ -9,12 +9,11 @@ import {
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { sql } from "drizzle-orm";
 
-// Movie table definition
 export const movieTable = pgTable("movies", {
   id: uuid("id").defaultRandom().primaryKey(),
   tmdbID: integer("tmdb_id").notNull().unique(),
   title: text("title").notNull(),
-  posterPath: text("poster_path").notNull(),
+  posterPath: text("poster_path"),
   createdAt: timestamp("created_at").default(sql`now()`),
   updatedAt: timestamp("updated_at")
     .default(sql`now()`)
@@ -22,7 +21,6 @@ export const movieTable = pgTable("movies", {
     .$onUpdate(() => sql`now()`),
 });
 
-// Review table definition
 export const reviewTable = pgTable(
   "reviews",
   {
@@ -41,11 +39,10 @@ export const reviewTable = pgTable(
       .$onUpdate(() => sql`now()`),
   },
   (table) => ({
-    uniqueReview: uniqueIndex("uniqueReview").on(table.tmdbID, table.userID), // Defining unique constraint for (tmdbID, userID)
+    uniqueReview: uniqueIndex("uniqueReview").on(table.tmdbID, table.userID),
   })
 );
 
-// Favorite table definition
 export const favoriteMoviesTable = pgTable(
   "favorites",
   {
@@ -62,11 +59,10 @@ export const favoriteMoviesTable = pgTable(
     uniqueFavorite: uniqueIndex("uniqueFavoriteInFavorites").on(
       table.tmdbID,
       table.userID
-    ), // Defining unique constraint for (tmdbID, userID)
+    ),
   })
 );
 
-// Watched table definition
 export const watchedMoviesTable = pgTable(
   "watched",
   {
@@ -83,11 +79,9 @@ export const watchedMoviesTable = pgTable(
     uniqueWatched: uniqueIndex("uniqueWatchedInWatched").on(
       table.tmdbID,
       table.userID
-    ), // Defining unique constraint for (tmdbID, userID)
+    ),
   })
 );
-
-// Relations between the tables
 
 export const movieRelations = relations(movieTable, ({ many }) => ({
   reviews: many(reviewTable),

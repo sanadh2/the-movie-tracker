@@ -12,7 +12,7 @@ export default function InteractionPanel({
   movie: {
     tmdbID: number | string;
     title: string;
-    posterUrl: string;
+    posterUrl: string | undefined | null;
     genres: { id: number; name: string }[];
   };
 }) {

@@ -13,6 +13,7 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_HOST: z.string(),
     UPSTASH_REDIS_REST_PORT: z.string().regex(/^\d+$/),
     UPSTASH_REDIS_REST_PASSWORD: z.string(),
+    DATABASE_URL: z.string(),
   },
   runtimeEnv: {
     TMDB_ACCESS_TOKEN_AUTH: process.env.TMDB_ACCESS_TOKEN_AUTH,
@@ -23,5 +24,6 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_HOST: process.env.UPSTASH_REDIS_REST_HOST,
     UPSTASH_REDIS_REST_PORT: process.env.UPSTASH_REDIS_REST_PORT,
     UPSTASH_REDIS_REST_PASSWORD: process.env.UPSTASH_REDIS_REST_PASSWORD,
+    DATABASE_URL: process.env.DATABASE_URL,
   },
 });
