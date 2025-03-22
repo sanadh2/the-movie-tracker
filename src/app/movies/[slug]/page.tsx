@@ -126,7 +126,7 @@ export default async function MoviePage({
           </div>
         )}
       </div>
-      <div className="sm:flex gap-3 xl:block justify-between">
+      <div className="sm:flex gap-3 xl:block justify-between items-center">
         <div className="mt-8 w-full">
           <InteractionPanel
             movie={{
