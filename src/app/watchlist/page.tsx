@@ -53,3 +53,5 @@ export default async function WatchListPage() {
     </PageLayout>
   );
 }
+
+export const dynamic = "force-dynamic";
