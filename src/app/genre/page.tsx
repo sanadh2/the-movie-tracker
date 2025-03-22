@@ -53,14 +53,17 @@ export default async function GenrePage({
       <h2 className="text-3xl text-center font-bold">
         {getGenreById(Number(data.genreId))}
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-5 xl:gap-6 place-content-center place-items-center gap-y-8">
         {searchData.results.map((movie) => (
-          <MovieCard movie={movie} key={movie.id} className="gap-2">
-            <SuperLink href={"movies/" + generateSlug(movie.title, movie.id)}>
-              <MoviePoster />
+          <SuperLink
+            key={movie.id}
+            href={"movies/" + generateSlug(movie.title, movie.id)}
+          >
+            <MovieCard movie={movie} className="w-fit space-y-3">
+              <MoviePoster showTitile />
               <MovieTitle />
-            </SuperLink>
-          </MovieCard>
+            </MovieCard>
+          </SuperLink>
         ))}
       </div>
       <Pagination
