@@ -47,7 +47,7 @@ const Casts = ({ casts }: { casts: CastsType }) => {
                 <TabValueButton asChild>{cast.name}</TabValueButton>
               </TooltipTrigger>
               <TooltipContent className="bg-transparent backdrop-blur">
-                <p>{cast.character}</p>
+                <p>as {cast.character}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

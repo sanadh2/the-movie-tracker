@@ -75,7 +75,7 @@ export default async function MoviePage({
         >
           <MoviePoster />
         </MovieCard>
-        <div className="w-full overflow-x-scroll no-scrollbar">
+        <div className="w-full">
           <div className="flex flex-wrap items-center gap-1 md:gap-2 lg:gap-3 h-fit">
             <h3 className="block text-base md:text-lg lg:text-3xl font-black mr-4">
               {movie.title}
