@@ -18,6 +18,7 @@ import { generateSlug } from "@/lib/slug";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
+
 const movieIDschema = z.string().min(1).regex(/^\d+$/);
 
 const findLatestTrailer = (movie: MovieType) => {
@@ -80,15 +81,17 @@ export default async function MoviePage({
             <h3 className="block text-base md:text-lg lg:text-3xl font-black mr-4">
               {movie.title}
             </h3>
-            <Button
-              variant={"linkHover1"}
-              asChild
-              className="font-light text-sm md:text-base"
-            >
-              <Link href={""}>
-                {format(new Date(movie.release_date), "yyyy")}
-              </Link>
-            </Button>
+            {movie.release_date ? (
+              <Button
+                variant={"linkHover1"}
+                asChild
+                className="font-light text-sm md:text-base"
+              >
+                <Link href={""}>
+                  {format(new Date(movie.release_date), "yyyy")}
+                </Link>
+              </Button>
+            ) : null}
             {director && (
               <span className="">
                 Directed By{" "}
