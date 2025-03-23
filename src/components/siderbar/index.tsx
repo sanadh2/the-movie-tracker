@@ -93,19 +93,15 @@ export function Sidebar({ user }: { user: User }) {
           <hr />
 
           {links.map((link) => (
-            <div
+            <SuperLink
               key={link.name}
+              href={link.href}
+              onClick={() => setOpen(false)}
               className="flex gap-2 items-center p-2 hover:bg-muted rounded-md"
             >
               {link.icon}
-              <SuperLink
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="w-full"
-              >
-                {link.name}
-              </SuperLink>
-            </div>
+              <span className="w-full">{link.name}</span>
+            </SuperLink>
           ))}
           <SignOutButton />
         </div>
