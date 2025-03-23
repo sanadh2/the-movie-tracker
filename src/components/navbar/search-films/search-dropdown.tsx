@@ -41,7 +41,7 @@ export default function SearchDialog() {
         setOpen(e);
       }}
     >
-      <DialogTrigger className="outline-none">
+      <DialogTrigger className="">
         <div className="relative w-full">
           <div className="h-10 rounded-full w-full cursor-text max-w-96 pl-10 pr-4 text-muted-foreground text-xs flex justify-center items-center bg-input/50 text-opacity-100">
             {search.trim() ? search : "Search a movie or series"}
