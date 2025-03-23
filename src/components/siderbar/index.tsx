@@ -11,7 +11,7 @@ import { User } from "next-auth";
 import Image from "next/image";
 import VisuallyHidden from "../ui/visually-hidden";
 import React from "react";
-import Link from "next/link";
+import { SuperLink } from "../super-link";
 import { UserIcon, HomeIcon, BookmarkIcon, HeartIcon } from "lucide-react";
 import SignOutButton from "@/components/sign-out-button";
 
@@ -98,13 +98,13 @@ export function Sidebar({ user }: { user: User }) {
               className="flex gap-2 items-center p-2 hover:bg-muted rounded-md"
             >
               {link.icon}
-              <Link
+              <SuperLink
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="w-full"
               >
                 {link.name}
-              </Link>
+              </SuperLink>
             </div>
           ))}
           <SignOutButton />
