@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { movieTable, watchedMoviesTable } from "@/db/schema/movie";
+import { revalidatePage } from "@/lib/revalidateFetch";
 import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -67,6 +68,8 @@ export async function POST(request: NextRequest) {
 
       return movie || { tmdbID: tmdbIDForWatchlist };
     });
+
+    revalidatePage("watchlist");
 
     return NextResponse.json(
       { message: "Added to watchlist", movie: movieAndWatchlistResult },
