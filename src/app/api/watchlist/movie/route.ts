@@ -163,6 +163,8 @@ export async function DELETE(request: NextRequest) {
       .delete(watchedMoviesTable)
       .where(eq(watchedMoviesTable.id, record.id));
 
+    revalidatePage("watchlist");
+
     return NextResponse.json(
       { message: "Removed from watchlist" },
       { status: 200 }
