@@ -29,7 +29,7 @@ export default async function DirectorPage({
             alt=""
             loading="eager"
             blurDataURL={baseUrlImage + "w185" + directorDetails.profile_path}
-            src={baseUrlImage + "w300" + directorDetails.profile_path}
+            src={baseUrlImage + "h632" + directorDetails.profile_path}
             width={200}
             height={300}
             className="object-cover border"

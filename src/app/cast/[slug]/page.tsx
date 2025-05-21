@@ -27,7 +27,7 @@ export default async function CastPage({
               alt=""
               loading="eager"
               blurDataURL={baseUrlImage + "w185" + person.profile_path}
-              src={baseUrlImage + "w300" + person.profile_path}
+              src={baseUrlImage + "h632" + person.profile_path}
               fill
               className="object-cover border"
             />
