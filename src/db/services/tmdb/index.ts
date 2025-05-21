@@ -40,7 +40,7 @@ const fetchWithErrorHandling = async <T>(endpoint: string): Promise<T> => {
   }
 };
 
-export const fetchMovieById = cache(
+export const fetchMovieById = 
   async (id: number | string): Promise<MovieType> => {
     const cacheKey = `tmdb-movies-${id}`;
     const cachedData = await redis.get(cacheKey);
@@ -52,9 +52,8 @@ export const fetchMovieById = cache(
 
     return data;
   }
-);
 
-export const fetchSimilarMovies = cache(
+export const fetchSimilarMovies = 
   async (id: number | string): Promise<MoviesNowPlayingType> => {
     const cacheKey = `tmdb-movies-similar-${id}`;
     const cachedData = await redis.get(cacheKey);
@@ -66,9 +65,9 @@ export const fetchSimilarMovies = cache(
 
     return data;
   }
-);
 
-export const fetchNowPlayingMovies = cache(
+
+export const fetchNowPlayingMovies = 
   async (): Promise<MoviesNowPlayingType> => {
     const cacheKey = "tmdb-movies-now-playing";
     const cachedData = await redis.get(cacheKey);
@@ -80,9 +79,9 @@ export const fetchNowPlayingMovies = cache(
 
     return data;
   }
-);
 
-export const fetchUpcomingMovies = cache(
+
+export const fetchUpcomingMovies = 
   async (): Promise<MoviesNowPlayingType> => {
     const cacheKey = "tmdb-movies-upcoming";
     const cachedData = await redis.get(cacheKey);
@@ -94,9 +93,9 @@ export const fetchUpcomingMovies = cache(
 
     return data;
   }
-);
 
-export const fetchSearchingMovies = cache(
+
+export const fetchSearchingMovies = 
   async ({
     query,
     page,
@@ -127,9 +126,8 @@ export const fetchSearchingMovies = cache(
 
     return data;
   }
-);
 
-export const fetchTrendingMovies = cache(
+export const fetchTrendingMovies = 
   async (): Promise<MoviesNowPlayingType> => {
     const cacheKey = "tmdb-movies-trending";
     const cachedData = await redis.get(cacheKey);
@@ -141,9 +139,9 @@ export const fetchTrendingMovies = cache(
 
     return data;
   }
-);
 
-export const fetchRecommendedMovies = cache(
+
+export const fetchRecommendedMovies = 
   async (id: number | string): Promise<MoviesNowPlayingType> => {
     const cacheKey = `tmdb-movies-recommendations-${id}`;
     const cachedData = await redis.get(cacheKey);
@@ -155,7 +153,6 @@ export const fetchRecommendedMovies = cache(
 
     return data;
   }
-);
 
 export const fetchPersonInfo = cache(
   async (id: number | string): Promise<Person> => {
@@ -171,7 +168,7 @@ export const fetchPersonInfo = cache(
   }
 );
 
-export const fetchMovieByGenreId = cache(
+export const fetchMovieByGenreId = 
   async (
     genreId: number | string,
     sortBy:
@@ -204,7 +201,7 @@ export const fetchMovieByGenreId = cache(
 
     return data;
   }
-);
+
 const genresById: Record<number, string> = {
   28: "Action",
   12: "Adventure",
