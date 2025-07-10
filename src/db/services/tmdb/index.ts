@@ -9,6 +9,7 @@ import {
 import { redis } from "@/db/redis";
 
 const API_KEY = env.TMDB_API_KEY;
+
 const BASE_URL = "https://api.themoviedb.org/3";
 
 const fetchWithErrorHandling = async <T>(endpoint: string): Promise<T> => {
